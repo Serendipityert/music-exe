@@ -77,6 +77,12 @@ const publicRoutes = [
             meta: { isLogin: false },
             component: () => import('@/view/theme/index.vue')
         },
+        {
+            path: '/user-main',
+            name: 'UserMain',
+            meta: { isLogin: true },
+            component: () => import('@/view/user-main/index.vue')
+        },
         ]
     }
 ]

@@ -1,12 +1,14 @@
 <template>
-    <div class="flex flex-row" @click="login">
-        <div class="cursor-pointer" style="margin-right: 10px;">
-            <t-avatar size="26px" :image="image" />
+    <t-tooltip class="placement bottom center" :content="content" placement="bottom" show-arrow>
+        <div class="flex flex-row" @click="login">
+            <div class="cursor-pointer" style="margin-right: 10px;">
+                <t-avatar size="26px" :image="image" />
+            </div>
+            <div class="cursor-pointer w-14 truncate text-gray-700">
+                <span style="font-size: 12px;font-weight: 400;">{{ userName }}</span>
+            </div>
         </div>
-        <div class="cursor-pointer w-14 truncate text-gray-700">
-            <span style="font-size: 12px;font-weight: 400;">{{ userName }}</span>
-        </div>
-    </div>
+    </t-tooltip>
     <!-- 登录窗口弹窗 -->
     <div>
         <t-dialog v-model:visible="visibleBody" attach="body" :confirmBtn="confirmBtn" :cancelBtn="cancelBtn"
@@ -95,6 +97,7 @@ const qqQuickLoginShow = ref(true)
 const qqAccountPassLoginShow = ref(false)
 
 const value = ref('first');
+const content = ref('点击登录');
 
 const image = ref('https://tdesign.gtimg.com/site/avatar.jpg');
 // const image = ref('https://lpzwg.oss-cn-shenzhen.aliyuncs.com/zwg-images/meizhuang/54044c14fcaac1be43dc8deb2a40a8e40bce.jpg');
@@ -104,6 +107,7 @@ const setInterval1 = setInterval(() => {
     if (userState.getIsLogin) {
         userName.value = userState.getUserInfo.username
         image.value = userState.getUserInfo.avatar
+        content.value = '个人主页'
         // 清除定时器
         clearInterval(setInterval1)
     }
@@ -139,10 +143,15 @@ const handlerChange = (newValue: string) => {
     value.value = newValue;
 };
 
-
-
 const login = () => {
-    visibleBody.value = true;
+    // 判断用户是否已经登录
+    if (userState.getIsLogin) {
+        // 已登录
+        router.push('/user-main')
+    } else {
+        // 未登录
+        visibleBody.value = true;
+    }
 }
 
 </script>
