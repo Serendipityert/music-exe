@@ -2,7 +2,7 @@
     <div class="mt-6 flex flex-col">
         <div class="flex flex-row justify-start">
             <div class="mr-4">
-                <t-button theme="primary" shape="round">
+                <t-button theme="primary" shape="round" @click="playWhole">
                     <template #icon>
                         <CaretRightIcon size="20px" />
                     </template>
@@ -38,7 +38,7 @@
                     <div class="text-gray-500 text-xs p-2">专辑</div>
                 </t-col>
             </t-row>
-            <t-row v-for="i in 60" :key="i" class="h-12 hover:bg-gray-50 " @mouseover="mouseover(i)"
+            <t-row v-for="(item, i) in song_list" :key="i" class="h-12 hover:bg-gray-50 " @mouseover="mouseover(i)"
                 @mouseout="mouseout(i)">
                 <t-col span="6" class="">
                     <div class="text-gray-500 text-left p-2 mt-1 flex flex-row justify-between">
@@ -74,58 +74,72 @@
                                 </t-tooltip>
                             </div>
                             <t-dropdown trigger="hover">
-                                <div class="ml-1 w-52 mr-2 truncate text-xs mt-1 text-gray-500 song cursor-pointer">
-                                    孤勇者《英雄联盟：双城之战》动画剧集中文主题曲
+                                <div class="ml-1 w-64 mr-2 flex flex-row">
+                                    <div class="truncate text-xs mt-1 text-gray-500 song cursor-pointer">
+                                        {{ item.song_name }} {{ item.song_desc }}
+                                    </div>
+                                    <div class="flex flex-row">
+                                        <div class="flex flex-row mt-0.5">
+                                            <div v-if="item.quality === 1"
+                                                class="mt-1 w-7 h-3 border rounded-sm border-purple-400">
+                                                <span class="text-purple-600"
+                                                    style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">Hi-Res</span>
+                                            </div>
+                                            <div v-else-if="item.quality === 2"
+                                                class="mt-1 w-4 h-3 border rounded-sm border-red-400">
+                                                <span class="text-red-600"
+                                                    style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">SQ</span>
+                                            </div>
+                                            <div v-else-if="item.quality === 3"
+                                                class="mt-1 w-4 h-3 border rounded-sm border-yellow-400">
+                                                <span class="text-yellow-600"
+                                                    style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">HQ</span>
+                                            </div>
+                                            <div v-else-if="item.quality === 4"
+                                                class="mt-1 w-4 h-3 border rounded-sm border-green-400">
+                                                <span class="text-green-600"
+                                                    style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">VIP</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-1 cursor-pointer">
+                                            <t-tooltip content="mv" theme="light">
+                                                <svg t="1661998774992" class="icon" viewBox="0 0 1024 1024"
+                                                    version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="26661"
+                                                    width="16" height="16">
+                                                    <path
+                                                        d="M919.2 148.4H104.8c-22.1 0-40 17.9-40 40v645c0 22.1 17.9 40 40 40h814.5c22.1 0 40-17.9 40-40v-645c-0.1-22.1-18-40-40.1-40z m-40 645H144.8v-565h734.5v565z"
+                                                        p-id="26662" fill="#8a8a8a"></path>
+                                                    <path
+                                                        d="M368.7 687.9c6.2 3.6 13.1 5.4 20 5.4s13.8-1.8 20-5.4l246.6-142.4c12.4-7.1 20-20.4 20-34.6 0-14.3-7.6-27.5-20-34.6L408.7 333.9c-12.4-7.1-27.6-7.1-40 0-12.4 7.1-20 20.4-20 34.6v284.7c0 14.4 7.6 27.6 20 34.7z m60-250.1l126.6 73.1L428.7 584V437.8z"
+                                                        p-id="26663" fill="#8a8a8a"></path>
+                                                </svg>
+                                            </t-tooltip>
+                                        </div>
+                                    </div>
                                 </div>
                                 <template #dropdown>
                                     <div class="w-80 h-24 text-xs rounded-lg">
                                         <div class="h-14 p-3 bg-gray-200">
-                                            <p>孤勇者</p>《英雄联盟：双城之战》动画剧集中文主题曲
+                                            <p>{{ item.song_name }}</p>{{ item.song_desc }}
                                         </div>
                                         <div class="mt-1 p-2 justify-around">
-                                            <span class="w-60 mr-4">大小: 3.91M / 9.11M / 27.40M / 50.84M</span>
-                                            <span class="w-20">时长: 04:16</span>
+                                            <span class="w-64 mr-2">
+                                                大小: {{ item.tone1 }}M / {{ item.tone2 }}M / {{ item.tone3 }}M / {{
+                                                item.tone4
+                                                }}M
+                                            </span>
+                                            <span class="w-20">时长: {{ item.time }}</span>
                                         </div>
                                     </div>
                                 </template>
                             </t-dropdown>
-                            <div class="flex flex-row mt-0.5">
-                                <div class="mt-1 w-7 h-3 border rounded-sm border-purple-400">
-                                    <span class="text-purple-600"
-                                        style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">Hi-Res</span>
-                                </div>
-                                <div class="mt-1 w-4 h-3 border rounded-sm border-red-400">
-                                    <span class="text-red-600"
-                                        style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">SQ</span>
-                                </div>
-                                <div class="mt-1 w-4 h-3 border rounded-sm border-yellow-400">
-                                    <span class="text-yellow-600"
-                                        style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">HQ</span>
-                                </div>
-                                <div class="mt-1 w-4 h-3 border rounded-sm border-green-400">
-                                    <span class="text-green-600"
-                                        style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">VIP</span>
-                                </div>
-                            </div>
-                            <div class="mt-1 ml-1 cursor-pointer">
-                                <t-tooltip content="mv" theme="light">
-                                    <svg t="1661998774992" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" p-id="26661" width="16" height="16">
-                                        <path
-                                            d="M919.2 148.4H104.8c-22.1 0-40 17.9-40 40v645c0 22.1 17.9 40 40 40h814.5c22.1 0 40-17.9 40-40v-645c-0.1-22.1-18-40-40.1-40z m-40 645H144.8v-565h734.5v565z"
-                                            p-id="26662" fill="#8a8a8a"></path>
-                                        <path
-                                            d="M368.7 687.9c6.2 3.6 13.1 5.4 20 5.4s13.8-1.8 20-5.4l246.6-142.4c12.4-7.1 20-20.4 20-34.6 0-14.3-7.6-27.5-20-34.6L408.7 333.9c-12.4-7.1-27.6-7.1-40 0-12.4 7.1-20 20.4-20 34.6v284.7c0 14.4 7.6 27.6 20 34.7z m60-250.1l126.6 73.1L428.7 584V437.8z"
-                                            p-id="26663" fill="#8a8a8a"></path>
-                                    </svg>
-                                </t-tooltip>
-                            </div>
                         </div>
-                        <div class="flex flex-row mt-0.5 ml-1" :style="(mouseStyle == i) ? '' : 'display: none;'">
-                            <div class="cursor-pointer mt-0.5  mr-1">
+                        <div class="flex flex-row mt-0.5" :style="(mouseStyle === i) ? '' : 'display: none;'">
+                            <div v-show="!isPlay" class="cursor-pointer mt-0.5  mr-1">
                                 <t-tooltip content="播放" theme="light">
-                                    <svg t="1661999623333" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" p-id="43375" width="16" height="16">
+                                    <svg @click="player(item)" t="1661999623333" class="icon" viewBox="0 0 1024 1024"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="43375" width="16"
+                                        height="16">
                                         <path
                                             d="M511.4 511.9m-426.3 0a426.3 426.3 0 1 0 852.6 0 426.3 426.3 0 1 0-852.6 0Z"
                                             fill="#FFFFFF" p-id="43376"></path>
@@ -141,10 +155,11 @@
                                     </svg>
                                 </t-tooltip>
                             </div>
-                            <div class="cursor-pointer mt-0.5 mr-1">
+                            <div v-show="isPlay" class="cursor-pointer mt-0.5 mr-1">
                                 <t-tooltip content="暂停" theme="light">
-                                    <svg t="1661999498086" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" p-id="40627" width="16" height="16">
+                                    <svg @click="suspend(item)" t="1661999498086" class="icon" viewBox="0 0 1024 1024"
+                                        version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="40627" width="16"
+                                        height="16">
                                         <path d="M512 483.4m-380 0a380 380 0 1 0 760 0 380 380 0 1 0-760 0Z"
                                             fill="#31BC69" p-id="40628"></path>
                                         <path
@@ -370,15 +385,14 @@
                                     </t-dropdown-item>
                                 </template>
                             </t-dropdown>
-
                         </div>
                     </div>
                 </t-col>
                 <t-col span="3" class="">
-                    <div class="text-gray-500 text-left p-2 mt-2 cursor-pointer text-xs song">陈奕迅</div>
+                    <div class="text-gray-500 text-left p-2 mt-2 cursor-pointer text-xs song">{{ item.songer }}</div>
                 </t-col>
                 <t-col span="3" class="">
-                    <div class="text-gray-500 text-left p-2 mt-2 cursor-pointer text-xs song">孤勇者</div>
+                    <div class="text-gray-500 text-left p-2 mt-2 cursor-pointer text-xs song">{{ item.album }}</div>
                 </t-col>
             </t-row>
         </div>
@@ -388,14 +402,67 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { OrderDescendingIcon, DownloadIcon, CaretRightIcon } from 'tdesign-icons-vue-next';
+import { songStore } from '@/store/modules/song'
+import { storeToRefs } from "pinia";
 
+const songState = songStore()
+
+const { currMusic, musicList, isPlay } = storeToRefs(songState)
 const mouseStyle = ref();
+const song_list = ref<any[]>(
+    [{
+        "id": 0,
+        "song_name": "孤勇者",
+        "song_desc": "《英雄联盟：双城之战》动画剧集中文主题曲",
+        "tone1": "3.91",
+        "tone2": "9.11",
+        "tone3": "27.4",
+        "tone4": "50.84",
+        "time": "04:16",
+        "songer": "陈奕迅",
+        "quality": 1,
+        "album": "孤勇者",
+        "url": "https://qti.oss-cn-shenzhen.aliyuncs.com/music/%E9%99%88%E5%A5%95%E8%BF%85%20-%20%E5%AD%A4%E5%8B%87%E8%80%85.mp3",
+        "img": "https://p1.music.126.net/aG5zqxkBRfLiV7A8W0iwgA==/109951166702962263.jpg?param=130y130"
+    }, {
+        id: 1,
+        "song_name": "樱花树下的约定",
+        "song_desc": "(live)",
+        "tone1": "2.81",
+        "tone2": "7.02",
+        "tone3": "21.35",
+        "tone4": "38.11",
+        "time": "03:04",
+        "songer": "田浩宇",
+        "quality": 2,
+        "album": "时光机",
+        "url": "https://qti.oss-cn-shenzhen.aliyuncs.com/music/%E7%94%B0%E6%B5%A9%E5%AE%87%20-%20%E6%A8%B1%E8%8A%B1%E6%A0%91%E4%B8%8B%E7%9A%84%E7%BA%A6%E5%AE%9A%20%28Live%29.mp3",
+        "img": "https://img1.kuwo.cn/star/albumcover/500/62/47/1387416287.jpg"
+    }]);
+
+// 全部播放
+const playWhole = () => {
+    musicList.value = song_list.value
+    currMusic.value = song_list.value[0]
+    isPlay.value = false
+}
+// 播放某一曲
+const player = (e: any) => {
+    currMusic.value = e
+    musicList.value.push(e)
+    isPlay.value = false
+}
+const suspend = (item: any) => {
+    if (item.id === currMusic.value.id) {
+        isPlay.value = false
+    }
+}
 
 const mouseover = (i: any) => {
     mouseStyle.value = i
 }
 const mouseout = (i: any) => {
-    mouseStyle.value = false
+    se
 }
 </script>
 

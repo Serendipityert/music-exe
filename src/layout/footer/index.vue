@@ -7,21 +7,21 @@
                 </div>
             </div>
         </div>
-        <audio @canplay="getDuration" controls @timeupdate="updateTime" v-show="false" ref="audio" :src="audioSrc" />
+        <audio @canplay="getDuration" controls @timeupdate="updateTime" v-show="false" ref="audio"
+            :src="currMusic.url" />
         <div class="flex justify-between mt-1">
-            <div class="w-64 h-14">
-                <div class="flex flex-row justify-around">
+            <div class="w-80 h-14">
+                <div class="flex flex-row ">
                     <div class="w-10 h-10 mt-2 rounded-md cursor-pointer">
-                        <img style="width: 100%; height: 100%; border-radius: 6px;"
-                            src="https://lpzwg.oss-cn-shenzhen.aliyuncs.com/zwg-images/meizhuang/54044c14fcaac1be43dc8deb2a40a8e40bce.jpg" />
+                        <img style="width: 100%; height: 100%; border-radius: 6px;" :src="currMusic.img" />
                     </div>
-                    <div class="w-44 h-14 -ml-5">
+                    <div class="w-52 h-14 ml-4">
                         <div class="music-name flex flex-row justify-start mt-1">
                             <div class="flex flex-row cursor-pointer">
-                                <div class="ml-1">{{ songName1 }}</div>
+                                <div class="ml-1 truncate">{{ currMusic.song_name }}</div>
                                 <div>
-                                    <span>&nbsp;&nbsp;-&nbsp;&nbsp;</span>
-                                    <span>陈奕迅</span>
+                                    <span>&nbsp;-&nbsp;</span>
+                                    <span>{{ currMusic.songer }}</span>
                                 </div>
                             </div>
                             <router-link to="/play-mv">
@@ -595,7 +595,7 @@
                         <t-tooltip class="placement bottom center" theme="primary" content="播放" placement="bottom"
                             show-arrow>
                             <!-- 播放 -->
-                            <svg v-show="isPlay" t="1662022208359" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            <svg v-show="!isPlay" t="1662022208359" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" p-id="3754" width="36" height="36">
                                 <path
                                     d="M511.33 66.17c247.42 0 448 200.58 448 448s-200.58 448-448 448-448-200.58-448-448 200.58-448 448-448z m-72.26 265.14c-20.68 0-37.45 16.83-37.45 37.59v299.68c0 7.3 2.12 14.44 6.1 20.55 11.31 17.38 34.51 22.26 51.83 10.91l225.87-148.09c4.58-3 8.49-6.93 11.48-11.52 11.94-18.34 6.8-42.93-11.48-54.91L459.54 337.43a37.325 37.325 0 0 0-20.47-6.12z"
@@ -605,7 +605,7 @@
                         <!-- 暂停 -->
                         <t-tooltip class="placement bottom center" theme="primary" content="暂停" placement="bottom"
                             show-arrow>
-                            <svg v-show="!isPlay" t="1662022353274" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            <svg v-show="isPlay" t="1662022353274" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" p-id="10348" width="36" height="36">
                                 <path
                                     d="M512 0C229.227168 0 0 229.227168 0 512s229.227168 512 512 512S1024 794.772832 1024 512 794.772832 0 512 0z m-60.831546 704.742145c0 34.190805-25.027836 62.180268-55.617413 62.180268s-55.617413-27.975559-55.617413-62.180268V319.257855c0-34.190805 25.027836-62.180268 55.617413-62.180268s55.617413 27.975559 55.617413 62.180268z m225.945741 0c0 34.190805-25.027836 62.180268-55.617413 62.180268s-55.617413-27.975559-55.617413-62.180268V319.257855c0-34.190805 25.027836-62.180268 55.617413-62.180268s55.617413 27.975559 55.617413 62.180268z"
@@ -617,7 +617,7 @@
                     <div class="mt-3.5 mr-2 cursor-pointer">
                         <t-tooltip class="placement bottom center" theme="primary" content="下一首" placement="bottom"
                             show-arrow>
-                            <svg t="1661407402865" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            <svg @click="nextMusic" t="1661407402865" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" p-id="14656" width="24" height="24">
                                 <path d="M216.7 844.3V179.7l445 332.3-445 332.3z m590.6 0h-80V179.7h80v664.6z" fill=""
                                     p-id="14657"></path>
@@ -686,14 +686,330 @@
                                         d="M166.72491631 518.88754654h375.96183773V552.03754558H166.72491631zM166.72491631 650.3877798h202.98482839v33.14999904H166.72491631z"
                                         fill="#FF2C2C" p-id="33084"></path>
                                 </svg>
-                                <span class="text-red-500 music-counter -ml-1">418</span>
+                                <span class="text-red-500 music-counter -ml-1">{{ musicList.length }}</span>
                             </div>
                         </t-tooltip>
                     </div>
                     <div>
                         <t-drawer v-model:visible="visible" :show-overlay="false" header="播放队列"
                             :on-confirm="handleClose" @close="handleClose">
-                            <p>抽屉的内容</p>
+                            <div>
+                                <t-row v-for="(item, i) in musicList" :key="i" class="h-12 hover:bg-gray-50 "
+                                    @mouseover="mouseover(i)" @mouseout="mouseout(i)">
+                                    <t-col span="12" class="">
+                                        <div class="text-gray-500 text-left p-2 mt-1 flex flex-row ">
+                                            <div class="flex flex-row">
+                                                <div
+                                                    class="ml-1 w-28 mr-2 truncate text-xs mt-1 text-gray-500 song cursor-pointer">
+                                                    {{ item.song_name }} {{ item.song_desc }}
+                                                </div>
+                                                <div class="flex flex-row mt-0.5">
+                                                    <div v-if="item.quality === 1"
+                                                        class="mt-1 w-7 h-3 border rounded-sm border-purple-400">
+                                                        <span class="text-purple-600"
+                                                            style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">Hi-Res</span>
+                                                    </div>
+                                                    <div v-else-if="item.quality === 2"
+                                                        class="mt-1 w-4 h-3 border rounded-sm border-red-400">
+                                                        <span class="text-red-600"
+                                                            style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">SQ</span>
+                                                    </div>
+                                                    <div v-else-if="item.quality === 3"
+                                                        class="mt-1 w-4 h-3 border rounded-sm border-yellow-400">
+                                                        <span class="text-yellow-600"
+                                                            style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">HQ</span>
+                                                    </div>
+                                                    <div v-else-if="item.quality === 4"
+                                                        class="mt-1 w-4 h-3 border rounded-sm border-green-400">
+                                                        <span class="text-green-600"
+                                                            style="font-size: 7px;font-weight: 900; position: relative;top: -8px;left: 2px;">VIP</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-1 ml-1 cursor-pointer">
+                                                    <t-tooltip content="mv" theme="light">
+                                                        <svg t="1661998774992" class="icon" viewBox="0 0 1024 1024"
+                                                            version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                            p-id="26661" width="16" height="16">
+                                                            <path
+                                                                d="M919.2 148.4H104.8c-22.1 0-40 17.9-40 40v645c0 22.1 17.9 40 40 40h814.5c22.1 0 40-17.9 40-40v-645c-0.1-22.1-18-40-40.1-40z m-40 645H144.8v-565h734.5v565z"
+                                                                p-id="26662" fill="#8a8a8a"></path>
+                                                            <path
+                                                                d="M368.7 687.9c6.2 3.6 13.1 5.4 20 5.4s13.8-1.8 20-5.4l246.6-142.4c12.4-7.1 20-20.4 20-34.6 0-14.3-7.6-27.5-20-34.6L408.7 333.9c-12.4-7.1-27.6-7.1-40 0-12.4 7.1-20 20.4-20 34.6v284.7c0 14.4 7.6 27.6 20 34.7z m60-250.1l126.6 73.1L428.7 584V437.8z"
+                                                                p-id="26663" fill="#8a8a8a"></path>
+                                                        </svg>
+                                                    </t-tooltip>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row mt-0.5 ml-1"
+                                                :style="(mouseStyle == i) ? '' : 'display: none;'">
+                                                <div v-show="!isPlay" class="cursor-pointer mt-0.5  mr-1">
+                                                    <t-tooltip content="播放" theme="light">
+                                                        <svg @click="player(item)" t="1661999623333" class="icon"
+                                                            viewBox="0 0 1024 1024" version="1.1"
+                                                            xmlns="http://www.w3.org/2000/svg" p-id="43375" width="16"
+                                                            height="16">
+                                                            <path
+                                                                d="M511.4 511.9m-426.3 0a426.3 426.3 0 1 0 852.6 0 426.3 426.3 0 1 0-852.6 0Z"
+                                                                fill="#FFFFFF" p-id="43376"></path>
+                                                            <path
+                                                                d="M511.4 958.2c-60.2 0-118.7-11.8-173.7-35.1-53.1-22.5-100.9-54.7-141.9-95.6-41-41-73.2-88.7-95.6-141.9-23.3-55-35.1-113.5-35.1-173.7s11.8-118.7 35.1-173.7c22.5-53.1 54.7-100.9 95.6-141.9 41-41 88.7-73.2 141.9-95.6 55-23.3 113.5-35.1 173.7-35.1 60.2 0 118.7 11.8 173.7 35.1 53.1 22.5 100.9 54.7 141.9 95.6 41 41 73.2 88.7 95.6 141.9 23.3 55 35.1 113.5 35.1 173.7s-11.7 118.7-35 173.7C900.2 738.8 868 786.5 827 827.5s-88.7 73.2-141.9 95.6c-55 23.3-113.4 35.1-173.7 35.1z m0-852.6c-224 0-406.3 182.3-406.3 406.3s182.3 406.3 406.3 406.3 406.3-182.3 406.3-406.3c0.1-224-182.2-406.3-406.3-406.3z"
+                                                                fill="#FF7A4E" p-id="43377"></path>
+                                                            <path
+                                                                d="M762 535.8L365.2 764.9c-18.5 10.7-41.7-2.7-41.7-24.1V282.6c0-21.4 23.1-34.7 41.7-24.1L762 487.7c18.5 10.7 18.5 37.5 0 48.1z"
+                                                                fill="#FF7A4E" p-id="43378"></path>
+                                                            <path
+                                                                d="M351.3 778.7c-6.5 0-13-1.7-18.9-5.1-11.8-6.8-18.9-19.1-18.9-32.7V282.7c0-13.7 7.1-25.9 18.9-32.7 11.8-6.8 25.9-6.8 37.8 0L767 479.1c11.8 6.8 18.9 19.1 18.9 32.7 0 13.7-7.1 25.9-18.9 32.7L370.2 773.6c-5.9 3.4-12.4 5.1-18.9 5.1z m0-513.8c-3.1 0-6.1 0.8-8.9 2.4-5.6 3.2-8.9 9-8.9 15.4v458.2c0 6.4 3.3 12.2 8.9 15.4 5.6 3.2 12.2 3.2 17.8 0L757 527.2c5.6-3.2 8.9-9 8.9-15.4s-3.3-12.2-8.9-15.4L360.2 267.3c-2.8-1.6-5.8-2.4-8.9-2.4z"
+                                                                fill="#FF7A4E" p-id="43379"></path>
+                                                        </svg>
+                                                    </t-tooltip>
+                                                </div>
+                                                <div v-show="isPlay" class="cursor-pointer mt-0.5 mr-1">
+                                                    <t-tooltip content="暂停" theme="light">
+                                                        <svg @click="suspend(item)" t="1661999498086" class="icon"
+                                                            viewBox="0 0 1024 1024" version="1.1"
+                                                            xmlns="http://www.w3.org/2000/svg" p-id="40627" width="16"
+                                                            height="16">
+                                                            <path
+                                                                d="M512 483.4m-380 0a380 380 0 1 0 760 0 380 380 0 1 0-760 0Z"
+                                                                fill="#31BC69" p-id="40628"></path>
+                                                            <path
+                                                                d="M595.5 588.4h-167c-11.8 0-21.5-9.7-21.5-21.5v-167c0-11.8 9.7-21.5 21.5-21.5h167c11.8 0 21.5 9.7 21.5 21.5v167c0 11.8-9.7 21.5-21.5 21.5z"
+                                                                fill="#FFFFFF" p-id="40629"></path>
+                                                        </svg>
+                                                    </t-tooltip>
+                                                </div>
+                                                <div class="cursor-pointer mt-0.5 mr-1">
+                                                    <t-tooltip content="下载" theme="light">
+                                                        <svg t="1662000589581" class="icon" viewBox="0 0 1024 1024"
+                                                            version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                            p-id="45910" width="16" height="16">
+                                                            <path
+                                                                d="M512 912c-220.6 0-400-179.4-400-400s179.4-400 400-400 400 179.4 400 400-179.4 400-400 400z m0-704.3c-167.8 0-304.3 136.5-304.3 304.3S344.2 816.3 512 816.3s304.3-136.5 304.3-304.3S679.8 207.7 512 207.7z"
+                                                                fill="#169F65" opacity=".8" p-id="45911"></path>
+                                                            <path
+                                                                d="M514.3 734.9c-26.4 0-47.8-21.4-47.8-47.8V336.9c0-26.4 21.4-47.8 47.8-47.8s47.8 21.4 47.8 47.8V687c0 26.5-21.4 47.9-47.8 47.9z"
+                                                                fill="#169F65" opacity=".8" p-id="45912"></path>
+                                                            <path
+                                                                d="M510.1 734.9c-12.7 0-25.3-5-34.7-14.9L357.5 595.8c-18.2-19.2-17.4-49.4 1.8-67.6 19.2-18.2 49.4-17.4 67.6 1.8l117.9 124.2c18.2 19.2 17.4 49.4-1.8 67.6a47.9 47.9 0 0 1-32.9 13.1z"
+                                                                fill="#169F65" opacity=".8" p-id="45913"></path>
+                                                            <path
+                                                                d="M513.9 734.9a47.9 47.9 0 0 1-32.9-13.1c-19.2-18.2-19.9-48.5-1.8-67.6L597.1 530c18.2-19.2 48.5-19.9 67.6-1.8 19.2 18.2 19.9 48.5 1.8 67.6L548.6 720c-9.4 9.9-22.1 14.9-34.7 14.9z"
+                                                                fill="#169F65" opacity=".8" p-id="45914"></path>
+                                                        </svg>
+                                                    </t-tooltip>
+                                                </div>
+                                                <t-dropdown trigger="click" placement="right-top">
+                                                    <div class="cursor-pointer mt-0.5 mr-1">
+                                                        <t-tooltip content="更多" theme="light">
+                                                            <svg t="1662000763788" class="icon" viewBox="0 0 1024 1024"
+                                                                version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                                p-id="56250" width="16" height="16">
+                                                                <path
+                                                                    d="M512 106.666667c-223.573333 0-405.333333 181.76-405.333333 405.333333s181.76 405.333333 405.333333 405.333333 405.333333-181.76 405.333333-405.333333-181.76-405.333333-405.333333-405.333333zM320 565.333333a53.333333 53.333333 0 1 1 0-106.666666 53.333333 53.333333 0 0 1 0 106.666666z m192 0a53.333333 53.333333 0 1 1 0-106.666666 53.333333 53.333333 0 0 1 0 106.666666z m192 0a53.333333 53.333333 0 1 1 0-106.666666 53.333333 53.333333 0 0 1 0 106.666666z"
+                                                                    fill="#FF9449" p-id="56251"></path>
+                                                                <path
+                                                                    d="M799.232 226.218667a405.077333 405.077333 0 0 1 107.648 194.133333L420.352 906.88a405.077333 405.077333 0 0 1-194.133333-107.648l248.874666-248.746667a53.333333 53.333333 0 0 0 75.392-75.392zM704 458.666667a53.333333 53.333333 0 1 0 0 106.666666 53.333333 53.333333 0 0 0 0-106.666666z"
+                                                                    fill="#FF9E5B" p-id="56252"></path>
+                                                                <path
+                                                                    d="M512 106.666667c32.426667 0 63.914667 3.84 94.165333 11.050666L117.717333 606.165333A405.290667 405.290667 0 0 1 106.666667 512c0-223.573333 181.76-405.333333 405.333333-405.333333z"
+                                                                    fill="#FFBE91" p-id="56253"></path>
+                                                                <path
+                                                                    d="M606.08 117.674667a405.162667 405.162667 0 0 1 193.237333 108.629333l-248.832 248.746667a53.333333 53.333333 0 1 0-75.392 75.392l-248.789333 248.874666a405.162667 405.162667 0 0 1-108.629333-193.237333zM320 458.666667a53.333333 53.333333 0 1 0 0 106.666666 53.333333 53.333333 0 0 0 0-106.666666z"
+                                                                    fill="#FFA96D" p-id="56254"></path>
+                                                            </svg>
+                                                        </t-tooltip>
+                                                    </div>
+                                                    <template #dropdown>
+                                                        <t-dropdown-item class="pt-1" :value="0">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1661416497111" class="icon"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="63989"
+                                                                        width="18" height="18">
+                                                                        <path
+                                                                            d="M787.2 350.592l86.08-22.848a388.736 388.736 0 0 0-218.24-260.096l-37.44 80.64C519.936 75.904 381.952 30.016 289.856 107.328a373.632 373.632 0 0 0 136 651.2v134.4h-146.56a32 32 0 0 0 0 64h430.528a32 32 0 0 0 0-64H489.856v-122.432a373.632 373.632 0 0 0 280.256-89.6c92.224-77.504 70.784-221.888 17.088-330.304zM589.888 208.256l-102.4 221.632 235.712-62.4c99.776 186.88 32 334.784-140.224 276.48A475.776 475.776 0 0 1 293.76 298.816c-28.48-186.944 135.936-216.768 296.128-90.56zM230.4 304.256a533.824 533.824 0 0 0 334.528 400.896A308.352 308.352 0 0 1 230.4 304.256z"
+                                                                            p-id="63990"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3">播放相似歌曲</div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                        <t-dropdown-item class="-mb-4" :value="1">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1661405040731" class="icon"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="17866"
+                                                                        width="18" height="18">
+                                                                        <path
+                                                                            d="M800 128H224C134.4 128 64 198.4 64 288v448c0 89.6 70.4 160 160 160h576c89.6 0 160-70.4 160-160V288c0-89.6-70.4-160-160-160z m96 608c0 54.4-41.6 96-96 96H224c-54.4 0-96-41.6-96-96V288c0-54.4 41.6-96 96-96h576c54.4 0 96 41.6 96 96v448z"
+                                                                            p-id="17867"></path>
+                                                                        <path
+                                                                            d="M684.8 483.2l-256-112c-22.4-9.6-44.8 6.4-44.8 28.8v224c0 22.4 22.4 38.4 44.8 28.8l256-112c25.6-9.6 25.6-48 0-57.6z"
+                                                                            p-id="17868"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3">播放MV</div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                        <t-divider />
+                                                        <t-dropdown-item class="-mt-3" :value="2">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1661405629879" class="icon"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="20222"
+                                                                        width="20" height="20">
+                                                                        <path
+                                                                            d="M856.96 543.296L526.944 870.24a32 32 0 0 1-45.184-0.128L153.408 541.248l-0.064 0.064C102.72 474.432 96 434.528 96 374.72 96 238.464 207.744 128 345.6 128c64.16 0 122.208 23.936 165.92 63.232A250.304 250.304 0 0 1 678.4 128c137.856 0 249.6 110.464 249.6 246.72 0 67.296-26.944 124.16-71.072 168.544z m-52.192-48.128c34.144-33.76 51.904-74.08 51.904-120.416 0-97.344-79.808-176.256-178.272-176.256a178.528 178.528 0 0 0-121.504 47.264 245.6 245.6 0 0 1 35.744 113.504s-69.44 0-69.44-0.064c-7.968-90.176-84.448-161.792-177.6-161.792-98.464 0-180.224 80-180.224 177.344 0 54.688 4.192 71.232 40 118.592l299.52 299.04 299.904-297.216z"
+                                                                            fill="#636363" p-id="20223"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3">我喜欢</div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                        <t-dropdown-item :value="3">
+                                                            <t-dropdown trigger="hover" placement="right-bottom">
+                                                                <div class="flex flex-row">
+                                                                    <div>
+                                                                        <svg t="1661416626456" class="icon"
+                                                                            viewBox="0 0 1024 1024" version="1.1"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            p-id="66057" width="18" height="18">
+                                                                            <path
+                                                                                d="M188.8 135.7c-29.7 0-53.8 24.1-53.8 53.7v644.7c0 29.7 24.1 53.7 53.8 53.7h645.4c29.7 0 53.8-24.1 53.8-53.7V189.4c0-29.7-24.1-53.7-53.8-53.7H188.8z m-13-71.1h671.5c61.8 0 111.9 50.1 111.9 111.8v670.8c0 61.7-50.1 111.8-111.9 111.8H175.8C114 959 63.9 909 63.9 847.2V176.4c0-61.8 50.1-111.8 111.9-111.8z m0 0"
+                                                                                p-id="66058"></path>
+                                                                            <path
+                                                                                d="M673 548H351c-19.8 0-36-16.2-36-36s16.2-36 36-36h322c19.8 0 36 16.2 36 36s-16.2 36-36 36z"
+                                                                                p-id="66059"></path>
+                                                                            <path
+                                                                                d="M476 673V351c0-19.8 16.2-36 36-36s36 16.2 36 36v322c0 19.8-16.2 36-36 36s-36-16.2-36-36z"
+                                                                                p-id="66060"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                    <div class="text-xs text-gray-800 ml-3">添加到</div>
+                                                                    <div class="text-xs text-gray-800 ml-10">
+                                                                        <svg t="1661417372396" class="icon"
+                                                                            viewBox="0 0 1024 1024" version="1.1"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            p-id="17905" width="12" height="12">
+                                                                            <path
+                                                                                d="M798.38 538.03l-575.1-346.2 0.04-68.75 575.04 345.6 0.02 69.35z"
+                                                                                p-id="17906"></path>
+                                                                            <path
+                                                                                d="M798.38 538.03L223.3 894.99v-69.52l575.06-356.79 0.02 69.35z"
+                                                                                p-id="17907"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+                                                                <template #dropdown>
+                                                                    <t-dropdown-menu>
+                                                                        <t-dropdown-item :value="1"> 试听列表
+                                                                        </t-dropdown-item>
+                                                                        <t-dropdown-item :value="2"> 默认列表
+                                                                        </t-dropdown-item>
+                                                                    </t-dropdown-menu>
+                                                                </template>
+                                                            </t-dropdown>
+                                                        </t-dropdown-item>
+                                                        <t-dropdown-item :value="4">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1661416815794" class="icon"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="67686"
+                                                                        width="18" height="18">
+                                                                        <path
+                                                                            d="M874.9 459.4c-18.8 0-34 15.2-34 34v355.7c0 18.6-15.5 33.7-34.5 33.7H181.5c-19 0-34.5-15.1-34.5-33.7V232.3c0-18.6 15.5-33.7 34.5-33.7H541c18.8 0 34-15.2 34-34s-15.2-34-34-34H181.5C125 130.6 79 176.2 79 232.3v616.8c0 56 46 101.7 102.5 101.7h624.9c56.5 0 102.5-45.6 102.5-101.7V493.4c0-18.8-15.2-34-34-34z"
+                                                                            fill="" p-id="67687"></path>
+                                                                        <path
+                                                                            d="M885.5 82.7H657.1c-18.8 0-34 15.2-34 34s15.2 34 34 34h169.7L358.5 619.1c-13.3 13.3-13.3 34.8 0 48.1 6.6 6.6 15.3 10 24 10s17.4-3.3 24-10l470-470v169.7c0 18.8 15.2 34 34 34s34-15.2 34-34V141.5c0.1-32.4-26.4-58.8-59-58.8z"
+                                                                            fill="" p-id="67688"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3 mt-0.5">分享</div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                        <t-dropdown-item :value="5">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1661417073245" class="icon"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="8350"
+                                                                        width="18" height="18">
+                                                                        <path
+                                                                            d="M823.5 940H319.6c-59.5 0-107.9-48.2-107.9-107.4V662.4c0-13.8 11.2-25 25-25s25 11.2 25 25v170.2c0 31.7 26 57.4 57.9 57.4h503.9c31.9 0 57.9-25.8 57.9-57.4V183.4c0-31.7-26-57.4-57.9-57.4H319.6c-31.9 0-57.9 25.8-57.9 57.4v164.8c0 13.8-11.2 25-25 25s-25-11.2-25-25V183.4c0-59.2 48.4-107.4 107.9-107.4h503.9c59.5 0 107.9 48.2 107.9 107.4v649.2c0 59.2-48.4 107.4-107.9 107.4z"
+                                                                            fill="#333333" p-id="8351"></path>
+                                                                        <path
+                                                                            d="M586.8 593.2c-83.5 0-151.4-67.9-151.4-151.4s67.9-151.4 151.4-151.4 151.4 67.9 151.4 151.4-67.9 151.4-151.4 151.4z m0-252.8c-55.9 0-101.4 45.5-101.4 101.4s45.5 101.4 101.4 101.4 101.4-45.5 101.4-101.4-45.5-101.4-101.4-101.4z"
+                                                                            fill="#333333" p-id="8352"></path>
+                                                                        <path
+                                                                            d="M783 789.4c-13.8 0-25-11.2-25-25 0-94.4-76.8-171.2-171.2-171.2-94.4 0-171.2 76.8-171.2 171.2 0 13.8-11.2 25-25 25s-25-11.2-25-25c0-59.1 23-114.6 64.8-156.4 41.8-41.8 97.3-64.8 156.4-64.8s114.6 23 156.4 64.8C785 649.8 808 705.3 808 764.4c0 13.8-11.2 25-25 25z"
+                                                                            fill="#333333" p-id="8353"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3 mt-0.5">明显壁纸
+                                                                </div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                        <t-dropdown-item :value="6">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1661417106545" class="icon"
+                                                                        viewBox="0 0 1127 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="9382"
+                                                                        width="18" height="18">
+                                                                        <path
+                                                                            d="M1108.468296 824.890547C1159.055032 910.219597 1097.227863 1024 990.429373 1024L130.432879 1024C29.258031 1024-32.574625 910.219597 18.012112 824.890547L450.825613 68.266574C473.306472 22.754136 518.276424 0 563.240888 0 608.209469 0 653.173934 22.754136 675.660283 68.266574L1108.468296 824.890547 1108.468296 824.890547 1108.468296 824.890547 1108.468296 824.890547ZM1020.384123 877.110641 1019.583053 875.735153 586.77504 119.111177 583.854223 113.62523C580.333998 106.500274 573.244216 102.4 563.240888 102.4 553.240806 102.4 546.151071 106.500212 542.636068 113.61633L539.710577 119.111663 106.096287 877.110641C95.301134 895.319767 109.937021 921.6 130.432879 921.6L990.429373 921.6C1016.30634 921.6 1031.298263 895.520476 1020.384123 877.110641L1020.384123 877.110641 1020.384123 877.110641 1020.384123 877.110641ZM558.08319 307.2C532.482248 307.2 512 322.819385 512 342.344809L512 579.251379C512 598.776801 532.482248 614.4 558.08319 614.4L568.321812 614.4C593.922749 614.4 614.4 598.776801 614.4 579.251379L614.4 342.344809C614.4 322.819385 593.922749 307.2 568.321812 307.2L558.08319 307.2 558.08319 307.2 558.08319 307.2 558.08319 307.2ZM512 766.885176C512 780.001705 517.522432 793.032632 526.999818 802.305669 536.477199 811.577487 549.797038 816.975247 563.200625 816.975247 576.602962 816.975247 589.927798 811.577487 599.405184 802.305669 608.882565 793.032632 614.4 780.001705 614.4 766.885176 614.4 753.772319 608.882565 740.741391 599.405184 731.469573 589.927798 722.19776 576.602962 716.8 563.200625 716.8 549.797038 716.8 536.477199 722.19776 526.999818 731.469573 517.522432 740.741391 512 753.772319 512 766.885176L512 766.885176 512 766.885176 512 766.885176Z"
+                                                                            p-id="9383"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3 mt-0.5">举报</div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                        <t-dropdown-item class="-mb-4" :value="7">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1661417154600" class="icon"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="12408"
+                                                                        width="18" height="18">
+                                                                        <path
+                                                                            d="M960.467011 959.469288 65.765843 959.469288 65.765843 64.765049l894.701169 0L960.467011 959.469288zM104.665805 920.566256l816.901245 0L921.56705 103.665011 104.665805 103.665011 104.665805 920.566256zM532.566408 298.165844 182.465728 298.165844l0 38.899962 350.10068 0L532.566408 298.165844zM532.566408 414.865729 182.465728 414.865729l0 38.899962 350.10068 0L532.566408 414.865729zM532.566408 531.565615 182.465728 531.565615l0 38.899962 350.10068 0L532.566408 531.565615zM610.367355 176.602184l0 442.488857c0 13.017478-4.865821 24.311709-14.585183 34.037211-9.730619 9.724479-21.067828 14.588253-34.035164 14.588253l-48.63058 0c-27.551496 3.291976-50.652634 13.017478-69.294203 29.175483-18.640546 16.208147-27.955702 35.658128-27.955702 58.349943 0 25.933649 9.314133 47.054689 27.955702 63.21167 18.640546 16.208147 41.742706 24.312732 69.294203 24.312732 37.282115 0 69.294203-8.508791 96.036263-25.527396 26.742061-17.019629 40.114626-37.685297 40.114626-61.997006l0-413.313374 194.499809 38.899962L843.767126 222.797295 610.367355 176.602184z"
+                                                                            p-id="12409"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3 mt-0.5">智能谱曲
+                                                                </div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                        <t-divider />
+                                                        <t-dropdown-item class="-mt-3 pb-1" :value="8">
+                                                            <div class="flex flex-row">
+                                                                <div>
+                                                                    <svg t="1662515831033" class="icon"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg" p-id="4061"
+                                                                        width="18" height="18">
+                                                                        <path
+                                                                            d="M840 288H688v-56c0-40-32-72-72-72h-208C368 160 336 192 336 232V288h-152c-12.8 0-24 11.2-24 24s11.2 24 24 24h656c12.8 0 24-11.2 24-24s-11.2-24-24-24zM384 288v-56c0-12.8 11.2-24 24-24h208c12.8 0 24 11.2 24 24V288H384zM758.4 384c-12.8 0-24 11.2-24 24v363.2c0 24-19.2 44.8-44.8 44.8H332.8c-24 0-44.8-19.2-44.8-44.8V408c0-12.8-11.2-24-24-24s-24 11.2-24 24v363.2c0 51.2 41.6 92.8 92.8 92.8h358.4c51.2 0 92.8-41.6 92.8-92.8V408c-1.6-12.8-12.8-24-25.6-24z"
+                                                                            p-id="4062" fill="#bfbfbf"></path>
+                                                                        <path
+                                                                            d="M444.8 744v-336c0-12.8-11.2-24-24-24s-24 11.2-24 24v336c0 12.8 11.2 24 24 24s24-11.2 24-24zM627.2 744v-336c0-12.8-11.2-24-24-24s-24 11.2-24 24v336c0 12.8 11.2 24 24 24s24-11.2 24-24z"
+                                                                            p-id="4063" fill="#bfbfbf"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="text-xs text-gray-800 ml-3">从播放列表删除</div>
+                                                            </div>
+                                                        </t-dropdown-item>
+                                                    </template>
+                                                </t-dropdown>
+                                            </div>
+                                        </div>
+                                    </t-col>
+                                </t-row>
+                            </div>
                         </t-drawer>
                     </div>
                 </div>
@@ -701,9 +1017,16 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
-import { ref } from "vue"
+
+<script lang="ts" setup>
+import { defineComponent, ref, watch } from "vue"
+import { songStore } from '@/store/modules/song'
+import { storeToRefs } from "pinia";
+
 const { ipcRenderer } = require("electron");
+
+const songState = songStore()
+const { currMusic, musicList, isPlay, musicIndex } = storeToRefs<any>(songState)
 
 // 初始大小
 const m_footer_width = ref('width: 81%;')
@@ -714,7 +1037,6 @@ const volumeMin = ref(0)
 const volumeStep = ref(1)
 const visible = ref(false);
 
-const isPlay = ref(true);
 const isMoveIn = ref(false);
 
 const audio = ref();
@@ -725,9 +1047,52 @@ const circle = ref();
 const duration = ref('00:00');
 const currentDuration = ref('00:00');
 
+const mouseStyle = ref();
 
-const audioSrc = ref('https://lpzwg.oss-cn-shenzhen.aliyuncs.com/zwg-images/music/%E9%99%88%E5%A5%95%E8%BF%85%20-%20%E5%AD%A4%E5%8B%87%E8%80%85.mp3')
-const songName1 = ref('孤勇者')
+// 监听isPlay值的变化
+watch(isPlay, () => {
+    isPlay.value ? audio.value.play() : audio.value.pause()
+})
+
+const nextMusic = () => {
+    console.log('nextMusic')
+}
+// 播放某一曲
+const player = (e: any) => {
+    currMusic.value = e
+}
+const suspend = (e: any) => {
+    if (e.id === currMusic.value.id) {
+        isPlay.value = false
+    }
+}
+
+const mouseover = (i: any) => {
+    mouseStyle.value = i
+}
+const mouseout = (i: any) => {
+    mouseStyle.value = false
+}
+
+// 自动播放下一首
+const autoPlay = () => {
+    // 若为单首播放，则需要校验出当前歌曲的下标
+    // 若为全部播放，则设置下标为0
+
+    for (let i = 0; i < musicList.value.length; i++) {
+        const e = musicList.value[i];
+        if (e.id === currMusic.value.id) {
+            if (i === 0) {
+                musicIndex.value = 0
+            } else {
+                musicIndex.value = i
+            }
+        }
+    }
+    // currMusic.value = musicList.value[musicIndex.value]
+
+    console.log(currMusic.value)
+}
 
 // 调节音量
 const handVolume = () => {
@@ -738,13 +1103,15 @@ const handVolume = () => {
 }
 //暂停或播放
 const handlePauseOrPlay = () => {
-    isPlay.value ? audio.value.play() : audio.value.pause()
+    !isPlay.value ? audio.value.play() : audio.value.pause()
     isPlay.value = !isPlay.value;
 };
 // 视频在可以播放时触发
 const getDuration = () => {
     duration.value = timeFormat(audio.value.duration)
     audio.value = audio.value
+    // autoPlay()
+    handlePauseOrPlay()
 }
 //将单位为秒的的时间转换成mm:ss的形式
 const timeFormat = (num: number) => {
@@ -769,7 +1136,7 @@ const updateProgress = (MoveX: number) => {
     let clickProgress = (MoveX / progress.value.clientWidth)
     //设置播放的时间 = 总时长 * 当前点击的长度
     audio.value.currentTime = audio.value.duration * clickProgress
-    //设置移动的位置
+    //置移动的位置
     currentProgress.value.style.width = MoveX + 'px'
     circle.value.style.left = MoveX - (circle.value.clientWidth / 2) + 'px'
 }
@@ -802,7 +1169,7 @@ ipcRenderer.on('footer-maximize', (e: any, data: any) => {
 
 // 最大化还原初始大小
 ipcRenderer.on('footer-restore', (e: any, data: any) => {
-    m_footer_width.value = 'width: 81%;'
+    _footer_width.value = 'width: 81%;'
 })
 </script>
 
@@ -867,5 +1234,9 @@ ipcRenderer.on('footer-restore', (e: any, data: any) => {
     width: 10px;
     height: 10px;
     border-radius: 50%;
+}
+
+.song:hover {
+    color: #0052d9;
 }
 </style>
