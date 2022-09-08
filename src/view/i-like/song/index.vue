@@ -135,9 +135,9 @@
                             </t-dropdown>
                         </div>
                         <div class="flex flex-row mt-0.5" :style="(mouseStyle === i) ? '' : 'display: none;'">
-                            <div v-show="!isPlay" class="cursor-pointer mt-0.5  mr-1">
+                            <div @click="player(item,i)"  :style="(isPlayShow === i) ? 'display: none;' : ''" class="cursor-pointer mt-0.5  mr-1">
                                 <t-tooltip content="播放" theme="light">
-                                    <svg @click="player(item)" t="1661999623333" class="icon" viewBox="0 0 1024 1024"
+                                    <svg  t="1661999623333" class="icon" viewBox="0 0 1024 1024"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="43375" width="16"
                                         height="16">
                                         <path
@@ -155,9 +155,9 @@
                                     </svg>
                                 </t-tooltip>
                             </div>
-                            <div v-show="isPlay" class="cursor-pointer mt-0.5 mr-1">
+                            <div @click="suspend(item,i)" :style="(isPlayShow === i) ? '' : 'display: none;'" class="cursor-pointer mt-0.5 mr-1">
                                 <t-tooltip content="暂停" theme="light">
-                                    <svg @click="suspend(item)" t="1661999498086" class="icon" viewBox="0 0 1024 1024"
+                                    <svg  t="1661999498086" class="icon" viewBox="0 0 1024 1024"
                                         version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="40627" width="16"
                                         height="16">
                                         <path d="M512 483.4m-380 0a380 380 0 1 0 760 0 380 380 0 1 0-760 0Z"
@@ -409,6 +409,7 @@ const songState = songStore()
 
 const { currMusic, musicList, isPlay } = storeToRefs(songState)
 const mouseStyle = ref();
+const isPlayShow = ref();
 const song_list = ref<any[]>(
     [{
         "id": 0,
@@ -424,7 +425,8 @@ const song_list = ref<any[]>(
         "album": "孤勇者",
         "url": "https://qti.oss-cn-shenzhen.aliyuncs.com/music/%E9%99%88%E5%A5%95%E8%BF%85%20-%20%E5%AD%A4%E5%8B%87%E8%80%85.mp3",
         "img": "https://p1.music.126.net/aG5zqxkBRfLiV7A8W0iwgA==/109951166702962263.jpg?param=130y130"
-    }, {
+    }, 
+    {
         id: 1,
         "song_name": "樱花树下的约定",
         "song_desc": "(live)",
@@ -438,7 +440,24 @@ const song_list = ref<any[]>(
         "album": "时光机",
         "url": "https://qti.oss-cn-shenzhen.aliyuncs.com/music/%E7%94%B0%E6%B5%A9%E5%AE%87%20-%20%E6%A8%B1%E8%8A%B1%E6%A0%91%E4%B8%8B%E7%9A%84%E7%BA%A6%E5%AE%9A%20%28Live%29.mp3",
         "img": "https://img1.kuwo.cn/star/albumcover/500/62/47/1387416287.jpg"
-    }]);
+    },
+    {
+        id: 2,
+        "song_name": "你的答案",
+        "song_desc": "",
+        "tone1": "3.36",
+        "tone2": "8.39",
+        "tone3": "23.95",
+        "tone4": "45.77",
+        "time": "04:25",
+        "songer": "阿冗",
+        "quality": 3,
+        "album": "你的答案",
+        "url": "https://qti.oss-cn-shenzhen.aliyuncs.com/music/%E9%98%BF%E5%86%97%20-%20%E4%BD%A0%E7%9A%84%E7%AD%94%E6%A1%88.mp3",
+        "img": "https://imgessl.kugou.com/stdmusic/20200831/20200831145501173343.jpg"
+    },
+    ]);
+
 
 // 全部播放
 const playWhole = () => {
@@ -446,23 +465,28 @@ const playWhole = () => {
     currMusic.value = song_list.value[0]
     isPlay.value = false
 }
+
 // 播放某一曲
-const player = (e: any) => {
+const player = (e: any,i: number) => {
     currMusic.value = e
-    musicList.value.push(e)
+    isPlayShow.value = i
+    musicList.value = song_list.value
     isPlay.value = false
 }
-const suspend = (item: any) => {
+
+// 暂停
+const suspend = (item: any,i: number) => {
     if (item.id === currMusic.value.id) {
         isPlay.value = false
     }
+    isPlayShow.value = false
 }
 
 const mouseover = (i: any) => {
     mouseStyle.value = i
 }
 const mouseout = (i: any) => {
-    se
+    mouseStyle.value = false
 }
 </script>
 

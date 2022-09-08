@@ -21,13 +21,13 @@ export const songStore = defineStore('song', {
         }
     },
     // 开启数据缓存
-    persist: {
-        enabled: true,
-        strategies: [{
-            storage: localStorage,
-            paths: ['currMusic', 'musicList']
-        }]
-    },
+    // persist: {
+    //     enabled: true,
+    //     strategies: [{
+    //         storage: localStorage,
+    //         paths: ['currMusic', 'musicList']
+    //     }]
+    // },
     getters: {
         getMusicList(): any {
             return this.musicList;

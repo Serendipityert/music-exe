@@ -580,7 +580,7 @@
                         </template>
                     </t-dropdown>
                     <!-- 上一首 -->
-                    <div class="mt-3.5 mr-2 cursor-pointer">
+                    <div @click="prevSong" class="mt-3.5 mr-2 cursor-pointer">
                         <t-tooltip class="placement bottom center" theme="primary" content="上一首" placement="bottom"
                             show-arrow>
                             <svg t="1661407367422" class="icon" viewBox="0 0 1024 1024" version="1.1"
@@ -614,10 +614,10 @@
                         </t-tooltip>
                     </div>
                     <!-- 下一首 -->
-                    <div class="mt-3.5 mr-2 cursor-pointer">
+                    <div @click="nextSong" class="mt-3.5 mr-2 cursor-pointer">
                         <t-tooltip class="placement bottom center" theme="primary" content="下一首" placement="bottom"
                             show-arrow>
-                            <svg @click="nextMusic" t="1661407402865" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            <svg  t="1661407402865" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" p-id="14656" width="24" height="24">
                                 <path d="M216.7 844.3V179.7l445 332.3-445 332.3z m590.6 0h-80V179.7h80v664.6z" fill=""
                                     p-id="14657"></path>
@@ -1049,13 +1049,116 @@ const currentDuration = ref('00:00');
 
 const mouseStyle = ref();
 
+// 上一首
+const prev = ref(0)
+// 下一首
+const next = ref(0)
+
 // 监听isPlay值的变化
 watch(isPlay, () => {
     isPlay.value ? audio.value.play() : audio.value.pause()
 })
 
-const nextMusic = () => {
-    console.log('nextMusic')
+// 监听播放时间
+watch(
+  [currentDuration, duration],
+  ([curr, curr2], [old, old2]) => {
+    if(curr === curr2){
+        console.log("歌曲播放完了")
+        isPlay.value = false
+
+        const p = musicList.value.filter(m => m.id === currMusic.value.id)
+        let index = 0;
+        for(let i = 0; i < musicList.value.length; i++){
+            const e = musicList.value[i]
+            if(e.id === p[0].id){
+                index = i
+            }
+        }
+        console.log(index)
+        let currIndex = index + 1
+        if(currIndex === musicList.value.length){
+            // 当前为最后一首
+            currMusic.value = musicList.value[0]
+            console.log(index)
+        } else if(index < musicList.value.length){
+            index++
+            currMusic.value = musicList.value[index]
+            console.log(index)
+        }
+        
+
+    }
+  }
+)
+
+// 监听上一首
+watch(
+  prev,
+  (curr,old) => {
+    
+        isPlay.value = false
+
+        const p = musicList.value.filter(m => m.id === currMusic.value.id)
+        let index = 0;
+        for(let i = 0; i < musicList.value.length; i++){
+            const e = musicList.value[i]
+            if(e.id === p[0].id){
+                index = i
+            }
+        }
+        let currIndex = index + 1
+        if(currIndex === musicList.value.length){
+            // 当前为最后一首
+            currMusic.value = musicList.value[0]
+        } else if(index < musicList.value.length){
+            index++
+            currMusic.value = musicList.value[index]
+        }else if(index === 0){
+            // 当前为第一首，上一首为最后一首
+            currMusic.value = musicList.value[musicList.value.length - 1]
+        }
+    prev.value = 0
+  }
+)
+
+// 监听下一首
+watch(
+  next,
+  (curr,old) => {
+
+        isPlay.value = false
+        const p = musicList.value.filter(m => m.id === currMusic.value.id)
+        let index = 0;
+        for(let i = 0; i < musicList.value.length; i++){
+            const e = musicList.value[i]
+            if(e.id === p[0].id){
+                index = i
+            }
+        }
+        let currIndex = index + 1
+        if(currIndex === musicList.value.length){
+            // 当前为最后一首
+            currMusic.value = musicList.value[0]
+            console.log(currMusic.value)
+            console.log('-------')
+        } else if(index < musicList.value.length){
+            index++
+            currMusic.value = musicList.value[index]
+        }
+
+    next.value = 0
+  }
+)
+
+// 上一首
+const prevSong = () => {
+    prev.value = 1
+}
+
+// 下一首
+const nextSong = () => {
+    next.value = 1
 }
 // 播放某一曲
 const player = (e: any) => {
@@ -1076,22 +1179,10 @@ const mouseout = (i: any) => {
 
 // 自动播放下一首
 const autoPlay = () => {
-    // 若为单首播放，则需要校验出当前歌曲的下标
-    // 若为全部播放，则设置下标为0
-
-    for (let i = 0; i < musicList.value.length; i++) {
-        const e = musicList.value[i];
-        if (e.id === currMusic.value.id) {
-            if (i === 0) {
-                musicIndex.value = 0
-            } else {
-                musicIndex.value = i
-            }
-        }
-    }
-    // currMusic.value = musicList.value[musicIndex.value]
-
-    console.log(currMusic.value)
+    // const d = audio.value.currentTime
+    // const d = audio.value.currentTime
+    // console.log()
+    // console.log(musicList.value)
 }
 
 // 调节音量
