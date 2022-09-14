@@ -934,36 +934,89 @@
           <!-- 播放方式 -->
           <t-dropdown trigger="click" placement="top">
             <div class="mt-4 mr-2 cursor-pointer">
-              <t-tooltip
-                class="placement bottom center"
-                theme="primary"
-                content="单曲循环"
-                placement="bottom"
-                show-arrow
-              >
-                <svg
-                  t="1661406889223"
-                  class="icon"
-                  viewBox="0 0 1024 1024"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  p-id="13534"
-                  width="20"
-                  height="20"
+              <div v-show="playMode === 3">
+                <t-tooltip
+                  class="placement bottom center"
+                  theme="primary"
+                  content="单曲循环"
+                  placement="bottom"
+                  show-arrow
                 >
-                  <path
-                    d="M361.5 727.8c-119.1 0-215.9-96.9-215.9-215.9 0-119.1 96.9-215.9 215.9-215.9 2.3 0 4.6-0.2 6.8-0.6v58.3c0 12.3 14 19.4 23.9 12.1l132.6-97.6c8.1-6 8.1-18.2 0-24.2l-132.6-97.6c-9.9-7.3-23.9-0.2-23.9 12.1v58.1c-2.2-0.4-4.5-0.6-6.8-0.6-39.8 0-78.5 7.9-115 23.4-35.2 15-66.8 36.3-94 63.5s-48.6 58.8-63.5 94c-15.5 36.5-23.4 75.2-23.4 115s7.9 78.5 23.4 115c15 35.2 36.3 66.8 63.5 94s58.8 48.6 94 63.5c36.5 15.5 75.2 23.4 115 23.4 22.1 0 40-17.9 40-40s-17.9-40-40-40zM938.2 396.9c-15-35.2-36.3-66.8-63.5-94s-58.8-48.6-94-63.5c-36.5-15.5-75.2-23.4-115-23.4-22.1 0-40 17.9-40 40s17.9 40 40 40c119.1 0 215.9 96.9 215.9 215.9 0 119.1-96.9 215.9-215.9 215.9-4.1 0-8.1 0.6-11.8 1.8v-60.8c0-12.3-14-19.4-23.9-12.1l-132.6 97.6c-8.1 6-8.1 18.2 0 24.2L629.9 876c9.9 7.3 23.9 0.2 23.9-12.1V806c3.7 1.2 7.7 1.8 11.8 1.8 39.8 0 78.5-7.9 115-23.4 35.2-15 66.8-36.3 94-63.5s48.6-58.8 63.5-94c15.5-36.5 23.4-75.2 23.4-115s-7.8-78.5-23.3-115z"
-                    p-id="13535"
-                  ></path>
-                  <path
-                    d="M512.8 660.6c22.1-0.1 39.9-18.1 39.8-40.2l-1.2-214.1c-0.1-22-18-39.8-40-39.8h-0.2c-22.1 0.1-39.9 18.1-39.8 40.2l1.2 214.1c0.1 22 18 39.8 40 39.8h0.2z"
-                    p-id="13536"
-                  ></path>
-                </svg>
-              </t-tooltip>
+                  <svg
+                    t="1661406889223"
+                    class="icon"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    p-id="13534"
+                    width="20"
+                    height="20"
+                  >
+                    <path
+                      d="M361.5 727.8c-119.1 0-215.9-96.9-215.9-215.9 0-119.1 96.9-215.9 215.9-215.9 2.3 0 4.6-0.2 6.8-0.6v58.3c0 12.3 14 19.4 23.9 12.1l132.6-97.6c8.1-6 8.1-18.2 0-24.2l-132.6-97.6c-9.9-7.3-23.9-0.2-23.9 12.1v58.1c-2.2-0.4-4.5-0.6-6.8-0.6-39.8 0-78.5 7.9-115 23.4-35.2 15-66.8 36.3-94 63.5s-48.6 58.8-63.5 94c-15.5 36.5-23.4 75.2-23.4 115s7.9 78.5 23.4 115c15 35.2 36.3 66.8 63.5 94s58.8 48.6 94 63.5c36.5 15.5 75.2 23.4 115 23.4 22.1 0 40-17.9 40-40s-17.9-40-40-40zM938.2 396.9c-15-35.2-36.3-66.8-63.5-94s-58.8-48.6-94-63.5c-36.5-15.5-75.2-23.4-115-23.4-22.1 0-40 17.9-40 40s17.9 40 40 40c119.1 0 215.9 96.9 215.9 215.9 0 119.1-96.9 215.9-215.9 215.9-4.1 0-8.1 0.6-11.8 1.8v-60.8c0-12.3-14-19.4-23.9-12.1l-132.6 97.6c-8.1 6-8.1 18.2 0 24.2L629.9 876c9.9 7.3 23.9 0.2 23.9-12.1V806c3.7 1.2 7.7 1.8 11.8 1.8 39.8 0 78.5-7.9 115-23.4 35.2-15 66.8-36.3 94-63.5s48.6-58.8 63.5-94c15.5-36.5 23.4-75.2 23.4-115s-7.8-78.5-23.3-115z"
+                      p-id="13535"
+                    ></path>
+                    <path
+                      d="M512.8 660.6c22.1-0.1 39.9-18.1 39.8-40.2l-1.2-214.1c-0.1-22-18-39.8-40-39.8h-0.2c-22.1 0.1-39.9 18.1-39.8 40.2l1.2 214.1c0.1 22 18 39.8 40 39.8h0.2z"
+                      p-id="13536"
+                    ></path>
+                  </svg>
+                </t-tooltip>
+              </div>
+              <div v-show="playMode === 1">
+                <t-tooltip
+                  class="placement bottom center"
+                  theme="primary"
+                  content="随机播放"
+                  placement="bottom"
+                  show-arrow
+                >
+                  <svg
+                    t="1661410857030"
+                    class="icon"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    p-id="33643"
+                    width="18"
+                    height="18"
+                  >
+                    <path
+                      d="M914.2 705L796.4 596.8c-8.7-8-22.7-1.8-22.7 10V688c-69.5-1.8-134-39.7-169.3-99.8l-45.1-77 47-80.2c34.9-59.6 98.6-97.4 167.4-99.8v60.1c0 11.8 14 17.9 22.7 10l117.8-108.1c5.8-5.4 5.8-14.6 0-19.9L796.4 165c-8.7-8-22.7-1.8-22.7 10v76H758c-4.7 0-9.3 0.8-13.5 2.3-36.5 4.7-72 16.6-104.1 35-42.6 24.4-78.3 59.8-103.1 102.2L513 432l-24.3-41.5c-24.8-42.4-60.5-77.7-103.1-102.2C343 263.9 294.5 251 245.3 251H105c-22.1 0-40 17.9-40 40s17.9 40 40 40h140.3c71.4 0 138.3 38.3 174.4 99.9l47 80.2-45.1 77c-36.2 61.7-103 99.9-174.4 99.9H105c-22.1 0-40 17.9-40 40s17.9 40 40 40l142 0.1h0.2c49.1 0 97.6-12.9 140.2-37.3 42.7-24.4 78.3-59.8 103.2-102.2l22.4-38.3 22.4 38.3c24.8 42.4 60.5 77.8 103.2 102.2 33.1 18.9 69.6 30.9 107.3 35.4 3.8 1.2 7.8 1.8 11.9 1.8l15.9 0.1v55c0 11.8 14 17.9 22.7 10L914.2 725c5.9-5.5 5.9-14.7 0-20z"
+                      p-id="33644"
+                    ></path>
+                  </svg>
+                </t-tooltip>
+              </div>
+              <div v-show="playMode === 2">
+                <t-tooltip
+                  class="placement bottom center"
+                  theme="primary"
+                  content="顺序播放"
+                  placement="bottom"
+                  show-arrow
+                >
+                  <svg
+                    t="1661411358908"
+                    class="icon"
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    p-id="35330"
+                    width="18"
+                    height="18"
+                  >
+                    <path
+                      d="M746.1 683l-125-200h98.8V169.8h50V483h101.2l-125 200zM552.7 169.8h-440v50h440v-50z m0 211.5h-440v50h440v-50z m0 211.4h-440v50h440v-50z m-440 211.5v50h798.6v-50H112.7z"
+                      fill=""
+                      p-id="35331"
+                    ></path>
+                  </svg>
+                </t-tooltip>
+              </div>
             </div>
             <template #dropdown>
-              <t-dropdown-item class="pt-1" :value="0">
+              <t-dropdown-item class="pt-1" :value="0" @click="playMode = 1">
                 <div class="flex flex-row">
                   <div>
                     <svg
@@ -985,7 +1038,7 @@
                   <div class="text-xs text-gray-800 ml-1">随机播放</div>
                 </div>
               </t-dropdown-item>
-              <t-dropdown-item :value="1">
+              <t-dropdown-item :value="1" @click="playMode = 2">
                 <div class="flex flex-row">
                   <div>
                     <svg
@@ -1008,7 +1061,7 @@
                   <div class="text-xs text-gray-800 ml-1">顺序播放</div>
                 </div>
               </t-dropdown-item>
-              <t-dropdown-item :value="2">
+              <t-dropdown-item :value="2" @click="playMode = 3">
                 <div class="flex flex-row">
                   <div>
                     <svg
@@ -1034,7 +1087,7 @@
                   <div class="text-xs text-gray-800 ml-1 mt-0.5">单曲循环</div>
                 </div>
               </t-dropdown-item>
-              <t-dropdown-item class="pb-1" :value="3">
+              <!-- <t-dropdown-item class="pb-1" :value="3" @click="playMode === 3">
                 <div class="flex flex-row">
                   <div>
                     <svg
@@ -1055,7 +1108,7 @@
                   </div>
                   <div class="text-xs text-gray-800 ml-1 mt-0.5">列表循环</div>
                 </div>
-              </t-dropdown-item>
+              </t-dropdown-item> -->
             </template>
           </t-dropdown>
           <!-- 上一首 -->
@@ -1883,18 +1936,19 @@ const visible = ref(false);
 const visibleBottom = ref(false);
 const placementBottom = ref("bottom");
 const size = ref("100%");
-const cancelBtn = ref(null)
-const closeBtn = ref(true)
-const confirmBtn = ref(null)
-const header = ref(false)
-const footer = ref(false)
-const mode = ref('push')
-const dragY = ref('-webkit-app-region: drag;-webkit-user-select: none;');
-const dragN = ref('-webkit-app-region: no-drag;');
+const cancelBtn = ref(null);
+const closeBtn = ref(true);
+const confirmBtn = ref(null);
+const header = ref(false);
+const footer = ref(false);
+const mode = ref("push");
+const dragY = ref("-webkit-app-region: drag;-webkit-user-select: none;");
+const dragN = ref("-webkit-app-region: no-drag;");
 
 const isMoveIn = ref(false);
 
 const audio = ref();
+const playMode = ref(2);
 const progress = ref();
 const currentProgress = ref();
 const circle = ref();
@@ -1910,11 +1964,13 @@ const openBottomDrawer = () => {
   }
 };
 const onCloseDrawer = () => {
-    visibleBottom.value = false;
+  visibleBottom.value = false;
 };
 
 const getIndex = (): number => {
-  const p = musicList.value.filter((m: { id: any }) => m.id === currMusic.value.id);
+  const p = musicList.value.filter(
+    (m: { id: any }) => m.id === currMusic.value.id
+  );
   let index = 0;
   for (let i = 0; i < musicList.value.length; i++) {
     const e = musicList.value[i];
@@ -1934,23 +1990,26 @@ watch(isPlay, () => {
 watch([currentDuration, duration], ([curr, curr2], [old, old2]) => {
   if (curr === curr2) {
     isPlay.value = false;
+    let index = getIndex();
+    let len = musicList.value.length;
 
-    const p = musicList.value.filter((m: { id: any }) => m.id === currMusic.value.id);
-    let index = 0;
-    for (let i = 0; i < musicList.value.length; i++) {
-      const e = musicList.value[i];
-      if (e.id === p[0].id) {
-        index = i;
+    if (playMode.value === 1) {
+      // 随机
+      currMusic.value = musicList.value[Math.floor(Math.random() * len)];
+    } else if (playMode.value === 2) {
+      // 顺序
+      if (index + 1 === len) {
+        // 当前为最后一首
+        currMusic.value = musicList.value[0];
+      } else if (index < len) {
+        index++;
+        currMusic.value = musicList.value[index];
       }
-    }
-    let currIndex = index + 1;
-    if (currIndex === musicList.value.length) {
-      // 当前为最后一首
-      currMusic.value = musicList.value[0];
-    } else if (index < musicList.value.length) {
-      index++;
+    } else if (playMode.value === 3) {
+      // 单曲
       currMusic.value = musicList.value[index];
     }
+    audio.value.load();
   }
 });
 
@@ -2091,69 +2150,70 @@ ipcRenderer.on("footer-restore", (e: any, data: any) => {
 
 <style>
 .t-drawer__close-btn {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    top: 16px;
-    left: 16px;
-    color: var(--td-text-color-primary);
-    background-color: var(--td-bg-color-container);
-    border-radius: var(--td-radius-default);
-    cursor: pointer;
-    transition: background-color 0.2s;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  top: 16px;
+  left: 16px;
+  color: var(--td-text-color-primary);
+  background-color: var(--td-bg-color-container);
+  border-radius: var(--td-radius-default);
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 .t-drawer__content-wrapper {
-    display: flex;
-    flex-direction: column;
-    background: #4a4a4c;
-    width: 16px;
-    height: 16px;
-    font-size: var(--td-font-body-medium);
-    color: var(--td-text-color-secondary);
-    box-shadow: var(--td-shadow-2);
-    overflow: hidden;
-    pointer-events: auto;
-    transition: transform 0.28s cubic-bezier(0.38, 0, 0.24, 1), visibility 0.28s cubic-bezier(0.38, 0, 0.24, 1);
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #4a4a4c;
+  width: 16px;
+  height: 16px;
+  font-size: var(--td-font-body-medium);
+  color: var(--td-text-color-secondary);
+  box-shadow: var(--td-shadow-2);
+  overflow: hidden;
+  pointer-events: auto;
+  transition: transform 0.28s cubic-bezier(0.38, 0, 0.24, 1),
+    visibility 0.28s cubic-bezier(0.38, 0, 0.24, 1);
+  position: relative;
 }
 .t-drawer__footer {
-    width: 100%;
-    min-height: 56px;
-    padding: 10px 16px;
-    text-align: left;
-    /* border-top: 1px solid var(--td-border-level-1-color); */
-    background-color: var(--td-bg-color-container);
-    box-sizing: border-box;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 16px;
+  text-align: left;
+  /* border-top: 1px solid var(--td-border-level-1-color); */
+  background-color: var(--td-bg-color-container);
+  box-sizing: border-box;
 }
 .t-drawer__header {
-    min-height: 56px;
-    padding: 16px 16px;
-    font: var(--td-font-body-large);
-    color: var(--td-text-color-primary);
-    /* border-bottom: 1px solid var(--td-border-level-1-color); */
-    border-radius: var(--td-radius-small) var(--td-radius-small) 0 0;
-    box-sizing: border-box;
+  min-height: 56px;
+  padding: 16px 16px;
+  font: var(--td-font-body-large);
+  color: var(--td-text-color-primary);
+  /* border-bottom: 1px solid var(--td-border-level-1-color); */
+  border-radius: var(--td-radius-small) var(--td-radius-small) 0 0;
+  box-sizing: border-box;
 }
 .t-drawer__close-btn {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    top: 16px;
-    left: 16px;
-    color: #fff;
-    background-color: #4a4a4c;
-    border-radius: var(--td-radius-default);
-    cursor: pointer;
-    transition: background-color 0.2s;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  top: 16px;
+  left: 16px;
+  color: #fff;
+  background-color: #4a4a4c;
+  border-radius: var(--td-radius-default);
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 .t-drawer__close-btn:hover {
-    background-color: #4a4a4c;
+  background-color: #4a4a4c;
 }
 </style>
 
@@ -2212,4 +2272,3 @@ ipcRenderer.on("footer-restore", (e: any, data: any) => {
   color: #0052d9;
 }
 </style>
-
