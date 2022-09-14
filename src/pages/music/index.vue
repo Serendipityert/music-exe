@@ -1,5 +1,5 @@
 <template>
-  <div class="m-footer w-screen" :style="m_footer_width">
+  <div class="w-screen" :style="m_footer_width">
     <div class="mt-1">
       <div class="progress" ref="progress" @click="clickProgress">
         <div class="currentProgress" ref="currentProgress">
@@ -18,6 +18,29 @@
     <div class="flex justify-between mt-1">
       <div class="w-80 h-14">
         <div class="flex flex-row">
+          <div class="w-10 h-10 mt-2 rounded-md cursor-pointer">
+            <img
+              @click="openBottomDrawer"
+              style="width: 100%; height: 100%; border-radius: 6px"
+              :src="currMusic.img"
+            />
+          </div>
+          <t-drawer
+            :cancelBtn="cancelBtn"
+            :closeBtn="closeBtn"
+            :mode="mode"
+            :header="header"
+            :footer="footer"
+            :confirmBtn="confirmBtn"
+            v-model:visible="visibleBottom"
+            :size="size"
+            :on-click-overlay="() => (visibleBottom = false)"
+            :placement="placementBottom"
+            @click-cancel="visibleBottom = false"
+            @onClose="onCloseDrawer"
+          >
+            <MusicDrawer />
+          </t-drawer>
           <div class="w-52 h-14 ml-4">
             <div class="music-name flex flex-row justify-start mt-1">
               <div class="flex flex-row cursor-pointer">
@@ -1840,6 +1863,7 @@
 import { defineComponent, ref, watch } from "vue";
 import { songStore } from "@/store/modules/song";
 import { storeToRefs } from "pinia";
+import MusicDrawer from "@/layout/footer/drawer/index.vue";
 
 const { ipcRenderer } = require("electron");
 const songState = songStore();
@@ -1855,9 +1879,18 @@ const volumeMin = ref(0);
 const volumeStep = ref(1);
 const visible = ref(false);
 
+// 抽屉
 const visibleBottom = ref(false);
 const placementBottom = ref("bottom");
-const size = ref("90%");
+const size = ref("100%");
+const cancelBtn = ref(null)
+const closeBtn = ref(true)
+const confirmBtn = ref(null)
+const header = ref(false)
+const footer = ref(false)
+const mode = ref('push')
+const dragY = ref('-webkit-app-region: drag;-webkit-user-select: none;');
+const dragN = ref('-webkit-app-region: no-drag;');
 
 const isMoveIn = ref(false);
 
@@ -1871,8 +1904,17 @@ const currentDuration = ref("00:00");
 
 const mouseStyle = ref();
 
+const openBottomDrawer = () => {
+  if (currMusic.value) {
+    visibleBottom.value = true;
+  }
+};
+const onCloseDrawer = () => {
+    visibleBottom.value = false;
+};
+
 const getIndex = (): number => {
-  const p = musicList.value.filter((m) => m.id === currMusic.value.id);
+  const p = musicList.value.filter((m: { id: any }) => m.id === currMusic.value.id);
   let index = 0;
   for (let i = 0; i < musicList.value.length; i++) {
     const e = musicList.value[i];
@@ -1893,7 +1935,7 @@ watch([currentDuration, duration], ([curr, curr2], [old, old2]) => {
   if (curr === curr2) {
     isPlay.value = false;
 
-    const p = musicList.value.filter((m) => m.id === currMusic.value.id);
+    const p = musicList.value.filter((m: { id: any }) => m.id === currMusic.value.id);
     let index = 0;
     for (let i = 0; i < musicList.value.length; i++) {
       const e = musicList.value[i];
@@ -2029,6 +2071,13 @@ const handleClose = () => {
   visible.value = false;
 };
 
+// 系统打开之后
+ipcRenderer.on("music-started", (e: any, data: any) => {
+  audio.value.pause();
+  isPlay.value = false;
+  console.log(data);
+});
+
 // 最大化大小
 ipcRenderer.on("footer-maximize", (e: any, data: any) => {
   m_footer_width.value = "width: 86%;";
@@ -2036,21 +2085,79 @@ ipcRenderer.on("footer-maximize", (e: any, data: any) => {
 
 // 最大化还原初始大小
 ipcRenderer.on("footer-restore", (e: any, data: any) => {
-  _footer_width.value = "width: 81%;";
+  m_footer_width.value = "width: 81%;";
 });
 </script>
 
-<style scoped>
-.m-footer {
-  position: fixed;
-  bottom: 15px;
-  left: 210px;
-  z-index: 2;
-  height: 70px;
-  color: #000;
-  padding: 10px;
+<style>
+.t-drawer__close-btn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    top: 16px;
+    left: 16px;
+    color: var(--td-text-color-primary);
+    background-color: var(--td-bg-color-container);
+    border-radius: var(--td-radius-default);
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
+.t-drawer__content-wrapper {
+    display: flex;
+    flex-direction: column;
+    background: #4a4a4c;
+    width: 16px;
+    height: 16px;
+    font-size: var(--td-font-body-medium);
+    color: var(--td-text-color-secondary);
+    box-shadow: var(--td-shadow-2);
+    overflow: hidden;
+    pointer-events: auto;
+    transition: transform 0.28s cubic-bezier(0.38, 0, 0.24, 1), visibility 0.28s cubic-bezier(0.38, 0, 0.24, 1);
+    position: relative;
+}
+.t-drawer__footer {
+    width: 100%;
+    min-height: 56px;
+    padding: 10px 16px;
+    text-align: left;
+    /* border-top: 1px solid var(--td-border-level-1-color); */
+    background-color: var(--td-bg-color-container);
+    box-sizing: border-box;
+}
+.t-drawer__header {
+    min-height: 56px;
+    padding: 16px 16px;
+    font: var(--td-font-body-large);
+    color: var(--td-text-color-primary);
+    /* border-bottom: 1px solid var(--td-border-level-1-color); */
+    border-radius: var(--td-radius-small) var(--td-radius-small) 0 0;
+    box-sizing: border-box;
+}
+.t-drawer__close-btn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    top: 16px;
+    left: 16px;
+    color: #fff;
+    background-color: #4a4a4c;
+    border-radius: var(--td-radius-default);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.t-drawer__close-btn:hover {
+    background-color: #4a4a4c;
+}
+</style>
 
+<style scoped>
 .music-name {
   font-size: 13px;
 }
@@ -2105,3 +2212,4 @@ ipcRenderer.on("footer-restore", (e: any, data: any) => {
   color: #0052d9;
 }
 </style>
+

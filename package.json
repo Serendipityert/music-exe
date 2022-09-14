@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "electron/main.js",
   "scripts": {
-    "electron:serve": "concurrently -k \"yarn dev\" \"yarn electron\" --mode dev",
+    "electron:serve": "concurrently -k \"yarn dev\" \"yarn electron\"",
     "electron:build": "vite build && electron-builder",
     "electron:generate-icons": "electron-icon-builder --input=./public/logo.png --output=build --flatten",
     "dev": "vite --mode dev",

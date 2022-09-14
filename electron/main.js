@@ -92,7 +92,9 @@ app.whenReady().then( async () => {
    createWindow(width, height)
 
    showNotification()
-   tray()
+    tray()
+    
+    win.webContents.send('music-started', 'music-started');
 
    // 解决跨域问题
 //    win.webContents.session.webRequest.onBeforeSendHeaders(
