@@ -1920,8 +1920,7 @@ import MusicDrawer from "@/layout/footer/drawer/index.vue";
 
 const { ipcRenderer } = require("electron");
 const songState = songStore();
-const { currMusic, musicList, isPlay, musicIndex } =
-  storeToRefs<any>(songState);
+const { currMusic, musicList, isPlay, playMode } = storeToRefs<any>(songState);
 
 // 初始大小
 const m_footer_width = ref("width: 81%;");
@@ -1948,7 +1947,6 @@ const dragN = ref("-webkit-app-region: no-drag;");
 const isMoveIn = ref(false);
 
 const audio = ref();
-const playMode = ref(2);
 const progress = ref();
 const currentProgress = ref();
 const circle = ref();
