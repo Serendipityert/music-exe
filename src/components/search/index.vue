@@ -1,5 +1,5 @@
 <template>
-    <div class="">搜索结果页面</div>
+    <div class="">111</div>
 </template>
 
 <script setup lang="ts">

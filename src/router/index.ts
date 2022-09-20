@@ -84,10 +84,10 @@ const publicRoutes = [
             component: () => import( '@/view/user-main/index.vue' )
         },
         {
-            path: '/search',
-            name: 'Search',
+            path: '/songer-detail',
+            name: 'SongerDetail',
             meta: { isLogin: false },
-            component: () => import( '@/components/search/index.vue' )
+            component: () => import( '@/components/songer/index.vue' )
         },
         ]
     }
