@@ -12,3 +12,14 @@ export const searchMusicProposal = async ( data: string | undefined ) => {
         method: 'get'
     } )
 }
+
+/**
+ * 热搜榜
+ * @returns 
+ */
+export const hotSearchMusic = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/search/hot/detail',
+        method: 'get'
+    } )
+}

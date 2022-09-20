@@ -4,7 +4,7 @@
       <t-row>
         <t-col :span="2">
           <div class="h-8 search" :style="dragN">
-            <t-dropdown :min-column-width="400" :maxHeight="700" trigger="click">
+            <t-dropdown :min-column-width="400" :maxHeight="550" trigger="click">
              <t-input clearable placeholder="搜索音乐" v-model="search_name" @input="searchMusic"
               @click="handleClick" style="width: 250px;border-radius: 50%;">
               <template #prefix-icon>
@@ -30,7 +30,7 @@
                     <SearchResultDown :searchResult="searchResult" />
                   </div>
                   <div v-show="hot_search">
-                    <HOTSearchDown />
+                    <HOTSearchDown :hotSearchResult="hotSearchResult"/>
                   </div>
                 </t-dropdown-menu>
               </template>
@@ -190,6 +190,7 @@ import MemberGrade from './member/index.vue';
 import UserInfo from './user-info/index.vue';
 import Login from '@/pages/user/index.vue';
 import { searchMusicProposal } from '@/api/music/index'
+import { hotSearchMusic } from '@/api/music/index'
 import SearchResultDown from '@/components/search/down/index.vue'
 import HOTSearchDown from '@/components/search/hot/index.vue'
 
@@ -206,6 +207,7 @@ const dragN = ref( '-webkit-app-region: no-drag;' );
 // 搜索的歌曲名
 const search_name = ref( '' );
 const searchResult = ref( );
+const hotSearchResult = ref( );
 const searchRes = ref(false);
 const hot_search = ref(false);
 
@@ -213,7 +215,8 @@ const hot_search = ref(false);
 const searchMusic = () => {
   searchMusicProposal(  search_name.value ).then( ( res: any ) => {
     if ( res.code === 200 ) {
-    searchRes.value = true
+      searchRes.value = true
+      hot_search.value = false
       searchResult.value = res.result
     }
   }).catch((err: any) => {
@@ -223,6 +226,14 @@ const searchMusic = () => {
 // 热搜榜
 const handleClick = ( ) => {
   hot_search.value = true
+  searchRes.value = false
+  hotSearchMusic().then( ( res: any ) => {
+    if ( res.code === 200 ) {
+      hotSearchResult.value = res.data
+    }
+  }).catch((err: any) => {
+    MessagePlugin.warning(err)
+  })
 };
 
 // 关闭按钮事件
