@@ -81,7 +81,7 @@
 import { ref } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { LockOnIcon } from 'tdesign-icons-vue-next';
-import { sendPhoneVerifyCode, verifyPhoneCode, userPhoneCreate } from '@/api/index'
+import { sendPhoneVerifyCode, verifyPhoneCode, userPhoneCreate } from '@/api/user/index'
 import { Md5 } from "ts-md5";
 
 const INITIAL_DATA = {

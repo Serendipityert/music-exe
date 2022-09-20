@@ -37,7 +37,7 @@ import { ref, defineEmits } from 'vue';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { LockOnIcon } from 'tdesign-icons-vue-next';
 import { userStore } from '@/store/modules/user'
-import { userPhoneLogin } from '@/api/index'
+import { userPhoneLogin } from '@/api/user/index'
 import { Md5 } from "ts-md5";
 
 const userState = userStore()

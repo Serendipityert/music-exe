@@ -4,7 +4,9 @@
       <t-row>
         <t-col :span="2">
           <div class="h-8 search" :style="dragN">
-            <t-input clearable placeholder="搜索音乐" style="width: 250px;border-radius: 50%;">
+            <t-dropdown :min-column-width="400" :maxHeight="700" trigger="click">
+             <t-input clearable placeholder="搜索音乐" v-model="search_name" @input="searchMusic"
+              @click="handleClick" style="width: 250px;border-radius: 50%;">
               <template #prefix-icon>
                 <svg t="1661342506054" class="icon" viewBox="0 0 1024 1024" version="1.1"
                   xmlns="http://www.w3.org/2000/svg" p-id="52741" width="18" height="18">
@@ -22,6 +24,17 @@
                 </svg>
               </template>
             </t-input>
+              <template #dropdown>
+                <t-dropdown-menu>
+                  <div v-show="searchRes">
+                    <SearchResultDown :searchResult="searchResult" />
+                  </div>
+                  <div v-show="hot_search">
+                    <HOTSearchDown />
+                  </div>
+                </t-dropdown-menu>
+              </template>
+            </t-dropdown>
           </div>
         </t-col>
         <t-col :span="5" :offset="offset">
@@ -171,20 +184,46 @@ import { ref } from 'vue';
 import {
   CloseIcon, QueueIcon, RemoveIcon, RectangleIcon
 } from 'tdesign-icons-vue-next';
+import { MessagePlugin } from 'tdesign-vue-next';
 import MainMenu from './main-menu/index.vue';
 import MemberGrade from './member/index.vue';
 import UserInfo from './user-info/index.vue';
 import Login from '@/pages/user/index.vue';
+import { searchMusicProposal } from '@/api/music/index'
+import SearchResultDown from '@/components/search/down/index.vue'
+import HOTSearchDown from '@/components/search/hot/index.vue'
 
 const { ipcRenderer } = require("electron");
 
-// defineEmits(['userLogin']);
+// defineEmits(['userLogin']);l
 
 const size = ref(18);
 const offset = ref(3);
 const max = ref(true);
 const dragY = ref('-webkit-app-region: drag;-webkit-user-select: none;');
-const dragN = ref('-webkit-app-region: no-drag;');
+const dragN = ref( '-webkit-app-region: no-drag;' );
+
+// 搜索的歌曲名
+const search_name = ref( '' );
+const searchResult = ref( );
+const searchRes = ref(false);
+const hot_search = ref(false);
+
+// 搜索歌曲
+const searchMusic = () => {
+  searchMusicProposal(  search_name.value ).then( ( res: any ) => {
+    if ( res.code === 200 ) {
+    searchRes.value = true
+      searchResult.value = res.result
+    }
+  }).catch((err: any) => {
+    MessagePlugin.warning(err)
+  })
+}
+// 热搜榜
+const handleClick = ( ) => {
+  hot_search.value = true
+};
 
 // 关闭按钮事件
 const closeApp = () => {

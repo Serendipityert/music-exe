@@ -1,7 +1,7 @@
-import Axios from "@/util/request";
-import { URL } from "@/config";
+import Axios from "@/util/request"
+import { URL } from "@/config"
 /** 导入接口返回类型 */
-import { resType } from "./mode";
+import { resType } from "../mode"
 
 // 参数泛型 <T extends Record<string, any>>
 // 表示，给我的参数类型，必须约束于对象形式 即{key：value,...}模式，key类型string，value类型为any
@@ -10,15 +10,15 @@ import { resType } from "./mode";
  * @param data 
  * @returns 
  */
-export const sendPhoneVerifyCode = async <T extends Record<string, any>>(data: T | undefined) => {
+export const sendPhoneVerifyCode = async <T extends Record<string, any>> ( data: T | undefined ) => {
     /** 
      * @resType 返回台参数类型
      */
-    return await Axios<resType>({
+    return await Axios<resType>( {
         url: URL + "/sendSms",
         method: "post",
         data,
-    })
+    } )
 }
 
 /**
@@ -26,16 +26,16 @@ export const sendPhoneVerifyCode = async <T extends Record<string, any>>(data: T
  * @param data 
  * @returns 
  */
-export const verifyPhoneCode = async <T extends Record<string, any>>(data: T | undefined) => {
+export const verifyPhoneCode = async <T extends Record<string, any>> ( data: T | undefined ) => {
 
     /** 
      * @resType 返回台参数类型
      */
-    return await Axios<resType>({
+    return await Axios<resType>( {
         url: URL + "/verifySms",
         method: "post",
         data
-    })
+    } )
 }
 
 /**
@@ -43,12 +43,12 @@ export const verifyPhoneCode = async <T extends Record<string, any>>(data: T | u
  * @param data 
  * @returns 
  */
-export const userPhoneCreate = async <T extends Record<string, any>>(data: T | undefined) => {
-    return await Axios<resType>({
+export const userPhoneCreate = async <T extends Record<string, any>> ( data: T | undefined ) => {
+    return await Axios<resType>( {
         url: URL + '/create',
         method: 'post',
         data
-    })
+    } )
 }
 
 /**
@@ -56,12 +56,12 @@ export const userPhoneCreate = async <T extends Record<string, any>>(data: T | u
  * @param data 
  * @returns 
  */
-export const userPhoneLogin = async <T extends Record<string, any>>(data: T | undefined) => {
-    return await Axios<resType>({
+export const userPhoneLogin = async <T extends Record<string, any>> ( data: T | undefined ) => {
+    return await Axios<resType>( {
         url: URL + '/login',
         method: 'post',
         data
-    })
+    } )
 }
 
 /**
@@ -69,8 +69,8 @@ export const userPhoneLogin = async <T extends Record<string, any>>(data: T | un
  * @returns 
  */
 export const getUserInfo = async () => {
-    return await Axios<resType>({
+    return await Axios<resType>( {
         url: URL + '/getUserInfo',
         method: 'get',
-    })
+    } )
 }
