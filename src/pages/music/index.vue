@@ -13,7 +13,7 @@
       @timeupdate="updateTime"
       v-show="false"
       ref="audio"
-      :src="currMusic.url"
+      :src="currMusic.musicPlay.url"
     />
     <div class="flex justify-between mt-1">
       <div class="w-80 h-14">
@@ -22,7 +22,7 @@
             <img
               @click="openBottomDrawer"
               style="width: 100%; height: 100%; border-radius: 6px"
-              :src="currMusic.img"
+              :src="currMusic.currSong.al.picUrl"
             />
           </div>
           <t-drawer
@@ -44,10 +44,10 @@
           <div class="w-52 h-14 ml-4">
             <div class="music-name flex flex-row justify-start mt-1">
               <div class="flex flex-row cursor-pointer">
-                <div class="ml-1 truncate">{{ currMusic.song_name }}</div>
+                <div class="ml-1 truncate">{{ currMusic.currSong.name }}</div>
                 <div>
                   <span>&nbsp;-&nbsp;</span>
-                  <span>{{ currMusic.songer }}</span>
+                  <span>{{ currMusic.songer.name }}</span>
                 </div>
               </div>
               <router-link to="/play-mv">
@@ -1368,9 +1368,10 @@
                         <div
                           class="ml-1 w-28 mr-2 truncate text-xs mt-1 text-gray-500 song cursor-pointer"
                         >
-                          {{ item.song_name }} {{ item.song_desc }}
+                          {{ item.name }}
                         </div>
-                        <div class="flex flex-row mt-0.5">
+                        <!-- 音质 -->
+                        <!-- <div class="flex flex-row mt-0.5">
                           <div
                             v-if="item.quality === 1"
                             class="mt-1 w-7 h-3 border rounded-sm border-purple-400"
@@ -1435,7 +1436,7 @@
                               >VIP</span
                             >
                           </div>
-                        </div>
+                        </div> -->
                         <div class="mt-1 ml-1 cursor-pointer">
                           <t-tooltip content="mv" theme="light">
                             <svg
@@ -1464,15 +1465,15 @@
                       </div>
                       <div
                         class="flex flex-row mt-0.5 ml-1"
-                        :style="mouseStyle == i ? '' : 'display: none;'"
+                        :style="mouseStyle === i ? '' : 'display: none;'"
                       >
                         <div
-                          v-show="!isPlay"
+                              @click="player(item, i)"
+                          :style="isPlayShow === i ? 'display: none;' : ''"
                           class="cursor-pointer mt-0.5 mr-1"
                         >
                           <t-tooltip content="播放" theme="light">
                             <svg
-                              @click="player(item)"
                               t="1661999623333"
                               class="icon"
                               viewBox="0 0 1024 1024"
@@ -1505,10 +1506,12 @@
                             </svg>
                           </t-tooltip>
                         </div>
-                        <div v-show="isPlay" class="cursor-pointer mt-0.5 mr-1">
+                        <div 
+                        @click="suspend(item)"
+                        :style="isPlayShow === i ? '' : 'display: none;'"
+                        class="cursor-pointer mt-0.5 mr-1">
                           <t-tooltip content="暂停" theme="light">
                             <svg
-                              @click="suspend(item)"
                               t="1661999498086"
                               class="icon"
                               viewBox="0 0 1024 1024"
@@ -1913,10 +1916,12 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { songStore } from "@/store/modules/song";
 import { storeToRefs } from "pinia";
 import MusicDrawer from "@/layout/footer/drawer/index.vue";
+import { getMusicUrl } from "@/api/music/index"
+import { MessagePlugin } from 'tdesign-vue-next';
 
 const { ipcRenderer } = require("electron");
 const songState = songStore();
@@ -1941,8 +1946,6 @@ const confirmBtn = ref(null);
 const header = ref(false);
 const footer = ref(false);
 const mode = ref("push");
-const dragY = ref("-webkit-app-region: drag;-webkit-user-select: none;");
-const dragN = ref("-webkit-app-region: no-drag;");
 
 const isMoveIn = ref(false);
 
@@ -1955,6 +1958,13 @@ const duration = ref("00:00");
 const currentDuration = ref("00:00");
 
 const mouseStyle = ref();
+const isPlayShow = ref();
+
+const currMusicInfo = ref( {
+    songer: {},
+    currSong: {},
+    musicPlay: {},
+} );
 
 const openBottomDrawer = () => {
   if (currMusic.value) {
@@ -1967,7 +1977,7 @@ const onCloseDrawer = () => {
 
 const getIndex = (): number => {
   const p = musicList.value.filter(
-    (m: { id: any }) => m.id === currMusic.value.id
+    (m: { id: any }) => m.id === currMusic.value.currSong.id
   );
   let index = 0;
   for (let i = 0; i < musicList.value.length; i++) {
@@ -1993,19 +2003,19 @@ watch([currentDuration, duration], ([curr, curr2], [old, old2]) => {
 
     if (playMode.value === 1) {
       // 随机
-      currMusic.value = musicList.value[Math.floor(Math.random() * len)];
+      player(musicList.value[ Math.floor( Math.random() * len ) ],index)    
     } else if (playMode.value === 2) {
       // 顺序
       if (index + 1 === len) {
         // 当前为最后一首
-        currMusic.value = musicList.value[0];
+        player(musicList.value[ 0 ], index)  
       } else if (index < len) {
-        index++;
-        currMusic.value = musicList.value[index];
+        index++
+        player(musicList.value[ index ], index)  
       }
     } else if (playMode.value === 3) {
       // 单曲
-      currMusic.value = musicList.value[index];
+      player(musicList.value[ index ], index)    
     }
     audio.value.load();
   }
@@ -2018,13 +2028,13 @@ const prevSong = () => {
 
   if (index + 1 === songLen) {
     // 最后一首
-    currMusic.value = musicList.value[songLen - 2];
+    player(musicList.value[ songLen - 2 ], index)    
   } else if (index === 0) {
     // 第一首
-    currMusic.value = musicList.value[songLen - 1];
+    player(musicList.value[ songLen - 1 ], index)    
   } else if (index > 0 && index + 1 < songLen) {
     index--;
-    currMusic.value = musicList.value[index];
+    player(musicList.value[ index ], index)    
   }
 };
 
@@ -2035,20 +2045,32 @@ const nextSong = () => {
 
   if (index + 1 === songLen) {
     // 最后一首
-    currMusic.value = musicList.value[0];
+    player(musicList.value[ 0 ], index)  
   } else if (index >= 0 && index + 1 < songLen) {
     index++;
-    currMusic.value = musicList.value[index];
+    player(musicList.value[index], index)
   }
 };
+
 // 播放某一曲
-const player = (e: any) => {
-  currMusic.value = e;
+const player = ( e: any ,i: number) => {
+  currMusicInfo.value.songer = currMusic.value.songer
+  currMusicInfo.value.currSong = e
+  getMusicUrl( e.id ).then( ( res: any ) => {
+        if ( res.code === 200 ) {
+            currMusicInfo.value.musicPlay = res.data[ 0 ]
+            currMusic.value = currMusicInfo.value
+          isPlay.value = false
+          isPlayShow.value = i
+        }
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    } )
 };
+// 暂停
 const suspend = (e: any) => {
-  if (e.id === currMusic.value.id) {
-    isPlay.value = false;
-  }
+  isPlay.value = false;
+  isPlayShow.value = false;
 };
 
 const mouseover = (i: any) => {

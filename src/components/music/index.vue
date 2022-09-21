@@ -13,7 +13,7 @@
                 </t-col>
             </t-row>
         <t-row
-            v-for="(item, i) in songListDetail.songerList"
+            v-for="(item, i) in songListDetail.songList"
             :key="i"
             class="h-12 hover:bg-gray-50"
             @mouseover="mouseover(i)"
@@ -190,7 +190,7 @@
                 :style="mouseStyle === i ? '' : 'display: none;'"
                 >
                 <div
-                    @click="player(item, i)"
+                    @click="player(item, i, songListDetail.songer, songListDetail.songList)"
                     :style="isPlayShow === i ? 'display: none;' : ''"
                     class="cursor-pointer mt-0.5 mr-1"
                 >
@@ -623,7 +623,7 @@
             <div
                 class="text-gray-500 text-left p-2 mt-2 cursor-pointer text-xs song"
             >
-               {{ songListDetail.songerDetail.user.nickname }}
+               {{ songListDetail.songerDetail.artist.name }}
             </div>
             </t-col>
             <t-col span="3" class="">
@@ -642,6 +642,8 @@
 import { ref, defineProps } from "vue";
 import { songStore } from "@/store/modules/song";
 import { storeToRefs } from "pinia";
+import { getMusicUrl } from "@/api/music/index"
+import { MessagePlugin } from 'tdesign-vue-next';
 
 const songState = songStore();
 
@@ -650,27 +652,39 @@ const props = defineProps({
     type: Array,
     default: () => [],
     required: true
-    },
+    } as any,
 } )
 
 const { currMusic, musicList, isPlay } = storeToRefs(songState);
 const mouseStyle = ref();
 const isPlayShow = ref();
 
+const currMusicInfo = ref( {
+    songer: {},
+    currSong: {},
+    musicPlay: {},
+});
+
 // 播放某一曲
-const player = (e: any, i: number) => {
-//   currMusic.value = e;
-//   isPlayShow.value = i;
-//   musicList.value = songerList.value;
-//   isPlay.value = false;
-    console.log(e)
+const player = (e: any, i: number, songer: any, list: any) => {
+    currMusicInfo.value.songer = songer
+    currMusicInfo.value.currSong = e
+    getMusicUrl( e.id ).then( ( res: any ) => {
+        if ( res.code === 200 ) {
+            currMusicInfo.value.musicPlay = res.data[ 0 ]
+            currMusic.value = currMusicInfo.value
+            musicList.value = list
+            isPlayShow.value = i
+            isPlay.value = false
+        }
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    } )
 };
 
 // 暂停
 const suspend = (item: any, i: number) => {
-  if (item.id === currMusic.value.id) {
-    isPlay.value = false;
-  }
+  isPlay.value = false;
   isPlayShow.value = false;
 };
 

@@ -8,7 +8,7 @@
                 <div class="text-2xl font-black font-sans">{{ songer.name }}</div>
                 <!-- <div class="mt-6 text-xs">暂无</div> -->
                 <div class="mt-6 text-xs flex flex-row">
-                    <span class="mr-8">单曲数： {{ songerList.length }}</span>
+                    <span class="mr-8">单曲数： {{ songList.length }}</span>
                     <span>专辑数： {{ songer.albumSize }}</span>
                 </div>
             </div>
@@ -37,19 +37,15 @@ import MusicList from '@/components/music/index.vue'
 const router = useRoute()
 
 // 接收路由参数值, as string 类型断言处理
-const songerList = ref(JSON.parse(router.query.songs as string))
+const songList = ref(JSON.parse(router.query.songs as string))
 const songer = ref(JSON.parse(router.query.songer as string))
 const songerDetail = ref( JSON.parse( router.query.songerDetail as string ) )
 
 const songListDetail = ref( {
-    songerList,
-    songerDetail
+    songList,
+    songerDetail,
+    songer
 })
-
-console.log(songerList)
-console.log(songer)
-console.log(songerDetail)
-console.log(songListDetail.value)
 
 </script>
 
