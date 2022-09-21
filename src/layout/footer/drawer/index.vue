@@ -7,7 +7,9 @@
             <div class="song mt-8">2</div>
         </div>
         <div class="flex h-16 footer">
-            <div></div>
+            <div>
+                <!-- <AudioMusic /> -->
+            </div>
         </div>
     </div>
 </template>

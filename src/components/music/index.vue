@@ -3,12 +3,12 @@
         <div class="mt-4">
             <t-row class="mb-4">
                 <t-col span="6" class="">
-                <div class="text-gray-500 text-xs p-2">歌曲</div>
+                <div class="text-gray-500 text-xs p-2 ml-1">歌曲</div>
                 </t-col>
-                <t-col span="3" class="">
+                <t-col span="2" class="">
                 <div class="text-gray-500 text-xs p-2">歌手</div>
                 </t-col>
-                <t-col span="3" class="">
+                <t-col span="4" class="">
                 <div class="text-gray-500 text-xs p-2">专辑</div>
                 </t-col>
             </t-row>
@@ -16,15 +16,16 @@
             v-for="(item, i) in songListDetail.songList"
             :key="i"
             class="h-12 hover:bg-gray-50"
+            :class="isPlayHover === i ? 'bg-gray-50 h-12 hover:bg-gray-50' : 'h-12 hover:bg-gray-50'"
             @mouseover="mouseover(i)"
             @mouseout="mouseout(i)"
         >
             <t-col span="6" class="">
             <div
-                class="text-gray-500 text-left p-2 mt-1 flex flex-row justify-between"
+                class="text-gray-500 text-left p-2 mt-1 flex flex-row"
             >
                 <div class="flex flex-row">
-                <div class="cursor-pointer">
+                <div class="cursor-pointer ml-1">
                     <t-tooltip content="取消喜欢" theme="light">
                     <svg
                         t="1661996050870"
@@ -91,9 +92,8 @@
                         {{ item.name }}
                     </div>
                     <div class="flex flex-row">
-                        <!-- <div class="flex flex-row mt-0.5">
+                         <div class="flex flex-row mt-0.5 ml-4">
                         <div
-                            v-if="item.quality === 1"
                             class="mt-1 w-7 h-3 border rounded-sm border-purple-400"
                         >
                             <span
@@ -109,7 +109,6 @@
                             >
                         </div>
                         <div
-                            v-else-if="item.quality === 2"
                             class="mt-1 w-4 h-3 border rounded-sm border-red-400"
                         >
                             <span
@@ -125,7 +124,6 @@
                             >
                         </div>
                         <div
-                            v-else-if="item.quality === 3"
                             class="mt-1 w-4 h-3 border rounded-sm border-yellow-400"
                         >
                             <span
@@ -141,7 +139,6 @@
                             >
                         </div>
                         <div
-                            v-else-if="item.quality === 4"
                             class="mt-1 w-4 h-3 border rounded-sm border-green-400"
                         >
                             <span
@@ -156,8 +153,8 @@
                             >VIP</span
                             >
                         </div>
-                        </div> -->
-                        <div class="mt-1 cursor-pointer">
+                        </div>
+                        <div class="mt-1 ml-3 cursor-pointer">
                         <t-tooltip content="mv" theme="light">
                             <svg
                             t="1661998774992"
@@ -166,8 +163,8 @@
                             version="1.1"
                             xmlns="http://www.w3.org/2000/svg"
                             p-id="26661"
-                            width="16"
-                            height="16"
+                            width="12"
+                            height="12"
                             >
                             <path
                                 d="M919.2 148.4H104.8c-22.1 0-40 17.9-40 40v645c0 22.1 17.9 40 40 40h814.5c22.1 0 40-17.9 40-40v-645c-0.1-22.1-18-40-40.1-40z m-40 645H144.8v-565h734.5v565z"
@@ -186,7 +183,7 @@
                     </div>
                 </div>
                 <div
-                class="flex flex-row mt-0.5"
+                class="flex flex-row mt-0.5 text-left"
                 :style="mouseStyle === i ? '' : 'display: none;'"
                 >
                 <div
@@ -619,14 +616,14 @@
                 </div>
             </div>
             </t-col>
-            <t-col span="3" class="">
+            <t-col span="2" class="">
             <div
                 class="text-gray-500 text-left p-2 mt-2 cursor-pointer text-xs song"
             >
                {{ songListDetail.songerDetail.artist.name }}
             </div>
             </t-col>
-            <t-col span="3" class="">
+            <t-col span="4" class="">
             <div
                 class="text-gray-500 text-left p-2 mt-2 cursor-pointer text-xs song"
             >
@@ -658,6 +655,7 @@ const props = defineProps({
 const { currMusic, musicList, isPlay } = storeToRefs(songState);
 const mouseStyle = ref();
 const isPlayShow = ref();
+const isPlayHover = ref();
 
 const currMusicInfo = ref( {
     songer: {},
@@ -666,7 +664,8 @@ const currMusicInfo = ref( {
 });
 
 // 播放某一曲
-const player = (e: any, i: number, songer: any, list: any) => {
+const player = ( e: any, i: number, songer: any, list: any ) => {
+    isPlayHover.value = i
     currMusicInfo.value.songer = songer
     currMusicInfo.value.currSong = e
     getMusicUrl( e.id ).then( ( res: any ) => {

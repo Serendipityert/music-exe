@@ -94,7 +94,8 @@ const singerSearch = ( data: any ) => {
             query: {
                 songs: JSON.stringify( res.songs ),
                 songer: JSON.stringify( data ),
-                songerDetail: JSON.stringify( songerDetail.value )
+                songerDetail: JSON.stringify( songerDetail.value ),
+                date: Date.now(),
             }
         } )
     }).catch((err: any) => {

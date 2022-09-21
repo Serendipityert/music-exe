@@ -1,6 +1,6 @@
 <template>
   <div class="content overflow-y-auto w-full flex-grow flex-auto" :style="m_content_height">
-    <router-view />
+    <router-view :key="$route.fullPath"/>
   </div>
 </template>
 

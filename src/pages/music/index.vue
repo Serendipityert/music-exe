@@ -47,7 +47,7 @@
                 <div class="ml-1 truncate">{{ currMusic.currSong.name }}</div>
                 <div>
                   <span>&nbsp;-&nbsp;</span>
-                  <span>{{ currMusic.songer.name }}</span>
+                  <span class="truncate">{{ currMusic.songer.name }}</span>
                 </div>
               </div>
               <router-link to="/play-mv">
@@ -1358,22 +1358,22 @@
                 <t-row
                   v-for="(item, i) in musicList"
                   :key="i"
-                  class="h-12 hover:bg-gray-50"
+                  class="h-12 hover:bg-gray-50 hover:text-gray-800"
+                  :class="isPlayHover === i ? 'bg-gray-50 h-12 hover:bg-gray-50 ' : 'h-12 hover:bg-gray-50'"
                   @mouseover="mouseover(i)"
                   @mouseout="mouseout(i)"
                 >
                   <t-col span="12" class="">
                     <div class="text-gray-500 text-left p-2 mt-1 flex flex-row">
-                      <div class="flex flex-row">
+                      <div class="flex flex-row text-gray-200">
                         <div
-                          class="ml-1 w-28 mr-2 truncate text-xs mt-1 text-gray-500 song cursor-pointer"
+                          class="ml-1 w-28 mr-2 truncate text-xs mt-1 text-gray-300 song cursor-pointer"
                         >
                           {{ item.name }}
                         </div>
                         <!-- 音质 -->
-                        <!-- <div class="flex flex-row mt-0.5">
+                        <div class="flex flex-row mt-0.5">
                           <div
-                            v-if="item.quality === 1"
                             class="mt-1 w-7 h-3 border rounded-sm border-purple-400"
                           >
                             <span
@@ -1389,7 +1389,6 @@
                             >
                           </div>
                           <div
-                            v-else-if="item.quality === 2"
                             class="mt-1 w-4 h-3 border rounded-sm border-red-400"
                           >
                             <span
@@ -1405,7 +1404,6 @@
                             >
                           </div>
                           <div
-                            v-else-if="item.quality === 3"
                             class="mt-1 w-4 h-3 border rounded-sm border-yellow-400"
                           >
                             <span
@@ -1421,7 +1419,6 @@
                             >
                           </div>
                           <div
-                            v-else-if="item.quality === 4"
                             class="mt-1 w-4 h-3 border rounded-sm border-green-400"
                           >
                             <span
@@ -1436,7 +1433,7 @@
                               >VIP</span
                             >
                           </div>
-                        </div> -->
+                        </div>
                         <div class="mt-1 ml-1 cursor-pointer">
                           <t-tooltip content="mv" theme="light">
                             <svg
@@ -1959,6 +1956,7 @@ const currentDuration = ref("00:00");
 
 const mouseStyle = ref();
 const isPlayShow = ref();
+const isPlayHover = ref();
 
 const currMusicInfo = ref( {
     songer: {},
@@ -2053,7 +2051,8 @@ const nextSong = () => {
 };
 
 // 播放某一曲
-const player = ( e: any ,i: number) => {
+const player = ( e: any, i: number ) => {
+  isPlayHover.value = i 
   currMusicInfo.value.songer = currMusic.value.songer
   currMusicInfo.value.currSong = e
   getMusicUrl( e.id ).then( ( res: any ) => {
