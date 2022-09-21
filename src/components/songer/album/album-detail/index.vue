@@ -1,12 +1,11 @@
 <template>
-    <div class="flex flex-col mt-1">
+    <!-- <div class="flex flex-col mt-1">
         <div class="flex flex-row">
             <div class="w-36 h-36 rounded-full">
                 <img style="width: 100%; height: 100%;" class="rounded-full" :src="songer.img1v1Url" alt="user-img" />
             </div>
             <div class="flex flex-col ml-6 mt-2">
                 <div class="text-2xl font-black font-sans">{{ songer.name }}</div>
-                <!-- <div class="mt-6 text-xs">暂无</div> -->
                 <div class="mt-6 text-xs flex flex-row">
                     <span class="mr-8">单曲数： {{ songList.length }}</span>
                     <span>专辑数： {{ songer.albumSize }}</span>
@@ -35,7 +34,8 @@
                 </t-tab-panel>
             </t-tabs>
         </div>
-    </div>
+    </div> -->
+    <div>{{albumContent}}</div>
 </template>
 
 <script setup lang="ts">
@@ -49,38 +49,41 @@ import SongerAlbum from '@/components/songer/album/index.vue'
 
 const router = useRoute()
 
-// 接收路由参数值, as string 类型断言处理
-const songList = ref(JSON.parse(router.query.songs as string))
-const songer = ref(JSON.parse(router.query.songer as string))
-const songerDetail = ref( JSON.parse( router.query.songerDetail as string ) )
+// // 接收路由参数值, as string 类型断言处理
+// const songList = ref(JSON.parse(router.query.songs as string))
+// const songer = ref(JSON.parse(router.query.songer as string))
+// const songerDetail = ref( JSON.parse( router.query.songerDetail as string ) )
+const albumContent = ref( JSON.parse( router.query.albumContent as string ) )
 
-const songListDetail = ref( {
-    songList,
-    songerDetail,
-    songer
-} )
-// 歌手详情
-const songerParticulars = ref()
-// 歌手专辑
-const songerAlbumList = ref()
+console.log(albumContent.value)
 
-// 获取歌手详情
-getSongerBriefDesc(songer.value.id).then( ( res: any ) => {
-    if ( res.code === 200 ) {
-        songerParticulars.value = res
-    }
-} ).catch( ( err: any ) => {
-    MessagePlugin.warning(err)
-} )
+// const songListDetail = ref( {
+//     songList,
+//     songerDetail,
+//     songer
+// } )
+// // 歌手详情
+// const songerParticulars = ref()
+// // 歌手专辑
+// const songerAlbumList = ref()
 
-// 获取歌手专辑信息
-getSongerAlbum( songer.value.id ).then( ( res: any ) => {
-    if ( res.code === 200 ) {
-        songerAlbumList.value = res
-    }
-} ).catch( ( err: any ) => {
-    MessagePlugin.warning(err)
-})
+// // 获取歌手详情
+// getSongerBriefDesc(songer.value.id).then( ( res: any ) => {
+//     if ( res.code === 200 ) {
+//         songerParticulars.value = res
+//     }
+// } ).catch( ( err: any ) => {
+//     MessagePlugin.warning(err)
+// } )
+
+// // 获取歌手专辑信息
+// getSongerAlbum( songer.value.id ).then( ( res: any ) => {
+//     if ( res.code === 200 ) {
+//         songerAlbumList.value = res
+//     }
+// } ).catch( ( err: any ) => {
+//     MessagePlugin.warning(err)
+// })
 
 </script>
 

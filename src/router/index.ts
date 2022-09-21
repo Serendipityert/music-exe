@@ -89,6 +89,12 @@ const publicRoutes = [
             meta: { isLogin: false },
             component: () => import( '@/components/songer/index.vue' )
         },
+        {
+            path: '/songer-album-detail',
+            name: 'AlbumDetail',
+            meta: { isLogin: false },
+            component: () => import( '@/components/songer/album/album-detail/index.vue' )
+        },
         ]
     }
 ]

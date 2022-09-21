@@ -71,3 +71,38 @@ export const getMusicListBySongId = async ( data: string | undefined ) => {
         method: 'get'
     } )
 }
+
+/**
+ * 根据歌手id获取歌手描述信息
+ * @param data 
+ * @returns 
+ */
+export const getSongerBriefDesc = async ( data: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/artist/desc?id=' + data,
+        method: 'get'
+    } )
+}
+
+/**
+ * 根据歌手id获取歌手专辑信息
+ * @param data 
+ * @returns 
+ */
+export const getSongerAlbum = async ( data: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/artist/album?id=' + data,
+        method: 'get'
+    } )
+}
+/**
+ * 根据专辑id获取专辑内容信息
+ * @param data 
+ * @returns 
+ */
+export const getAlbumContent = async ( data: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/album?id=' + data,
+        method: 'get'
+    } )
+}
