@@ -1919,6 +1919,7 @@ import { storeToRefs } from "pinia";
 import MusicDrawer from "@/layout/footer/drawer/index.vue";
 import { getMusicUrl } from "@/api/music/index"
 import { MessagePlugin } from 'tdesign-vue-next';
+import { getMusicLyric } from "@/api/music/index"
 
 const { ipcRenderer } = require("electron");
 const songState = songStore();
@@ -1972,6 +1973,13 @@ const openBottomDrawer = () => {
 const onCloseDrawer = () => {
   visibleBottom.value = false;
 };
+
+// 获取歌词
+getMusicLyric(currMusic.value.musicPlay.id).then( ( res: any ) => {
+  console.log(res)
+} ).catch( ( err: any ) => {
+  MessagePlugin.warning(err)
+})
 
 const getIndex = (): number => {
   const p = musicList.value.filter(

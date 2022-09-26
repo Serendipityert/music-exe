@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios"
 import { MessagePlugin } from 'tdesign-vue-next'
-import { BASE_URL, TIMEOUT } from "../config"
+import { BASE_URL, TIMEOUT, BASE_URL_MUSIC } from "@/config"
 import { userStore } from '@/store/modules/user'
 
 const userState = userStore()
@@ -43,7 +43,7 @@ export interface requestReturnType<T = any> {
 /** 创建axios实例 */
 const instance = axios.create( {
     timeout: TIMEOUT, // 超时时间
-    baseURL: BASE_URL,
+    baseURL: BASE_URL_MUSIC,
     headers: {
         "Content-Type": "application/json;charset=utf-8",
     },
@@ -53,6 +53,9 @@ const instance = axios.create( {
 instance.interceptors.request.use(
     ( config: any ) => {
         // console.log("config", config);
+        if ( !config.url.includes( 'http' ) ) {
+            config.url = "http://www.zhiwugo.top" + config.url
+        }
         let token: string = userState.getToken
         if ( token ) {
             // 如果token存在，则让每个请求携带token-- ['authorization']为自定义key

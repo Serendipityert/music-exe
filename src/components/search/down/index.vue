@@ -53,6 +53,7 @@
 import { defineProps, ref } from 'vue'
 import { getMusicUrl } from '@/api/music/index'
 import { getSongerDetail } from '@/api/music/index'
+import { songSearch } from '@/api/music/index'
 import { getHotMusicBySongId } from '@/api/music/index'
 import { MessagePlugin } from 'tdesign-vue-next';
 import router from '@/router/index'
@@ -65,11 +66,13 @@ const props = defineProps({
     },
 } )
 const songerDetail = ref()
+
 // 单曲搜索
 const singleSearch = ( data: any ) => {
-    getMusicUrl( data.id ).then( ( res: any ) => {
+    songSearch(data.name).then( ( res: any ) => {
+        console.log( res )
         if ( res.code === 200 ) {
-            // 跳转至结果页面
+            
         }
     }).catch((err: any) => {
         MessagePlugin.warning(err)

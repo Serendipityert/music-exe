@@ -33,6 +33,20 @@ export const getMusicUrl = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/song/url?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        console.log( err )
+    } )
+}
+
+/**
+ * 根据歌曲id获取歌曲歌词
+ * @param data 
+ * @returns 
+ */
+export const getMusicLyric = async ( data: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/lyric?id=' + data,
+        method: 'get'
     } )
 }
 
@@ -95,6 +109,7 @@ export const getSongerAlbum = async ( data: string | undefined ) => {
         method: 'get'
     } )
 }
+
 /**
  * 根据专辑id获取专辑内容信息
  * @param data 
@@ -103,6 +118,17 @@ export const getSongerAlbum = async ( data: string | undefined ) => {
 export const getAlbumContent = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/album?id=' + data,
+        method: 'get'
+    } )
+}
+/**
+ * 根据歌曲名搜索歌曲
+ * @param data 
+ * @returns 
+ */
+export const songSearch = async ( data: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/cloudsearch?keywords=' + data,
         method: 'get'
     } )
 }

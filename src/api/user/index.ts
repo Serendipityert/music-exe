@@ -1,7 +1,7 @@
 import Axios from "@/util/request"
-import { URL } from "@/config"
+import { URL, BASE_URL_MUSIC } from "@/config"
 /** 导入接口返回类型 */
-import { resType } from "../mode"
+import { resType } from "@/api/index"
 
 // 参数泛型 <T extends Record<string, any>>
 // 表示，给我的参数类型，必须约束于对象形式 即{key：value,...}模式，key类型string，value类型为any
@@ -72,5 +72,44 @@ export const getUserInfo = async () => {
     return await Axios<resType>( {
         url: URL + '/getUserInfo',
         method: 'get',
+    } )
+}
+
+/**
+ * 网易云登录
+ */
+
+/**
+ * 二维码 key 生成接口
+ * @returns 
+ */
+export const generateKey = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/login/qr/key',
+        method: 'get'
+    } )
+}
+
+/**
+ * 生成二维码图片
+ * @param data 
+ * @returns 
+ */
+export const generateQRCode = async ( data: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/login/qr/create?qrimg=0&key=' + data,
+        method: 'get'
+    } )
+}
+
+/**
+ * 查询二维码状态
+ * @param data 
+ * @returns 
+ */
+export const queryQRCodeState = async ( data: string | undefined, time: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/login/qr/check?key=' + data + '&time=' + time,
+        method: 'get'
     } )
 }
