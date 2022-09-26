@@ -14,7 +14,7 @@
         <t-dialog v-model:visible="visibleBody" attach="body" :confirmBtn="confirmBtn" :cancelBtn="cancelBtn"
             :closeOnOverlayClick="closeOnOverlayClick" placement="center" :on-confirm="() => (visibleBody = false)">
             <template #body>
-                <div class="ml-20 w-80">
+                <div class="w-80 ml-12">
                     <t-tabs :value="value" theme="normal" @change="handlerChange">
                         <t-tab-panel value="first">
                             <template #label>

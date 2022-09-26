@@ -95,9 +95,9 @@ export const generateKey = async () => {
  * @param data 
  * @returns 
  */
-export const generateQRCode = async ( data: string | undefined ) => {
+export const generateQRCode = async ( qrimg: number | undefined, data: string | undefined ) => {
     return await Axios( {
-        url: BASE_URL_MUSIC + '/login/qr/create?qrimg=0&key=' + data,
+        url: BASE_URL_MUSIC + '/login/qr/create?qrimg=' + qrimg + '&key=' + data,
         method: 'get'
     } )
 }
@@ -107,7 +107,7 @@ export const generateQRCode = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const queryQRCodeState = async ( data: string | undefined, time: string | undefined ) => {
+export const queryQRCodeState = async ( data: string | undefined, time: number | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/login/qr/check?key=' + data + '&time=' + time,
         method: 'get'
