@@ -11,8 +11,8 @@
     </t-tooltip>
     <!-- 登录窗口弹窗 -->
     <div>
-        <t-dialog v-model:visible="visibleBody" attach="body" :confirmBtn="confirmBtn" :cancelBtn="cancelBtn"
-            :closeOnOverlayClick="closeOnOverlayClick" placement="center" :on-confirm="() => (visibleBody = false)">
+        <t-dialog v-model:visible="isLoginDialog" attach="body" :confirmBtn="confirmBtn" :cancelBtn="cancelBtn"
+            :closeOnOverlayClick="closeOnOverlayClick" placement="center" :on-confirm="() => (isLoginDialog = false)">
             <template #body>
                 <div class="w-80 ml-12">
                     <t-tabs :value="value" theme="normal" @change="handlerChange">
@@ -88,6 +88,7 @@
 import { ref } from 'vue';
 import router from '@/router/index'
 import { userStore } from '@/store/modules/user'
+import { storeToRefs } from "pinia";
 
 import PhoneLogin from '@/pages/user/phone/login/index.vue'
 import PhoneRegister from '@/pages/user/phone/register/index.vue'
@@ -96,6 +97,7 @@ import QQAccountPassLogin from '@/pages/user/qq/login/accountPass/index.vue'
 import NeteaseCloud from '@/pages/user/netease-cloud/login/index.vue'
 
 const userState = userStore()
+const { isLoginDialog, isLogin, userInfo } = storeToRefs<any>( userState );
 
 const cancelBtn = ref(null);
 const confirmBtn = ref(null);
@@ -111,24 +113,18 @@ const content = ref('点击登录');
 
 const image = ref('https://tdesign.gtimg.com/site/avatar.jpg');
 // const image = ref('https://lpzwg.oss-cn-shenzhen.aliyuncs.com/zwg-images/meizhuang/54044c14fcaac1be43dc8deb2a40a8e40bce.jpg');
-const userName = ref('点击登录')
+const userName = ref( '点击登录' )
 
 const setInterval1 = setInterval(() => {
-    if (userState.getIsLogin) {
-        userName.value = userState.getUserInfo.username
-        image.value = userState.getUserInfo.avatar
+
+    if ( isLogin.value ) {
         content.value = '个人主页'
+        userName.value = userInfo.value.profile.nickname
+        image.value = userInfo.value.profile.avatarUrl
         // 清除定时器
         clearInterval(setInterval1)
     }
 }, 1000)
-
-const visibleBody = ref(false);
-
-// 电话号码登录成功返回的状态
-const getUserLogin = (boo: boolean) => {
-    visibleBody.value = !boo
-}
 
 const toPhoneRegister = () => {
     phoneLoginShow.value = false;
@@ -155,12 +151,12 @@ const handlerChange = (newValue: string) => {
 
 const login = () => {
     // 判断用户是否已经登录
-    if (userState.getIsLogin) {
+    if ( isLogin.value ) {
         // 已登录
         router.push('/user-main')
     } else {
         // 未登录
-        visibleBody.value = true;
+        isLoginDialog.value = true;
     }
 }
 

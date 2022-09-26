@@ -32,9 +32,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { userStore } from '@/store/modules/user'
+import { storeToRefs } from "pinia";
 import ILike from './like/index.vue'
 
 const userState = userStore()
+const { userInfo, isLogin } = storeToRefs<any>( userState );
 
 const image = ref('')
 const username = ref('')
@@ -43,7 +45,11 @@ const setInterval1 = setInterval(() => {
     // 用户没有登录
     image.value = userState.getUserInfo.avatar
     username.value = userState.getUserInfo.username
-    if (userState.getIsLogin) {
+
+    if ( isLogin.value ) {
+        username.value = userInfo.value.profile.nickname
+        image.value = userInfo.value.profile.avatarUrl
+        // 清除定时器
         clearInterval(setInterval1)
     }
 }, 1000)

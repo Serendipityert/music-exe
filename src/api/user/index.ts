@@ -2,6 +2,7 @@ import Axios from "@/util/request"
 import { URL, BASE_URL_MUSIC } from "@/config"
 /** 导入接口返回类型 */
 import { resType } from "@/api/index"
+import { MessagePlugin } from 'tdesign-vue-next'
 
 // 参数泛型 <T extends Record<string, any>>
 // 表示，给我的参数类型，必须约束于对象形式 即{key：value,...}模式，key类型string，value类型为any
@@ -83,10 +84,12 @@ export const getUserInfo = async () => {
  * 二维码 key 生成接口
  * @returns 
  */
-export const generateKey = async () => {
+export const generateKey = async ( time: number | undefined ) => {
     return await Axios( {
-        url: BASE_URL_MUSIC + '/login/qr/key',
+        url: BASE_URL_MUSIC + '/login/qr/key?time=' + time,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -99,6 +102,8 @@ export const generateQRCode = async ( qrimg: number | undefined, data: string | 
     return await Axios( {
         url: BASE_URL_MUSIC + '/login/qr/create?qrimg=' + qrimg + '&key=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -111,5 +116,48 @@ export const queryQRCodeState = async ( data: string | undefined, time: number |
     return await Axios( {
         url: BASE_URL_MUSIC + '/login/qr/check?key=' + data + '&time=' + time,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取登录状态
+ * @param cookie 
+ * @returns 
+ */
+export const getLoginState = async ( cookie: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/login/status?cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取账号信息
+ * @returns 
+ */
+export const getUserAccount = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/user/account',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取登录用户信息
+ * @param uid 
+ * @returns 
+ */
+export const getUserDetail = async ( uid: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/user/detail?uid=' + uid,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }

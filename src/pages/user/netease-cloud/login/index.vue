@@ -4,7 +4,7 @@
             请您使用<span class="text-blue-500 m-1">网易云音乐APP</span>扫码登录
         </div>
         <div class="w-36 h-36 m-auto">
-            <t-loading :text="QRCodeState" size="small" showOverlay="true" :loading="load">
+            <t-loading size="50px" showOverlay="true" :loading="load">
                 <img :src="QRCodeImg" style="width: 100%; height: 100%;" />
             </t-loading>
         </div>
@@ -23,6 +23,13 @@ import { MessagePlugin } from 'tdesign-vue-next';
 import { generateKey } from "@/api/user/index"
 import { generateQRCode } from "@/api/user/index"
 import { queryQRCodeState } from "@/api/user/index"
+import { getUserDetail } from "@/api/user/index"
+import { getLoginState } from "@/api/user/index"
+import { userStore } from '@/store/modules/user'
+import { storeToRefs } from "pinia";
+
+const userState = userStore()
+const { isLoginDialog, isLogin, cookie, userInfo } = storeToRefs<any>( userState );
 
 const QRCodeImg = ref()
 const QRCodeState = ref()
@@ -36,21 +43,18 @@ onMounted( () => {
 } )
             
 const createQRCode = () => {
-    load.value = false
+    // load.value = true
     // 生成二维码 key
-    generateKey().then( ( res: any ) => {
+    let time = new Date().getTime();
+    generateKey(time).then( ( res: any ) => {
         if ( res.code === 200 && res.data.code === 200 ) {
             UNI_KEY.value = res.data.unikey
             let time = new Date().getTime();
             generateQRCode(time, res.data.unikey ).then( ( res: any ) => {
                 QRCodeImg.value = res.data.qrimg
-            }).catch( ( err: any ) => {
-                 MessagePlugin.warning(err)
-            } )
+            })
          }
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning(err)
-    } )      
+    } )     
 }
 
 const setInterval1 = setInterval( () => {
@@ -66,7 +70,6 @@ const setInterval1 = setInterval( () => {
 const checkState = () => {
     let time = new Date().getTime();
     queryQRCodeState( UNI_KEY.value, time ).then( ( res: any ) => {
-        console.log( res.message )
         QRCodeState.value = res.message
         QRCodeStateCode.value = res.code
 
@@ -77,13 +80,28 @@ const checkState = () => {
             load.value = true
         }
         if ( res.code === 803 ) {
+            console.log( res )
+            cookie.value = res.cookie
+            // 登录成功
+            isLogin.value = true
+            // 关闭弹窗
+            isLoginDialog.value = false
+            // 关闭加载动画
             load.value = false
+            // 关闭刷新按钮
             reflesh.value = false
             MessagePlugin.success( res.message )
+            // 获取登录状态拿到用户UID
+            getLoginState( res.cookie ).then( ( res: any ) => {
+                // 根据用户UID获取用户信息
+                getUserDetail( res.data.account.id ).then( ( res: any ) => {
+                    if ( res.code === 200 ) {
+                        userInfo.value = res
+                    }
+                })
+            })
         }
-    }).catch( ( err: any ) => {
-         MessagePlugin.warning(err)
-    } )
+    })
 }
 </script>
 
