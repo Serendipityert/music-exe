@@ -10,6 +10,7 @@
                 <div class="flex flex-col mt-2 ml-4">
                     <div class="text-xs text-black">{{item.name}}</div>
                     <div class="text-xs mt-1 text-gray-400">{{formatDate(new Date(item.createTime))}}</div>
+                    <div class="text-xs mt-1 text-gray-400">{{item.trackCount}}首</div>
                 </div>
             </div>
         </div>
@@ -20,7 +21,7 @@
 import { ref, defineProps } from "vue"
 import { formatDate } from "@/util/date"
 import router from "@/router/index"
-import { getAlbumContent } from '@/api/music/index'
+import { getPlayListDetail } from '@/api/user/index'
 import { MessagePlugin } from 'tdesign-vue-next'
 
 const mouseoverAlbumShow = ref()
@@ -36,6 +37,9 @@ const props = defineProps( {
 // 点击进入某个歌单
 const openPlayList = ( item: any ) => {
     console.log( item )
+    getPlayListDetail( item.id ).then( ( res: any ) => {
+        console.log( res )
+    } )
 }
 
 const mouseoverAlbum = ( i: number ) => {

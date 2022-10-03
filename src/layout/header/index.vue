@@ -200,14 +200,10 @@ import { searchMusicProposal } from '@/api/music/index'
 import { hotSearchMusic } from '@/api/music/index'
 import SearchResultDown from '@/components/search/down/index.vue'
 import HOTSearchDown from '@/components/search/hot/index.vue'
-import { routerStore } from '@/store/modules/router'
 import { storeToRefs } from 'pinia'
 import router from '@/router/index'
 
 const { ipcRenderer } = require( "electron" )
-
-const routerState = routerStore()
-const { lastRouter, currRouter, nextRouter } = storeToRefs<any>( routerState )
 
 // defineEmits(['userLogin']);
 

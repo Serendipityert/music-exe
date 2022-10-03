@@ -231,3 +231,17 @@ export const getUserFolloweds = async ( uid: string | undefined ) => {
         MessagePlugin.warning( err )
     } )
 }
+
+/**
+ * 获取歌单详情
+ * @param id 
+ * @returns 
+ */
+export const getPlayListDetail = async ( id: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/playlist/detail?id=' + id,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}

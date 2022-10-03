@@ -114,6 +114,12 @@ const publicRoutes = [
             meta: { isLogin: true },
             component: () => import( '@/view/user-main/followeds/index.vue' )
         },
+        {
+            path: '/user-detail',
+            name: 'UserDetail',
+            meta: { isLogin: true },
+            component: () => import( '@/view/user-main/user/index.vue' )
+        },
         ]
     }
 ]

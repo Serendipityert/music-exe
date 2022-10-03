@@ -131,7 +131,6 @@ const toUserFollows = () => {
 // 获取用户粉丝列表信息
 const toUserFolloweds = () => {
     getUserFolloweds( userInfo.value.profile.userId ).then( ( res: any ) => {
-        console.log( res )
         if ( res.code === 200 ) {
             router.push( {
                 path: '/user-followeds',

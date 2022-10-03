@@ -16,22 +16,22 @@ import router from './router/index'
 // 引入Pinia
 import store from './store'
 
-console.log( store )
+// console.log( store )
 
-// 全局守卫：登录拦截 本地没有存token,请重新登录
-router.beforeEach( ( to, from, next ) => {
-    // 判断有需不需要登录
-    if ( to.meta.isLogin ) {
-        // if ( store.state.user.isLogin ) {
-        //     next()
-        // } else {
-        //     console.log( '未登录' )
-        // }
-        next()
-    } else {
-        next()
-    }
-} )
+// // 全局守卫：登录拦截 本地没有存token,请重新登录
+// router.beforeEach( ( to, from, next ) => {
+//     // 判断有需不需要登录
+//     if ( to.meta.isLogin ) {
+//         // if ( store.state.user.isLogin ) {
+//         //     next()
+//         // } else {
+//         //     console.log( '未登录' )
+//         // }
+//         next()
+//     } else {
+//         next()
+//     }
+// } )
 
 const app = createApp( App )
 
