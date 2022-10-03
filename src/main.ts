@@ -16,10 +16,27 @@ import router from './router/index'
 // 引入Pinia
 import store from './store'
 
-const app = createApp(App)
+console.log( store )
 
-app.use(router)
-app.use(TDesign)
-app.use(store)
+// 全局守卫：登录拦截 本地没有存token,请重新登录
+router.beforeEach( ( to, from, next ) => {
+    // 判断有需不需要登录
+    if ( to.meta.isLogin ) {
+        // if ( store.state.user.isLogin ) {
+        //     next()
+        // } else {
+        //     console.log( '未登录' )
+        // }
+        next()
+    } else {
+        next()
+    }
+} )
 
-app.mount('#app')
+const app = createApp( App )
+
+app.use( router )
+app.use( TDesign )
+app.use( store )
+
+app.mount( '#app' )

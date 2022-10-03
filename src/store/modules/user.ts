@@ -18,10 +18,12 @@ export const userStore = defineStore( 'user', {
     // 开启数据缓存
     persist: {
         enabled: true,
-        strategies: [ {
-            storage: localStorage,
-            paths: [ 'isLogin', 'token', 'cookie', 'userInfo' ]
-        } ]
+        strategies: [
+            {
+                storage: localStorage,
+                paths: [ 'isLogin', 'token', 'cookie', 'userInfo' ]
+            }
+        ]
     },
     getters: {
         // 获取登录状态

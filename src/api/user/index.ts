@@ -161,3 +161,73 @@ export const getUserDetail = async ( uid: string | undefined ) => {
         MessagePlugin.warning( err )
     } )
 }
+
+/**
+ * 获取用户信息 , 歌单，收藏，mv, dj 数量
+ * @param cookie 
+ * @returns 
+ */
+export const getUserCollectionMvQuantity = async ( cookie: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/user/subcount?cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取用户歌单
+ * @param uid 
+ * @returns 
+ */
+export const getUserPlayList = async ( uid: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/user/playlist?uid=' + uid,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取用户等级信息
+ * @param cookie 
+ * @returns 
+ */
+export const getUserLevel = async ( cookie: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/user/level?cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取用户关注列表信息
+ * @param uid 
+ * @returns 
+ */
+export const getUserFollows = async ( uid: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/user/follows?uid=' + uid,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取用户粉丝列表信息
+ * @param uid 
+ * @returns 
+ */
+export const getUserFolloweds = async ( uid: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/user/followeds?uid=' + uid,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}

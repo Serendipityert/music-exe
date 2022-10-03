@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
+
 const publicRoutes = [
     {
         path: '/',
@@ -95,6 +96,24 @@ const publicRoutes = [
             meta: { isLogin: false },
             component: () => import( '@/components/songer/album/album-detail/index.vue' )
         },
+        {
+            path: '/user-level-detail',
+            name: 'UserLevelDetail',
+            meta: { isLogin: true },
+            component: () => import( '@/view/user-main/level/index.vue' )
+        },
+        {
+            path: '/user-follow',
+            name: 'UserFollow',
+            meta: { isLogin: true },
+            component: () => import( '@/view/user-main/follows/index.vue' )
+        },
+        {
+            path: '/user-followeds',
+            name: 'UserFolloweds',
+            meta: { isLogin: true },
+            component: () => import( '@/view/user-main/followeds/index.vue' )
+        },
         ]
     }
 ]
@@ -103,15 +122,5 @@ const router = createRouter( {
     history: createWebHashHistory(),
     routes: publicRoutes
 } )
-
-// 全局守卫：登录拦截 本地没有存token,请重新登录
-// router.beforeEach((to, from, next) => {
-//     // 判断有需不需要登录
-//     if (to.meta.isLogin) {
-
-//     } else {
-//         next();
-//     }
-// })
 
 export default router

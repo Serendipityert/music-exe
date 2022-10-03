@@ -3,38 +3,45 @@
     <div class="flex-grow h-8 w-full" style="margin-top: 25px;">
       <t-row>
         <t-col :span="2">
-          <div class="h-8 search" :style="dragN">
-            <t-dropdown :min-column-width="400" :maxHeight="550" trigger="click">
-             <t-input clearable placeholder="搜索音乐" v-model="search_name" @input="searchMusic"
-              @click="handleClick" style="width: 250px;border-radius: 50%;">
-              <template #prefix-icon>
-                <svg t="1661342506054" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                  xmlns="http://www.w3.org/2000/svg" p-id="52741" width="18" height="18">
-                  <path
-                    d="M327.466667 630.186667m-181.333334 0a181.333333 181.333333 0 1 0 362.666667 0 181.333333 181.333333 0 1 0-362.666667 0Z"
-                    fill="#FFCA5F" p-id="52742"></path>
-                  <path
-                    d="M466.133333 171.52m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z"
-                    fill="#FFCA5F" p-id="52743"></path>
-                  <path
-                    d="M493.013333 823.253333a312.96 312.96 0 0 1-221.44-534.4 308.053333 308.053333 0 0 1 91.946667-64l26.453333 58.24a248.533333 248.533333 0 1 0 149.333334-18.133333l11.52-62.933333a313.173333 313.173333 0 0 1-56.96 621.013333z"
-                    fill="#5C1CF7" p-id="52744"></path>
-                  <path d="M669.184 731.52l45.248-45.226667 186.154667 186.133334-45.248 45.248z" fill="#5C1CF7"
-                    p-id="52745"></path>
-                </svg>
-              </template>
-            </t-input>
-              <template #dropdown>
-                <t-dropdown-menu>
-                  <div v-show="searchRes">
-                    <SearchResultDown :searchResult="searchResult" />
-                  </div>
-                  <div v-show="hot_search">
-                    <HOTSearchDown :hotSearchResult="hotSearchResult"/>
-                  </div>
-                </t-dropdown-menu>
-              </template>
-            </t-dropdown>
+          <div class="h-8 search flex flex-row" :style="dragN">
+            <div class="flex flex-row w-24 h-8 ml-4 mt-2 mr-6">
+              <ChevronLeftIcon size="large" class="mr-4 cursor-pointer" @click="toLastRouter" />
+              <ChevronRightIcon size="large" class="cursor-pointer" @click="toNextRouter" />
+            </div>
+            <div>
+              <t-dropdown :min-column-width="400" :maxHeight="550" trigger="click">
+                <t-input clearable placeholder="搜索音乐" v-model="search_name" @input="searchMusic" @click="handleClick"
+                  style="width: 250px;border-radius: 50%;">
+                  <template #prefix-icon>
+                    <svg t="1661342506054" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                      xmlns="http://www.w3.org/2000/svg" p-id="52741" width="18" height="18">
+                      <path
+                        d="M327.466667 630.186667m-181.333334 0a181.333333 181.333333 0 1 0 362.666667 0 181.333333 181.333333 0 1 0-362.666667 0Z"
+                        fill="#FFCA5F" p-id="52742"></path>
+                      <path
+                        d="M466.133333 171.52m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z"
+                        fill="#FFCA5F" p-id="52743"></path>
+                      <path
+                        d="M493.013333 823.253333a312.96 312.96 0 0 1-221.44-534.4 308.053333 308.053333 0 0 1 91.946667-64l26.453333 58.24a248.533333 248.533333 0 1 0 149.333334-18.133333l11.52-62.933333a313.173333 313.173333 0 0 1-56.96 621.013333z"
+                        fill="#5C1CF7" p-id="52744"></path>
+                      <path d="M669.184 731.52l45.248-45.226667 186.154667 186.133334-45.248 45.248z" fill="#5C1CF7"
+                        p-id="52745">
+                      </path>
+                    </svg>
+                  </template>
+                </t-input>
+                <template #dropdown>
+                  <t-dropdown-menu>
+                    <div v-show="searchRes">
+                      <SearchResultDown :searchResult="searchResult" />
+                    </div>
+                    <div v-show="hot_search">
+                      <HOTSearchDown :hotSearchResult="hotSearchResult" />
+                    </div>
+                  </t-dropdown-menu>
+                </template>
+              </t-dropdown>
+            </div>
           </div>
         </t-col>
         <t-col :span="5" :offset="offset">
@@ -180,92 +187,106 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 import {
-  CloseIcon, QueueIcon, RemoveIcon, RectangleIcon
-} from 'tdesign-icons-vue-next';
-import { MessagePlugin } from 'tdesign-vue-next';
-import MainMenu from './main-menu/index.vue';
-import MemberGrade from './member/index.vue';
-import UserInfo from './user-info/index.vue';
-import Login from '@/pages/user/index.vue';
+  CloseIcon, QueueIcon, RemoveIcon, RectangleIcon, ChevronLeftIcon, ChevronRightIcon
+} from 'tdesign-icons-vue-next'
+import { MessagePlugin } from 'tdesign-vue-next'
+import MainMenu from './main-menu/index.vue'
+import MemberGrade from './member/index.vue'
+import UserInfo from './user-info/index.vue'
+import Login from '@/pages/user/index.vue'
 import { searchMusicProposal } from '@/api/music/index'
 import { hotSearchMusic } from '@/api/music/index'
 import SearchResultDown from '@/components/search/down/index.vue'
 import HOTSearchDown from '@/components/search/hot/index.vue'
+import { routerStore } from '@/store/modules/router'
+import { storeToRefs } from 'pinia'
+import router from '@/router/index'
 
-const { ipcRenderer } = require("electron");
+const { ipcRenderer } = require( "electron" )
 
-// defineEmits(['userLogin']);l
+const routerState = routerStore()
+const { lastRouter, currRouter, nextRouter } = storeToRefs<any>( routerState )
 
-const size = ref(18);
-const offset = ref(3);
-const max = ref(true);
-const dragY = ref('-webkit-app-region: drag;-webkit-user-select: none;');
-const dragN = ref( '-webkit-app-region: no-drag;' );
+// defineEmits(['userLogin']);
+
+const size = ref( 18 )
+const offset = ref( 3 )
+const max = ref( true )
+const dragY = ref( '-webkit-app-region: drag;-webkit-user-select: none;' )
+const dragN = ref( '-webkit-app-region: no-drag;' )
 
 // 搜索的歌曲名
-const search_name = ref( '' );
-const searchResult = ref( );
-const hotSearchResult = ref( );
-const searchRes = ref(false);
-const hot_search = ref(false);
+const search_name = ref( '' )
+const searchResult = ref()
+const hotSearchResult = ref()
+const searchRes = ref( false )
+const hot_search = ref( false )
+
+const toLastRouter = () => {
+  router.go( -1 )
+}
+
+const toNextRouter = () => {
+  router.go( 1 )
+}
 
 // 搜索歌曲
 const searchMusic = () => {
-  searchMusicProposal(  search_name.value ).then( ( res: any ) => {
+  searchMusicProposal( search_name.value ).then( ( res: any ) => {
     if ( res.code === 200 ) {
       searchRes.value = true
       hot_search.value = false
       searchResult.value = res.result
     }
-  }).catch((err: any) => {
-    MessagePlugin.warning(err)
-  })
+  } ).catch( ( err: any ) => {
+    MessagePlugin.warning( err )
+  } )
 }
 // 热搜榜
-const handleClick = ( ) => {
+const handleClick = () => {
   hot_search.value = true
   searchRes.value = false
   hotSearchMusic().then( ( res: any ) => {
     if ( res.code === 200 ) {
       hotSearchResult.value = res.data
     }
-  }).catch((err: any) => {
-    MessagePlugin.warning(err)
-  })
-};
+  } ).catch( ( err: any ) => {
+    MessagePlugin.warning( err )
+  } )
+}
 
 // 关闭按钮事件
 const closeApp = () => {
-  ipcRenderer.send('close-app')
+  ipcRenderer.send( 'close-app' )
 }
 
 // 最小化按钮事件
 const minimize = () => {
-  ipcRenderer.send('minimize-app')
+  ipcRenderer.send( 'minimize-app' )
 }
 
 // 最大化按钮事件
 const maximize = () => {
-  ipcRenderer.send('maximize-app')
+  ipcRenderer.send( 'maximize-app' )
   dragY.value = ''
   dragN.value = ''
 }
 
 // 此时须为最大化
-ipcRenderer.on('maximize-app', () => {
+ipcRenderer.on( 'maximize-app', () => {
   max.value = false
   offset.value = 5
-})
+} )
 
 // 此时须为还原初始值
-ipcRenderer.on('restore-app', () => {
+ipcRenderer.on( 'restore-app', () => {
   max.value = true
   offset.value = 3
   dragY.value = '-webkit-app-region: drag;-webkit-user-select: none;'
   dragN.value = '-webkit-app-region: no-drag;'
-})
+} )
 </script>
 
 <style scoped>
