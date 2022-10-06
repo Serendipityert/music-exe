@@ -1,4 +1,4 @@
-import { acceptHMRUpdate, defineStore } from 'pinia'
+import { defineStore } from 'pinia'
 
 export const songStore = defineStore( 'song', {
     state: () => {
@@ -15,7 +15,7 @@ export const songStore = defineStore( 'song', {
         enabled: true,
         strategies: [ {
             storage: localStorage,
-            paths: [ 'currMusic', 'musicList', 'playMode' ]
+            paths: [ 'currMusic', 'musicList', 'playMode', 'isPlay', 'musicIndex' ]
         } ]
     },
     getters: {

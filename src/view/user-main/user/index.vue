@@ -147,8 +147,8 @@ const userInfo = ref( JSON.parse( router.query.userInfo as string ) )
 
 const playList = ref<any>()
 
-console.log( userDetail.value )
-console.log( userInfo.value )
+// console.log( userDetail.value )
+// console.log( userInfo.value )
 
 onMounted( () => {
     getPlayList()

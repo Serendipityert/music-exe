@@ -1,5 +1,6 @@
 import Axios from "@/util/request"
 import { BASE_URL_MUSIC } from "@/config"
+import { MessagePlugin } from 'tdesign-vue-next'
 
 /**
  * 搜索音乐建议
@@ -10,6 +11,8 @@ export const searchMusicProposal = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/search/suggest?keywords=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -21,6 +24,8 @@ export const hotSearchMusic = async () => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/search/hot/detail',
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -35,6 +40,8 @@ export const getMusicUrl = async ( data: string | undefined ) => {
         method: 'get'
     } ).catch( ( err: any ) => {
         console.log( err )
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -47,6 +54,8 @@ export const getMusicLyric = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/lyric?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -59,6 +68,8 @@ export const getSongerDetail = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/artist/detail?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -71,6 +82,8 @@ export const getHotMusicBySongId = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/artist/top/song?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -83,6 +96,8 @@ export const getMusicListBySongId = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/artist/songs?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -95,6 +110,8 @@ export const getSongerBriefDesc = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/artist/desc?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -107,6 +124,8 @@ export const getSongerAlbum = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/artist/album?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 
@@ -119,6 +138,8 @@ export const getAlbumContent = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/album?id=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
 /**
@@ -130,5 +151,82 @@ export const songSearch = async ( data: string | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/cloudsearch?keywords=' + data,
         method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+/**
+ * 获取每日推荐歌曲
+ * @param cookie 
+ * @returns 
+ */
+export const getDayRecommendSongs = async ( cookie: string | undefined | any ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/recommend/songs?cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+/**
+ * 获取每日推荐歌单
+ * @param cookie 
+ * @returns 
+ */
+export const getDayRecommendPlayList = async ( cookie: string | undefined | any ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/recommend/resource?cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+/**
+ * 获取每日推荐电台
+ * @param cookie 
+ * @returns 
+ */
+export const getDayRecommendDj = async ( cookie: string | undefined | any ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/dj/recommend?cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+/**
+ * 获取推荐新歌
+ * @returns 
+ */
+export const getDayRecommendNewSongs = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/personalized/newsong',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+/**
+ * 获取推荐mv
+ * @returns 
+ */
+export const getDayRecommendMv = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/personalized/mv',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+/**
+ * 获取热门歌手
+ * @returns 
+ */
+export const getHotSongerList = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/top/artists?offset=0&limit=30',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
     } )
 }
