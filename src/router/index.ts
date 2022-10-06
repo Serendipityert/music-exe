@@ -120,6 +120,12 @@ const publicRoutes = [
             meta: { isLogin: true },
             component: () => import( '@/view/user-main/user/index.vue' )
         },
+        {
+            path: '/play-list-detail',
+            name: 'PlayListDetail',
+            meta: { isLogin: true },
+            component: () => import( '@/view/user-main/play-list/play-list-detail/index.vue' )
+        },
         ]
     }
 ]

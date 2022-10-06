@@ -36,9 +36,14 @@ const props = defineProps( {
 
 // 点击进入某个歌单
 const openPlayList = ( item: any ) => {
-    console.log( item )
     getPlayListDetail( item.id ).then( ( res: any ) => {
-        console.log( res )
+        router.push( {
+            path: '/play-list-detail',
+            query: {
+                playListDetail: JSON.stringify( res ),
+                date: Date.now()
+            }
+        } )
     } )
 }
 
