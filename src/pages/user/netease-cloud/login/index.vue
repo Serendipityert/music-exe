@@ -27,9 +27,7 @@ import { getUserDetail } from "@/api/user/index"
 import { getLoginState } from "@/api/user/index"
 import { storeToRefs } from "pinia"
 import { userStore } from '@/store/modules/user'
-import { recommendStore } from '@/store/modules/recommend'
 
-const recommendState = recommendStore()
 const userState = userStore()
 const { isLoginDialog, isLogin, cookie, userInfo } = storeToRefs<any>( userState )
 
@@ -82,13 +80,6 @@ const checkState = () => {
             load.value = true
         }
         if ( res.code === 803 ) {
-
-            recommendState.setRecommendedSongsList( res.cookie )
-            recommendState.setRecommendedPlayList( res.cookie )
-            recommendState.setRecommendDj( res.cookie )
-            recommendState.setRecommendNewSongs()
-            recommendState.setRecommendMv()
-            recommendState.setHotSongerList()
 
             cookie.value = res.cookie
             // 登录成功
