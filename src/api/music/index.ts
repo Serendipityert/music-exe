@@ -206,6 +206,7 @@ export const getDayRecommendNewSongs = async () => {
         MessagePlugin.warning( err )
     } )
 }
+
 /**
  * 获取推荐mv
  * @returns 
@@ -218,13 +219,27 @@ export const getDayRecommendMv = async () => {
         MessagePlugin.warning( err )
     } )
 }
+
 /**
  * 获取热门歌手
  * @returns 
  */
-export const getHotSongerList = async () => {
+export const getHotSongerList = async ( num: number | undefined ) => {
     return await Axios( {
-        url: BASE_URL_MUSIC + '/top/artists?offset=0&limit=30',
+        url: BASE_URL_MUSIC + '/top/artists?offset=0&limit=' + num,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 按照分类获取歌手
+ * @returns 
+ */
+export const getSongerList = async ( type: number | undefined, area: number | undefined, initial: string | undefined, limit: number | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/artist/list?type=' + type + '&area=' + area + '&initial=' + initial + '&limit=' + limit,
         method: 'get'
     } ).catch( ( err: any ) => {
         MessagePlugin.warning( err )

@@ -108,7 +108,7 @@ getDayRecommendMv().then( ( res: any ) => {
     }
 } )
 
-getHotSongerList().then( ( res: any ) => {
+getHotSongerList( 31 ).then( ( res: any ) => {
     if ( res.code === 200 ) {
         hotSongerList.value = res.artists
     }
