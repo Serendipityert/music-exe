@@ -142,6 +142,7 @@ export const getAlbumContent = async ( data: string | undefined ) => {
         MessagePlugin.warning( err )
     } )
 }
+
 /**
  * 根据歌曲名搜索歌曲
  * @param data 
@@ -155,6 +156,7 @@ export const songSearch = async ( data: string | undefined ) => {
         MessagePlugin.warning( err )
     } )
 }
+
 /**
  * 获取每日推荐歌曲
  * @param cookie 
@@ -168,6 +170,7 @@ export const getDayRecommendSongs = async ( cookie: string | undefined | any ) =
         MessagePlugin.warning( err )
     } )
 }
+
 /**
  * 获取每日推荐歌单
  * @param cookie 
@@ -181,6 +184,7 @@ export const getDayRecommendPlayList = async ( cookie: string | undefined | any 
         MessagePlugin.warning( err )
     } )
 }
+
 /**
  * 获取每日推荐电台
  * @param cookie 
@@ -194,6 +198,7 @@ export const getDayRecommendDj = async ( cookie: string | undefined | any ) => {
         MessagePlugin.warning( err )
     } )
 }
+
 /**
  * 获取推荐新歌
  * @returns 
@@ -240,6 +245,71 @@ export const getHotSongerList = async ( num: number | undefined ) => {
 export const getSongerList = async ( type: number | undefined, area: number | undefined, initial: string | undefined, limit: number | undefined ) => {
     return await Axios( {
         url: BASE_URL_MUSIC + '/artist/list?type=' + type + '&area=' + area + '&initial=' + initial + '&limit=' + limit,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取电台分类
+ * @returns 
+ */
+export const getRadioClassification = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/dj/catelist',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取电台今日优选
+ * @returns 
+ */
+export const getRadioClassificationTodayPreferred = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/dj/today/perfered',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取电台详情
+ * @returns 
+ */
+export const getRadioClassificationDetail = async ( rid: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/dj/detail?rid=' + rid,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取付费精选电台
+ * @returns 
+ */
+export const getPayRadioClassification = async ( limit: number | undefined, offset: number | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/dj/paygift?limit=' + limit + '&offset=' + offset,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取电台个性推荐
+ * @returns 
+ */
+export const getRadioPersonalizedRecommend = async ( limit: number | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/dj/personalize/recommend?limit=' + limit,
         method: 'get'
     } ).catch( ( err: any ) => {
         MessagePlugin.warning( err )

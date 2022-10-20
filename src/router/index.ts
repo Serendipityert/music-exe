@@ -126,6 +126,12 @@ const publicRoutes = [
             meta: { isLogin: true },
             component: () => import( '@/view/user-main/play-list/play-list-detail/index.vue' )
         },
+        {
+            path: '/radio-detail',
+            name: 'RadioDetail',
+            meta: { isLogin: false },
+            component: () => import( '@/view/music-hall/audio-station/radio-detail/index.vue' )
+        },
         ]
     }
 ]

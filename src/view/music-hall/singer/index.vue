@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="mt-2 flex flex-col">
-            <t-loading text="加载中..." size="small" :loading="loading">
+            <t-loading text="加载中..." size="large" :loading="loading">
                 <div class="flex flex-wrap content-start mt-4 ml-3">
                     <div class="w-36 h-36 cursor-pointer rounded-xl mb-6 mr-2 p-2" v-if="songerList"
                         v-for="(item,index) in songerList" :key="index" @click="openSonger(item)">
@@ -46,7 +46,6 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { LoadingPlugin } from 'tdesign-vue-next'
 import { getSongerList } from '@/api/music/index'
 import { getHotMusicBySongId } from '@/api/music/index'
 import { getSongerDetail } from '@/api/music/index'

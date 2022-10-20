@@ -2,13 +2,13 @@
     <div class="flex flex-col">
         <div class="font-bold text-3xl">音乐馆</div>
         <div class="flex mt-4">
-            <t-tabs :value="value1" size="medium" @change="(newValue) => (value1 = newValue)">
+            <t-tabs :value="value1" size="medium" @change="(newValue: string) => (value1 = newValue)">
                 <t-tab-panel value="1" label="精选">
                     <div class="p-6">
                         <Selected />
                     </div>
                 </t-tab-panel>
-                <t-tab-panel value="2" label="有声电台">
+                <t-tab-panel value="2" label="电台">
                     <div class="p-6">
                         <AudioStation />
                     </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import Singer from './singer/index.vue'
 import AudioStation from './audio-station/index.vue'
 import ClassifiedSongList from './classified-song-list/index.vue'
@@ -53,9 +53,10 @@ import MobileExclusive from './mobile-exclusive/index.vue'
 import Ranking from './ranking/index.vue'
 import Selected from './selected/index.vue'
 
-const value1 = ref('1');
+const value1 = ref( '1' );
 
 </script>
 
 <style scoped>
+
 </style>
