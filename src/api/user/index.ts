@@ -245,3 +245,35 @@ export const getPlayListDetail = async ( id: string | undefined ) => {
         MessagePlugin.warning( err )
     } )
 }
+
+/**
+ * 获取登录用户私信
+ * 
+ * @param limit 
+ * @param cookie 
+ * @returns 
+ */
+export const getPrivateMsg = async ( limit: number | undefined, cookie: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/msg/private?limit=' + limit + '&cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取某个私信的具体内容
+ * 
+ * @param uid 
+ * @param cookie 
+ * @returns 
+ */
+export const getPrivateMsgDetail = async ( uid: string | undefined, cookie: string | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/msg/private/history?uid=' + uid + '&cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}

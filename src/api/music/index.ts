@@ -315,3 +315,66 @@ export const getRadioPersonalizedRecommend = async ( limit: number | undefined )
         MessagePlugin.warning( err )
     } )
 }
+/**
+ * 获取精品歌单
+ */
+export const getBoutiquePlayList = async ( limit: number | undefined ) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/top/playlist/highquality?limit=' + limit,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取首页发现数据
+ * @returns 
+ */
+export const getHomeDiscovery = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/homepage/block/page',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取banner数据
+ * @returns 
+ */
+export const getBanner = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/banner',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取推荐电台
+ * @returns 
+ */
+export const getPersonalizedDjProgram = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/personalized/djprogram',
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取推荐视频
+ * @returns 
+ */
+export const getRecommendVideo = async (offset: number | undefined, cookie: string | undefined) => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/video/timeline/recommend?offset=' + offset  +'&cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
