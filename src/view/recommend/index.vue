@@ -2,28 +2,29 @@
     <div class="flex flex-col">
         <div class="font-bold text-3xl">推荐</div>
         <div class="flex flex-col">
-            <div class="font-medium text-xl mt-6 text-gray-600">Hi {{ userInfo.profile.nickname }} 今日为你推荐</div>
+            <div class="font-medium text-xl mt-6 text-gray-800">Hi {{ userInfo.profile.nickname }} 今日为你推荐</div>
             <div class="flex flex-around mt-2">
-                <div class="w-96 h-40 cursor-pointer rounded-xl mr-4 p-2" @click="openRecommendDj">
-                    <img v-if="recommendDj" :src="recommendDj[recommendDj.index].picUrl" class="rounded-xl"
+                <div class="w-96 h-40 cursor-pointer rounded-xl mr-4 p-2 text-center img" @click=" openRecommendDj ">
+                    <img v-if=" recommendDj " :src=" recommendDj[ recommendDj.index ].picUrl " class="rounded-xl mb-2"
                         style="width: 100%; height: 100%;" />
-                    <span class="text-sm mt-2">个性电台</span>
+                    <div class="text-xs mt-2 cursor-pointer hover:text-blue-800">个性电台</div>
                 </div>
-                <div class="w-60 h-40 cursor-pointer rounded-xl mr-4 p-2" @click="openRecommendedSongsList">
-                    <img v-if="recommendedSongsList"
-                        :src="recommendedSongsList.dailySongs[recommendedSongsList.index].al.picUrl" class="rounded-xl"
+                <div class="w-60 h-40 cursor-pointer rounded-xl mr-4 p-2 text-center img"
+                    @click=" openRecommendedSongsList ">
+                    <img v-if=" recommendedSongsList "
+                        :src=" recommendedSongsList.dailySongs[ recommendedSongsList.index ].al.picUrl "
+                        class="rounded-xl mb-2" style="width: 100%; height: 100%;" />
+                    <div class="text-xs mt-2 hover:text-blue-800">每日30首</div>
+                </div>
+                <div class="w-60 h-40 cursor-pointer rounded-xl mr-4 p-2  text-center img">
+                    <img v-if=" recommendNewSongs " :src=" recommendNewSongs[ recommendNewSongs.index ].picUrl "
+                        class="rounded-xl mb-2" style="width: 100%; height: 100%;" />
+                    <div class="text-xs mt-2 hover:text-blue-800">新歌推荐</div>
+                </div>
+                <div class="w-60 h-40 cursor-pointer rounded-xl p-2 text-center img">
+                    <img v-if=" recommendMv " :src=" recommendMv[ recommendMv.index ].picUrl " class="rounded-xl mb-2"
                         style="width: 100%; height: 100%;" />
-                    <span class="text-sm mt-2">每日30首</span>
-                </div>
-                <div class="w-60 h-40 cursor-pointer rounded-xl mr-4 p-2">
-                    <img v-if="recommendNewSongs" :src="recommendNewSongs[recommendNewSongs.index].picUrl"
-                        class="rounded-xl" style="width: 100%; height: 100%;" />
-                    <span class="text-sm mt-2">新歌推荐</span>
-                </div>
-                <div class="w-60 h-40 cursor-pointer rounded-xl p-2">
-                    <img v-if="recommendMv" :src="recommendMv[recommendMv.index].picUrl" class="rounded-xl"
-                        style="width: 100%; height: 100%;" />
-                    <span class="text-sm mt-2">推荐 MV</span>
+                    <div class="text-xs mt-2 hover:text-blue-800">推荐 MV</div>
                 </div>
             </div>
         </div>
@@ -31,21 +32,23 @@
             <div class="font-medium text-xl mt-8 text-gray-600">你的私荐歌单</div>
             <div class="flex flex-col mt-2">
                 <div class="flex flex-around">
-                    <div class="w-60 h-40 cursor-pointer rounded-xl mr-2 p-1" v-if="recommendedPlayList"
-                        v-for="(item,index) in recommendedPlayList" :key="index" @click="openRecommendedPlayList(item)">
-                        <img :src="item.picUrl" alt="" style="width: 100%; height: 90%;" />
-                        <div class="text-xs w-50 mt-2">{{item.name}}</div>
+                    <div class="w-60 h-40 cursor-pointer rounded-xl mr-2 p-1 img" v-if=" recommendedPlayList "
+                        v-for="(                                       item, index                                       ) in recommendedPlayList"
+                        :key=" index " @click=" openRecommendedPlayList( item ) ">
+                        <img :src=" item.picUrl " alt="" style="width: 100%; height: 90%;" />
+                        <div class="text-xs w-50 mt-2 hover:text-blue-800 cursor-pointer">{{ item.name }}</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="flex flex-col">
             <div class="font-medium text-xl mt-14 text-gray-600">热门歌手</div>
-            <div class="flex flex-wrap content-start mt-6 ml-2">
-                <div class="w-48 h-32 cursor-pointer rounded-xl mb-12 mr-2 p-2" v-if="hotSongerList"
-                    v-for="(item,index) in hotSongerList" :key="index">
-                    <img :src="item.picUrl" alt="">
-                    <div>{{item.name}}</div>
+            <div class="flex flex-wrap content-start mt-2 ml-2">
+                <div class="w-36 h-36 cursor-pointer rounded-xl mr-2 p-1 mb-1 text-center img" v-if=" hotSongerList "
+                    v-for="(                                       item, index                                       ) in hotSongerList"
+                    :key=" index ">
+                    <img :src=" item.picUrl " alt="" class="mb-2 rounded-md">
+                    <div class="text-xs hover:text-blue-800">{{ item.name }}</div>
                 </div>
             </div>
         </div>
@@ -108,7 +111,7 @@ getDayRecommendMv().then( ( res: any ) => {
     }
 } )
 
-getHotSongerList( 31 ).then( ( res: any ) => {
+getHotSongerList( 33 ).then( ( res: any ) => {
     if ( res.code === 200 ) {
         hotSongerList.value = res.artists
     }
@@ -129,5 +132,7 @@ const openRecommendDj = () => {
 </script>
 
 <style scoped>
-
+.img:hover {
+    transform: translateY(-8px);
+}
 </style>

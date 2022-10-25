@@ -4,23 +4,23 @@
             <div class="font-medium text-xl text-gray-600">今日优选
             </div>
             <div class="ml-4 flex flex-wrap content-start">
-                <div class="w-36 h-36 cursor-pointer rounded-sm mr-6 mb-3 p-2 text-center"
-                    v-if="radioTodayPreferredList" v-for="(item, index) in radioTodayPreferredList" :key="index"
-                    @click="openRadioStation(item)">
-                    <img :src="item.picUrl" alt="" style="width: 100%; height: 100%;" class="mb-2 rounded-lg" />
-                    {{ item.name }}
+                <div class="w-36 h-36 cursor-pointer rounded-sm mr-6 mb-3 p-2 text-center img"
+                    v-if=" radioTodayPreferredList " v-for="(      item, index      ) in radioTodayPreferredList"
+                    :key=" index " @click=" openRadioStation( item ) ">
+                    <img :src=" item.picUrl " alt="" style="width: 100%; height: 100%;" class="mb-2 rounded-lg" />
+                    <span class="text-xs">{{ item.name }}</span>
                 </div>
             </div>
         </div>
-        <div class="mt-6 flex flex-col">
+        <div class="mt-8 flex flex-col">
             <div class="font-medium text-xl text-gray-600">个性推荐
             </div>
             <div class="ml-4 flex flex-wrap content-start">
-                <div class="w-36 h-36 cursor-pointer rounded-sm mr-2 mt-4 mb-8 p-1 text-center"
-                    v-if="personalizedRecommendList" v-for="(item, index) in personalizedRecommendList" :key="index"
-                    @click="openRadioStation(item)">
-                    <img :src="item.picUrl" alt="" style="width: 100%; height: 100%;" class="mb-2 rounded-md">
-                    {{ item.name }}
+                <div class="w-36 h-36 cursor-pointer rounded-sm mr-2 mt-4 mb-8 p-1 text-center img"
+                    v-if=" personalizedRecommendList " v-for="(      item, index      ) in personalizedRecommendList"
+                    :key=" index " @click=" openRadioStation( item ) ">
+                    <img :src=" item.picUrl " alt="" style="width: 100%; height: 100%;" class="mb-2 rounded-md">
+                    <span class="text-xs">{{ item.name }}</span>
                 </div>
             </div>
         </div>
@@ -28,11 +28,11 @@
             <div class="font-medium text-xl text-gray-600">精选分类
             </div>
             <div class="ml-4 flex flex-wrap content-start">
-                <div class="w-20 h-20 cursor-pointer rounded-sm mr-4 mb-3 p-2 text-center"
-                    v-if="radioClassificationList" v-for="(item, index) in radioClassificationList" :key="index"
-                    @click="openRadioStation(item)">
-                    <img :src="item.picIPadUrl" alt="" style="width: 100%; height: 100%;">
-                    {{ item.name }}
+                <div class="w-20 h-20 cursor-pointer rounded-sm mr-4 mb-3 p-2 text-center img"
+                    v-if=" radioClassificationList " v-for="(      item, index      ) in radioClassificationList"
+                    :key=" index " @click=" openRadioStation( item ) ">
+                    <img :src=" item.picIPadUrl " alt="" style="width: 100%; height: 100%;">
+                    <span class="text-xs">{{ item.name }}</span>
                 </div>
             </div>
         </div>
@@ -40,11 +40,11 @@
             <div class="font-medium text-xl text-gray-600">付费精选
             </div>
             <div class="ml-4 flex flex-wrap content-start">
-                <div class="w-36 h-36 cursor-pointer rounded-sm mr-2 mt-4 mb-8 p-1 text-center"
-                    v-if="payRadioClassificationList" v-for="(item, index) in payRadioClassificationList" :key="index"
-                    @click="openRadioStation(item)">
-                    <img :src="item.picUrl" alt="" style="width: 100%; height: 100%;" class="mb-2 rounded-md">
-                    {{ item.name }}
+                <div class="w-36 h-36 cursor-pointer rounded-sm mr-2 mt-4 mb-8 p-1 text-center img"
+                    v-if=" payRadioClassificationList " v-for="(      item, index      ) in payRadioClassificationList"
+                    :key=" index " @click=" openRadioStation( item ) ">
+                    <img :src=" item.picUrl " alt="" style="width: 100%; height: 100%;" class="mb-2 rounded-md">
+                    <span class="text-xs">{{ item.name }}</span>
                 </div>
             </div>
         </div>
@@ -111,5 +111,7 @@ const openRadioStation = ( item: any ) => {
 </script>
 
 <style scoped>
-
+.img:hover {
+    transform: translateY(-8px);
+}
 </style>

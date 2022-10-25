@@ -2,41 +2,42 @@
     <div class="flex flex-col">
         <div class="flex flex-col">
             <div class="flex flex-wrap content-start ml-2">
-                <div class="w-20 h-10 cursor-pointer mr-4 p-2" v-for="(item,index) in area" :key="index"
-                    @click="search.area = item.num">
-                    <t-button shape="round" :variant="variant"
-                        v-if="search.area === item.num ? variant = 'base' : variant = 'outline'" class="w-20">{{
-                        item.name }}</t-button>
+                <div class="w-20 h-10 cursor-pointer mr-4 p-2" v-for="( item, index ) in area" :key=" index "
+                    @click=" search.area = item.num ">
+                    <t-button shape="round" :variant=" variant "
+                        v-if=" search.area === item.num ? variant = 'base' : variant = 'outline' " class="w-20">{{
+                                item.name
+                        }}</t-button>
                 </div>
             </div>
             <div class="flex flex-wrap content-start mt-2 ml-1">
-                <div class="w-20 h-10 cursor-pointer mr-4 p-4" v-for="(item,index) in type" :key="index"
-                    @click="search.type = item.num">
-                    <t-button shape="round" :variant="variant" class="w-20"
-                        v-if="search.type === item.num ? variant = 'base' : variant = 'outline'">{{ item.name }}
+                <div class="w-20 h-10 cursor-pointer mr-4 p-4" v-for="( item, index ) in type" :key=" index "
+                    @click=" search.type = item.num ">
+                    <t-button shape="round" :variant=" variant " class="w-20"
+                        v-if=" search.type === item.num ? variant = 'base' : variant = 'outline' ">{{ item.name }}
                     </t-button>
                 </div>
             </div>
         </div>
         <div class="mt-4 flex flex-col">
             <div class="flex flex-wrap content-start mt-4 ml-3">
-                <div class=" cursor-pointer mr-1 hover:text-blue-700" v-for="(item,index) in alphabet" :key="index"
-                    @click="search.alphabet = item">
-                    <t-button style="width: 25px; height: 25px;" shape="circle" :variant="variant1"
-                        v-if="(search.alphabet === item || search.alphabet === '0' ) ? variant1 = 'base' : variant1 = 'text'">
-                        {{item}}
+                <div class=" cursor-pointer mr-1 hover:text-blue-700" v-for="( item, index ) in alphabet" :key=" index "
+                    @click=" search.alphabet = item ">
+                    <t-button style="width: 25px; height: 25px;" shape="circle" :variant=" variant1 "
+                        v-if=" ( search.alphabet === item || search.alphabet === '0' ) ? variant1 = 'base' : variant1 = 'text' ">
+                        {{ item }}
                     </t-button>
                 </div>
             </div>
         </div>
         <div class="mt-2 flex flex-col">
-            <t-loading text="加载中..." size="large" :loading="loading">
+            <t-loading text="加载中..." size="large" :loading=" loading ">
                 <div class="flex flex-wrap content-start mt-4 ml-3">
-                    <div class="w-36 h-36 cursor-pointer rounded-xl mb-6 mr-2 p-2" v-if="songerList"
-                        v-for="(item,index) in songerList" :key="index" @click="openSonger(item)">
-                        <img :src="item.picUrl" alt="" style="width: 100%; height: 100%;"
+                    <div class="w-36 h-36 cursor-pointer rounded-xl mb-6 mr-2 p-2 img" v-if=" songerList "
+                        v-for="( item, index ) in songerList" :key=" index " @click=" openSonger( item ) ">
+                        <img :src=" item.picUrl " alt="" style="width: 100%; height: 100%;"
                             class="cursor-pointer rounded-full" />
-                        <div class="hover:text-blue-700 text-center mt-2 mb-2">{{item.name}}</div>
+                        <div class="hover:text-blue-700 text-center mt-2 mb-2">{{ item.name }}</div>
                     </div>
                 </div>
             </t-loading>
@@ -103,11 +104,11 @@ const openSonger = ( item: any ) => {
             } )
         }
     } )
-
 }
-
 </script>
 
 <style scoped>
-
+.img:hover {
+    transform: translateY(-8px);
+}
 </style>

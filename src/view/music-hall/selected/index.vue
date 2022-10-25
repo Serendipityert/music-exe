@@ -1,11 +1,11 @@
 <template>
     <div class="flex flex-col">
         <div class="m-auto">
-            <t-swiper theme="dark" :navigation="{ placement: 'outside', type: 'bars' }">
-                <t-swiper-item v-if="bannerList" v-for="(item, index) in bannerList" :key="index"
-                    @click="openBanner(item)">
+            <t-swiper theme="dark" :navigation=" { placement: 'outside', type: 'bars' } ">
+                <t-swiper-item v-if=" bannerList " v-for="(   item, index   ) in bannerList" :key=" index "
+                    @click=" openBanner( item ) ">
                     <div class="cursor-pointer p-1 h-80">
-                        <img :src="item.imageUrl" alt="">
+                        <img :src=" item.imageUrl " alt="">
                     </div>
                 </t-swiper-item>
             </t-swiper>
@@ -15,10 +15,10 @@
                 <span class="text-xs ml-2">官方甄选歌单</span>
             </div>
             <div class="flex flex-row mt-4 ml-4">
-                <div class="w-48 h-52 cursor-pointer rounded-xl mr-4 p-1" v-if="boutiquePlayList"
-                    v-for="(item, index) in boutiquePlayList" :key="index">
-                    <img :src="item.coverImgUrl" alt="" class="mb-4">
-                    <span class="text-sm">{{ item.name }}</span>
+                <div class="w-48 h-52 cursor-pointer rounded-xl mr-4 p-1 img" v-if=" boutiquePlayList "
+                    v-for="(   item, index   ) in boutiquePlayList" :key=" index ">
+                    <img :src=" item.coverImgUrl " alt="" class="mb-4">
+                    <span class="text-xs">{{ item.name }}</span>
                 </div>
             </div>
         </div>
@@ -26,11 +26,11 @@
             <div class="font-medium text-xl mt-6 text-gray-600">推荐电台
             </div>
             <div class="flex flex-row mt-4 ml-4">
-                <div class="w-48 h-52 cursor-pointer rounded-xl mr-4 p-1" v-if="personalizedDjProgram"
-                    v-for="(item, index) in personalizedDjProgram" :key="index"
-                    @click="openPersonalizedDjProgram(item)">
-                    <img :src="item.picUrl" alt="" class="mb-2">
-                    <span class="text-xs">{{item.name}}</span>
+                <div class="w-48 h-52 cursor-pointer rounded-xl mr-4 p-1 img" v-if=" personalizedDjProgram "
+                    v-for="(   item, index   ) in personalizedDjProgram" :key=" index "
+                    @click=" openPersonalizedDjProgram( item ) ">
+                    <img :src=" item.picUrl " alt="" class="mb-2">
+                    <span class="text-xs">{{ item.name }}</span>
                 </div>
             </div>
         </div>
@@ -38,10 +38,10 @@
             <div class="font-medium text-xl mt-2 text-gray-600">推荐视频
             </div>
             <div class="flex flex-row mt-2 ml-2">
-                <div class="w-60 h-48 cursor-pointer rounded-xl mr-2 p-1" v-if="recommendVideo"
-                    v-for="(item, index) in recommendVideo" :key="index" @click="openRecommendVideo(item)">
-                    <img :src="item.data.coverUrl" alt="" class="mb-2">
-                    <span class="text-xs">{{item.data.title}}</span>
+                <div class="w-60 h-48 cursor-pointer rounded-xl mr-2 p-1 img" v-if=" recommendVideo "
+                    v-for="(   item, index   ) in recommendVideo" :key=" index " @click=" openRecommendVideo( item ) ">
+                    <img :src=" item.data.coverUrl " alt="" class="mb-2">
+                    <span class="text-xs">{{ item.data.title }}</span>
                 </div>
             </div>
         </div>
@@ -104,5 +104,7 @@ const openRecommendVideo = ( item: any ) => {
 </script>
 
 <style scoped>
-
+.img:hover {
+    transform: translateY(-8px);
+}
 </style>
