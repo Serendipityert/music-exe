@@ -14,18 +14,18 @@
                                 </div>
                                 <div class="flex flex-col ml-3 w-44 border-b">
                                     <div class="text-xs text-blue-400 mb-1 mt-1.5 flex flex-row justify-between">
-                                        <div>{{item.fromUser.nickname}}</div>
-                                        <div class="text-xs">{{item.lastMsgTime}}</div>
+                                        <div>{{ item.fromUser.nickname }}</div>
+                                        <div class="text-xs">{{ formatDate(item.lastMsgTime) }}</div>
                                     </div>
-                                    <div class="mb-3 text-xs truncate">{{JSON.parse(item.lastMsg).msg}}</div>
+                                    <div class="mb-3 text-xs truncate">{{ JSON.parse(item.lastMsg).msg }}</div>
                                 </div>
                             </div>
                             <div v-if="intoUserMsg">
                                 <t-drawer v-model:visible="visible" close-btn closeOnEscKeydown>
                                     <div class="flex flex-col">
                                         <div v-if="privateMsgList">
-                                            <div class="w-12 border bg-gray-50" v-for="(item,index) in privateMsgList">
-                                                {{JSON.parse(item.msg).msg}}
+                                            <div class="w-12 border bg-gray-50" v-for="(item, index) in privateMsgList">
+                                                {{ JSON.parse(item.msg).msg }}
                                             </div>
                                         </div>
                                     </div>
@@ -35,7 +35,7 @@
                                                 <ChevronLeftIcon @click="visible = false" />
                                             </div>
                                             <div class="ml-24 text-sm mt-1 font-bold">
-                                                {{intoUserMsg.fromUser.nickname}}</div>
+                                                {{ intoUserMsg.fromUser.nickname }}</div>
                                         </div>
                                     </template>
                                     <template #footer>
@@ -69,29 +69,29 @@ import { userStore } from '@/store/modules/user'
 import { storeToRefs } from 'pinia'
 
 const userState = userStore()
-const { cookie } = storeToRefs<any>( userState )
+const { cookie } = storeToRefs<any>(userState)
 
-const visible = ref<boolean>( false )
+const visible = ref<boolean>(false)
 
-const props = defineProps( {
+const props = defineProps({
     msgList: {
         type: Array,
         default: () => [],
         required: true
     } as any,
-} )
+})
 const intoUserMsg = ref<any>()
 const privateMsgList = ref<any>()
 
-const intoPrivateMsg = ( item: any ) => {
+const intoPrivateMsg = (item: any) => {
     // console.log( item )
     intoUserMsg.value = item
-    getPrivateMsgDetail( item.fromUser.userId, cookie.value ).then( ( res: any ) => {
-        console.log( res )
-        if ( res.code === 200 ) {
+    getPrivateMsgDetail(item.fromUser.userId, cookie.value).then((res: any) => {
+        console.log(res)
+        if (res.code === 200) {
             privateMsgList.value = res.msgs.reverse()
         }
-    } )
+    })
     visible.value = true
 }
 </script>

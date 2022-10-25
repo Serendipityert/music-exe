@@ -4,7 +4,7 @@
         <div class="flex mt-4">
             <t-tabs :value="value1" size="medium" @change="(newValue: string) => (value1 = newValue)">
                 <t-tab-panel value="1" label="精选">
-                    <div class="p-6">
+                    <div class="p-3">
                         <Selected />
                     </div>
                 </t-tab-panel>
@@ -14,7 +14,7 @@
                     </div>
                 </t-tab-panel>
                 <t-tab-panel value="3" label="排行">
-                    <div class="p-6">
+                    <div class="p-3">
                         <Ranking />
                     </div>
                 </t-tab-panel>
@@ -53,7 +53,7 @@ import MobileExclusive from './mobile-exclusive/index.vue'
 import Ranking from './ranking/index.vue'
 import Selected from './selected/index.vue'
 
-const value1 = ref( '1' );
+const value1 = ref('1');
 
 </script>
 

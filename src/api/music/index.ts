@@ -370,9 +370,22 @@ export const getPersonalizedDjProgram = async () => {
  * 获取推荐视频
  * @returns 
  */
-export const getRecommendVideo = async (offset: number | undefined, cookie: string | undefined) => {
+export const getRecommendVideo = async ( offset: number | undefined, cookie: string | undefined ) => {
     return await Axios( {
-        url: BASE_URL_MUSIC + '/video/timeline/recommend?offset=' + offset  +'&cookie=' + cookie,
+        url: BASE_URL_MUSIC + '/video/timeline/recommend?offset=' + offset + '&cookie=' + cookie,
+        method: 'get'
+    } ).catch( ( err: any ) => {
+        MessagePlugin.warning( err )
+    } )
+}
+
+/**
+ * 获取排行信息
+ * @returns 
+ */
+export const getRanking = async () => {
+    return await Axios( {
+        url: BASE_URL_MUSIC + '/toplist',
         method: 'get'
     } ).catch( ( err: any ) => {
         MessagePlugin.warning( err )
