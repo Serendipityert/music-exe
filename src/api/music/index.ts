@@ -7,13 +7,13 @@ import { MessagePlugin } from 'tdesign-vue-next'
  * @param data 
  * @returns 
  */
-export const searchMusicProposal = async ( data: string | undefined ) => {
-    return await Axios( {
+export const searchMusicProposal = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/search/suggest?keywords=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -21,12 +21,12 @@ export const searchMusicProposal = async ( data: string | undefined ) => {
  * @returns 
  */
 export const hotSearchMusic = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/search/hot/detail',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -34,15 +34,15 @@ export const hotSearchMusic = async () => {
  * @param data 
  * @returns 
  */
-export const getMusicUrl = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getMusicUrl = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/song/url?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        console.log( err )
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        console.log(err)
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -50,13 +50,13 @@ export const getMusicUrl = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const getMusicLyric = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getMusicLyric = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/lyric?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -64,13 +64,13 @@ export const getMusicLyric = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const getSongerDetail = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getSongerDetail = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/artist/detail?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -78,13 +78,13 @@ export const getSongerDetail = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const getHotMusicBySongId = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getHotMusicBySongId = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/artist/top/song?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -92,13 +92,13 @@ export const getHotMusicBySongId = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const getMusicListBySongId = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getMusicListBySongId = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/artist/songs?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -106,13 +106,13 @@ export const getMusicListBySongId = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const getSongerBriefDesc = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getSongerBriefDesc = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/artist/desc?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -120,13 +120,13 @@ export const getSongerBriefDesc = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const getSongerAlbum = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getSongerAlbum = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/artist/album?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -134,13 +134,13 @@ export const getSongerAlbum = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const getAlbumContent = async ( data: string | undefined ) => {
-    return await Axios( {
+export const getAlbumContent = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/album?id=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -148,13 +148,13 @@ export const getAlbumContent = async ( data: string | undefined ) => {
  * @param data 
  * @returns 
  */
-export const songSearch = async ( data: string | undefined ) => {
-    return await Axios( {
+export const songSearch = async (data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/cloudsearch?keywords=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -162,13 +162,13 @@ export const songSearch = async ( data: string | undefined ) => {
  * @param cookie 
  * @returns 
  */
-export const getDayRecommendSongs = async ( cookie: string | undefined | any ) => {
-    return await Axios( {
+export const getDayRecommendSongs = async (cookie: string | undefined | any) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/recommend/songs?cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -176,13 +176,13 @@ export const getDayRecommendSongs = async ( cookie: string | undefined | any ) =
  * @param cookie 
  * @returns 
  */
-export const getDayRecommendPlayList = async ( cookie: string | undefined | any ) => {
-    return await Axios( {
+export const getDayRecommendPlayList = async (cookie: string | undefined | any) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/recommend/resource?cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -190,13 +190,13 @@ export const getDayRecommendPlayList = async ( cookie: string | undefined | any 
  * @param cookie 
  * @returns 
  */
-export const getDayRecommendDj = async ( cookie: string | undefined | any ) => {
-    return await Axios( {
+export const getDayRecommendDj = async (cookie: string | undefined | any) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/dj/recommend?cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -204,12 +204,12 @@ export const getDayRecommendDj = async ( cookie: string | undefined | any ) => {
  * @returns 
  */
 export const getDayRecommendNewSongs = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/personalized/newsong',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -217,38 +217,38 @@ export const getDayRecommendNewSongs = async () => {
  * @returns 
  */
 export const getDayRecommendMv = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/personalized/mv',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
  * 获取热门歌手
  * @returns 
  */
-export const getHotSongerList = async ( num: number | undefined ) => {
-    return await Axios( {
+export const getHotSongerList = async (num: number | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/top/artists?offset=0&limit=' + num,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
  * 按照分类获取歌手
  * @returns 
  */
-export const getSongerList = async ( type: number | undefined, area: number | undefined, initial: string | undefined, limit: number | undefined ) => {
-    return await Axios( {
+export const getSongerList = async (type: number | undefined, area: number | undefined, initial: string | undefined, limit: number | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/artist/list?type=' + type + '&area=' + area + '&initial=' + initial + '&limit=' + limit,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -256,12 +256,12 @@ export const getSongerList = async ( type: number | undefined, area: number | un
  * @returns 
  */
 export const getRadioClassification = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/dj/catelist',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -269,62 +269,75 @@ export const getRadioClassification = async () => {
  * @returns 
  */
 export const getRadioClassificationTodayPreferred = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/dj/today/perfered',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
  * 获取电台详情
  * @returns 
  */
-export const getRadioClassificationDetail = async ( rid: string | undefined ) => {
-    return await Axios( {
+export const getRadioClassificationDetail = async (rid: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/dj/detail?rid=' + rid,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
  * 获取付费精选电台
  * @returns 
  */
-export const getPayRadioClassification = async ( limit: number | undefined, offset: number | undefined ) => {
-    return await Axios( {
+export const getPayRadioClassification = async (limit: number | undefined, offset: number | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/dj/paygift?limit=' + limit + '&offset=' + offset,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
  * 获取电台个性推荐
  * @returns 
  */
-export const getRadioPersonalizedRecommend = async ( limit: number | undefined ) => {
-    return await Axios( {
+export const getRadioPersonalizedRecommend = async (limit: number | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/dj/personalize/recommend?limit=' + limit,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
+
 /**
  * 获取精品歌单
  */
-export const getBoutiquePlayList = async ( limit: number | undefined ) => {
-    return await Axios( {
+export const getBoutiquePlayList = async (limit: number | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/top/playlist/highquality?limit=' + limit,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
+
+/**
+ * 获取推荐歌单
+ */
+export const getPersonalizedPlayList = async (limit: number | undefined) => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/personalized?limit=' + limit,
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -332,12 +345,12 @@ export const getBoutiquePlayList = async ( limit: number | undefined ) => {
  * @returns 
  */
 export const getHomeDiscovery = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/homepage/block/page',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -345,12 +358,12 @@ export const getHomeDiscovery = async () => {
  * @returns 
  */
 export const getBanner = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/banner',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -358,25 +371,25 @@ export const getBanner = async () => {
  * @returns 
  */
 export const getPersonalizedDjProgram = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/personalized/djprogram',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
  * 获取推荐视频
  * @returns 
  */
-export const getRecommendVideo = async ( offset: number | undefined, cookie: string | undefined ) => {
-    return await Axios( {
+export const getRecommendVideo = async (offset: number | undefined, cookie: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/video/timeline/recommend?offset=' + offset + '&cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -384,10 +397,23 @@ export const getRecommendVideo = async ( offset: number | undefined, cookie: str
  * @returns 
  */
 export const getRanking = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/toplist',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
+
+/**
+ * 获取分类歌单
+ * @returns 
+ */
+export const getPlaylistCatList = async () => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/playlist/catlist',
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }

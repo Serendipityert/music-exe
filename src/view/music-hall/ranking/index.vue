@@ -46,7 +46,6 @@ getRanking().then((res: any) => {
 })
 const rankingDetail = (item: any) => {
     getPlayListDetail(item.id).then((res: any) => {
-        console.log(res)
         if (res.code === 200) {
             router.push({
                 path: '/ranking-detail',

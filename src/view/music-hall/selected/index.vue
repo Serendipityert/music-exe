@@ -17,7 +17,7 @@
             <div class="flex flex-row mt-4 ml-4 flex-wrap content-start">
                 <div class="w-36 h-36 cursor-pointer rounded-xl mr-4 mb-14 p-1 img" v-if="boutiquePlayList"
                     v-for="(item, index) in boutiquePlayList" :key="index">
-                    <img :src="item.coverImgUrl" alt="" class="mb-2 rounded-md">
+                    <img :src="item.picUrl" alt="" class="mb-2 rounded-md">
                     <span class="text-xs">{{ item.name }}</span>
                 </div>
             </div>
@@ -53,7 +53,7 @@ import { ref } from 'vue'
 import { userStore } from '@/store/modules/user'
 import { storeToRefs } from "pinia"
 
-import { getBoutiquePlayList } from "@/api/music/index"
+import { getPersonalizedPlayList } from "@/api/music/index"
 import { getBanner } from "@/api/music/index"
 import { getPersonalizedDjProgram } from "@/api/music/index"
 import { getRecommendVideo } from "@/api/music/index"
@@ -66,9 +66,9 @@ const bannerList = ref<any>()
 const personalizedDjProgram = ref<any>()
 const recommendVideo = ref<any>()
 
-getBoutiquePlayList(24).then((res: any) => {
+getPersonalizedPlayList(30).then((res: any) => {
     if (res.code === 200) {
-        boutiquePlayList.value = res.playlists
+        boutiquePlayList.value = res.result
     }
 })
 

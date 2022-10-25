@@ -24,7 +24,7 @@
                     </div>
                 </t-tab-panel>
                 <t-tab-panel value="5" label="分类歌单">
-                    <div class="p-6">
+                    <div class="p-3">
                         <ClassifiedSongList />
                     </div>
                 </t-tab-panel>
