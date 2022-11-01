@@ -204,96 +204,96 @@ import { getPrivateMsg } from '@/api/user/index'
 import { userStore } from '@/store/modules/user'
 
 const userState = userStore()
-const { cookie } = storeToRefs<any>( userState )
+const { cookie } = storeToRefs<any>(userState)
 
-const { ipcRenderer } = require( "electron" )
+const { ipcRenderer } = require("electron")
 
 // defineEmits(['userLogin']);
 
-const size = ref( 18 )
-const offset = ref( 3 )
-const max = ref( true )
-const dragY = ref( '-webkit-app-region: drag;-webkit-user-select: none;' )
-const dragN = ref( '-webkit-app-region: no-drag;' )
+const size = ref(18)
+const offset = ref(3)
+const max = ref(true)
+const dragY = ref('-webkit-app-region: drag;-webkit-user-select: none;')
+const dragN = ref('-webkit-app-region: no-drag;')
 
 // 搜索的歌曲名
-const search_name = ref( '' )
+const search_name = ref('')
 const searchResult = ref()
 const hotSearchResult = ref()
-const searchRes = ref( false )
-const hot_search = ref( false )
+const searchRes = ref(false)
+const hot_search = ref(false)
 
 const msgList = ref<any>()
 
-getPrivateMsg( 6, cookie.value ).then( ( res: any ) => {
-  if ( res.code === 200 ) {
+getPrivateMsg(7, cookie.value).then((res: any) => {
+  if (res.code === 200) {
     msgList.value = res
   }
-} )
+})
 
 const toLastRouter = () => {
-  router.go( -1 )
+  router.go(-1)
 }
 
 const toNextRouter = () => {
-  router.go( 1 )
+  router.go(1)
 }
 
 // 搜索歌曲
 const searchMusic = () => {
-  searchMusicProposal( search_name.value ).then( ( res: any ) => {
-    if ( res.code === 200 ) {
+  searchMusicProposal(search_name.value).then((res: any) => {
+    if (res.code === 200) {
       searchRes.value = true
       hot_search.value = false
       searchResult.value = res.result
     }
-  } ).catch( ( err: any ) => {
-    MessagePlugin.warning( err )
-  } )
+  }).catch((err: any) => {
+    MessagePlugin.warning(err)
+  })
 }
 // 热搜榜
 const handleClick = () => {
   hot_search.value = true
   searchRes.value = false
-  hotSearchMusic().then( ( res: any ) => {
-    if ( res.code === 200 ) {
+  hotSearchMusic().then((res: any) => {
+    if (res.code === 200) {
       hotSearchResult.value = res.data
     }
-  } ).catch( ( err: any ) => {
-    MessagePlugin.warning( err )
-  } )
+  }).catch((err: any) => {
+    MessagePlugin.warning(err)
+  })
 }
 
 // 关闭按钮事件
 const closeApp = () => {
-  ipcRenderer.send( 'close-app' )
+  ipcRenderer.send('close-app')
 }
 
 // 最小化按钮事件
 const minimize = () => {
-  ipcRenderer.send( 'minimize-app' )
+  ipcRenderer.send('minimize-app')
 }
 
 // 最大化按钮事件
 const maximize = () => {
-  ipcRenderer.send( 'maximize-app' )
+  ipcRenderer.send('maximize-app')
   dragY.value = ''
   dragN.value = ''
 }
 
 // 此时须为最大化
-ipcRenderer.on( 'maximize-app', () => {
+ipcRenderer.on('maximize-app', () => {
   max.value = false
   offset.value = 5
-} )
+})
 
 // 此时须为还原初始值
-ipcRenderer.on( 'restore-app', () => {
+ipcRenderer.on('restore-app', () => {
   max.value = true
   offset.value = 3
   dragY.value = '-webkit-app-region: drag;-webkit-user-select: none;'
   dragN.value = '-webkit-app-region: no-drag;'
-} )
+})
 </script>
 
 <style scoped>

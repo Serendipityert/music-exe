@@ -11,15 +11,15 @@ import { MessagePlugin } from 'tdesign-vue-next'
  * @param data 
  * @returns 
  */
-export const sendPhoneVerifyCode = async <T extends Record<string, any>> ( data: T | undefined ) => {
+export const sendPhoneVerifyCode = async <T extends Record<string, any>> (data: T | undefined) => {
     /** 
      * @resType 返回台参数类型
      */
-    return await Axios<resType>( {
+    return await Axios<resType>({
         url: URL + "/sendSms",
         method: "post",
         data,
-    } )
+    })
 }
 
 /**
@@ -27,16 +27,16 @@ export const sendPhoneVerifyCode = async <T extends Record<string, any>> ( data:
  * @param data 
  * @returns 
  */
-export const verifyPhoneCode = async <T extends Record<string, any>> ( data: T | undefined ) => {
+export const verifyPhoneCode = async <T extends Record<string, any>> (data: T | undefined) => {
 
     /** 
      * @resType 返回台参数类型
      */
-    return await Axios<resType>( {
+    return await Axios<resType>({
         url: URL + "/verifySms",
         method: "post",
         data
-    } )
+    })
 }
 
 /**
@@ -44,12 +44,12 @@ export const verifyPhoneCode = async <T extends Record<string, any>> ( data: T |
  * @param data 
  * @returns 
  */
-export const userPhoneCreate = async <T extends Record<string, any>> ( data: T | undefined ) => {
-    return await Axios<resType>( {
+export const userPhoneCreate = async <T extends Record<string, any>> (data: T | undefined) => {
+    return await Axios<resType>({
         url: URL + '/create',
         method: 'post',
         data
-    } )
+    })
 }
 
 /**
@@ -57,12 +57,12 @@ export const userPhoneCreate = async <T extends Record<string, any>> ( data: T |
  * @param data 
  * @returns 
  */
-export const userPhoneLogin = async <T extends Record<string, any>> ( data: T | undefined ) => {
-    return await Axios<resType>( {
+export const userPhoneLogin = async <T extends Record<string, any>> (data: T | undefined) => {
+    return await Axios<resType>({
         url: URL + '/login',
         method: 'post',
         data
-    } )
+    })
 }
 
 /**
@@ -70,10 +70,10 @@ export const userPhoneLogin = async <T extends Record<string, any>> ( data: T | 
  * @returns 
  */
 export const getUserInfo = async () => {
-    return await Axios<resType>( {
+    return await Axios<resType>({
         url: URL + '/getUserInfo',
         method: 'get',
-    } )
+    })
 }
 
 /**
@@ -84,13 +84,13 @@ export const getUserInfo = async () => {
  * 二维码 key 生成接口
  * @returns 
  */
-export const generateKey = async ( time: number | undefined ) => {
-    return await Axios( {
+export const generateKey = async (time: number | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/login/qr/key?time=' + time,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -98,13 +98,13 @@ export const generateKey = async ( time: number | undefined ) => {
  * @param data 
  * @returns 
  */
-export const generateQRCode = async ( qrimg: number | undefined, data: string | undefined ) => {
-    return await Axios( {
+export const generateQRCode = async (qrimg: number | undefined, data: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/login/qr/create?qrimg=' + qrimg + '&key=' + data,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -112,13 +112,13 @@ export const generateQRCode = async ( qrimg: number | undefined, data: string | 
  * @param data 
  * @returns 
  */
-export const queryQRCodeState = async ( data: string | undefined, time: number | undefined ) => {
-    return await Axios( {
+export const queryQRCodeState = async (data: string | undefined, time: number | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/login/qr/check?key=' + data + '&time=' + time,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -126,13 +126,13 @@ export const queryQRCodeState = async ( data: string | undefined, time: number |
  * @param cookie 
  * @returns 
  */
-export const getLoginState = async ( cookie: string | undefined ) => {
-    return await Axios( {
+export const getLoginState = async (cookie: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/login/status?cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -140,12 +140,12 @@ export const getLoginState = async ( cookie: string | undefined ) => {
  * @returns 
  */
 export const getUserAccount = async () => {
-    return await Axios( {
+    return await Axios({
         url: BASE_URL_MUSIC + '/user/account',
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -153,13 +153,13 @@ export const getUserAccount = async () => {
  * @param uid 
  * @returns 
  */
-export const getUserDetail = async ( uid: string | undefined ) => {
-    return await Axios( {
+export const getUserDetail = async (uid: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/user/detail?uid=' + uid,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -167,13 +167,13 @@ export const getUserDetail = async ( uid: string | undefined ) => {
  * @param cookie 
  * @returns 
  */
-export const getUserCollectionMvQuantity = async ( cookie: string | undefined ) => {
-    return await Axios( {
+export const getUserCollectionMvQuantity = async (cookie: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/user/subcount?cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -181,13 +181,13 @@ export const getUserCollectionMvQuantity = async ( cookie: string | undefined ) 
  * @param uid 
  * @returns 
  */
-export const getUserPlayList = async ( uid: string | undefined ) => {
-    return await Axios( {
+export const getUserPlayList = async (uid: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/user/playlist?uid=' + uid,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -195,13 +195,13 @@ export const getUserPlayList = async ( uid: string | undefined ) => {
  * @param cookie 
  * @returns 
  */
-export const getUserLevel = async ( cookie: string | undefined ) => {
-    return await Axios( {
+export const getUserLevel = async (cookie: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/user/level?cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -209,13 +209,13 @@ export const getUserLevel = async ( cookie: string | undefined ) => {
  * @param uid 
  * @returns 
  */
-export const getUserFollows = async ( uid: string | undefined ) => {
-    return await Axios( {
+export const getUserFollows = async (uid: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/user/follows?uid=' + uid,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -223,13 +223,13 @@ export const getUserFollows = async ( uid: string | undefined ) => {
  * @param uid 
  * @returns 
  */
-export const getUserFolloweds = async ( uid: string | undefined ) => {
-    return await Axios( {
+export const getUserFolloweds = async (uid: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/user/followeds?uid=' + uid,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -237,13 +237,13 @@ export const getUserFolloweds = async ( uid: string | undefined ) => {
  * @param id 
  * @returns 
  */
-export const getPlayListDetail = async ( id: string | undefined ) => {
-    return await Axios( {
+export const getPlayListDetail = async (id: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/playlist/detail?id=' + id,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -253,13 +253,13 @@ export const getPlayListDetail = async ( id: string | undefined ) => {
  * @param cookie 
  * @returns 
  */
-export const getPrivateMsg = async ( limit: number | undefined, cookie: string | undefined ) => {
-    return await Axios( {
+export const getPrivateMsg = async (limit: number | undefined, cookie: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/msg/private?limit=' + limit + '&cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }
 
 /**
@@ -269,11 +269,23 @@ export const getPrivateMsg = async ( limit: number | undefined, cookie: string |
  * @param cookie 
  * @returns 
  */
-export const getPrivateMsgDetail = async ( uid: string | undefined, cookie: string | undefined ) => {
-    return await Axios( {
+export const getPrivateMsgDetail = async (uid: string | undefined, cookie: string | undefined) => {
+    return await Axios({
         url: BASE_URL_MUSIC + '/msg/private/history?uid=' + uid + '&cookie=' + cookie,
         method: 'get'
-    } ).catch( ( err: any ) => {
-        MessagePlugin.warning( err )
-    } )
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
+
+/**
+ * 发送私信
+ */
+export const sendMsg = async (uid: string | undefined, cookie: string | undefined, msg: string | undefined) => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/send/text?user_ids=' + uid + '&cookie=' + cookie + "&msg=" + msg,
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
 }

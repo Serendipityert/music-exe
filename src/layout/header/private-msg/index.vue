@@ -24,8 +24,24 @@
                                 <t-drawer v-model:visible="visible" close-btn closeOnEscKeydown>
                                     <div class="flex flex-col">
                                         <div v-if="privateMsgList">
-                                            <div class="w-12 border bg-gray-50" v-for="(item, index) in privateMsgList">
-                                                {{ JSON.parse(item.msg).msg }}
+                                            <div class="text-xs" v-for="(item, index) in privateMsgList">
+                                                <div class="flex justify-start"
+                                                    v-if="intoUserMsg.fromUser.userId === item.fromUser.userId">
+                                                    <div class="w-8 h-8">
+                                                        <img :src="item.fromUser.avatarUrl" alt="" class="rounded-full"
+                                                            style="width: 100%; height: 100%;">
+                                                    </div>
+                                                    <div class="mb-4 ml-2 rounded-lg bg-gray-50 p-3">
+                                                        {{ JSON.parse(item.msg).msg }}</div>
+                                                </div>
+                                                <div v-else class="flex justify-end">
+                                                    <div class="mb-4 w-auto bg-gray-50 rounded-lg p-3">
+                                                        {{ JSON.parse(item.msg).msg }}
+                                                    </div>
+                                                    <div class="w-8 h-8 ml-2">
+                                                        <img :src="item.fromUser.avatarUrl" alt="" class="rounded-full">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -34,12 +50,20 @@
                                             <div class="cursor-pointer">
                                                 <ChevronLeftIcon @click="visible = false" />
                                             </div>
-                                            <div class="ml-24 text-sm mt-1 font-bold">
+                                            <div class="text-center m-auto text-sm mt-1 font-bold">
                                                 {{ intoUserMsg.fromUser.nickname }}</div>
                                         </div>
                                     </template>
                                     <template #footer>
-                                        <t-button theme="success">发送</t-button>
+                                        <div class="flex flex-col">
+                                            <div class="flex justify-start">
+                                                <t-textarea v-model="msgs" name="msgs" :autosize="true" />
+                                            </div>
+                                            <div class="mt-4 flex justify-end">
+                                                <t-button theme="success" @click="sendMsgToUser(intoUserMsg)">发送
+                                                </t-button>
+                                            </div>
+                                        </div>
                                     </template>
                                 </t-drawer>
                             </div>
@@ -65,6 +89,7 @@ import { ref } from "vue"
 import { formatDate } from '@/util/date'
 import { ChevronLeftIcon } from 'tdesign-icons-vue-next'
 import { getPrivateMsgDetail } from '@/api/user/index'
+import { sendMsg } from '@/api/user/index'
 import { userStore } from '@/store/modules/user'
 import { storeToRefs } from 'pinia'
 
@@ -72,6 +97,7 @@ const userState = userStore()
 const { cookie } = storeToRefs<any>(userState)
 
 const visible = ref<boolean>(false)
+const msgs = ref<any>()
 
 const props = defineProps({
     msgList: {
@@ -80,19 +106,30 @@ const props = defineProps({
         required: true
     } as any,
 })
+
 const intoUserMsg = ref<any>()
 const privateMsgList = ref<any>()
 
+
 const intoPrivateMsg = (item: any) => {
-    // console.log( item )
     intoUserMsg.value = item
     getPrivateMsgDetail(item.fromUser.userId, cookie.value).then((res: any) => {
-        console.log(res)
         if (res.code === 200) {
             privateMsgList.value = res.msgs.reverse()
         }
     })
     visible.value = true
+}
+
+const sendMsgToUser = (user: any) => {
+    sendMsg(user.fromUser.userId, cookie.value, msgs.value).then((res: any) => {
+        if (res.code === 200) {
+            res.newMsgs.map((msg: any) => {
+                privateMsgList.value.push(msg)
+            })
+            msgs.value = ""
+        }
+    })
 }
 </script>
 

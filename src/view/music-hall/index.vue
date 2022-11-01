@@ -13,14 +13,15 @@
                         <AudioStation />
                     </div>
                 </t-tab-panel>
-                <t-tab-panel value="3" label="排行">
-                    <div class="p-3">
-                        <Ranking />
+                <t-tab-panel value="3" label="歌手">
+                    <div class="p-6">
+                        <SingerList />
+                        <!-- <div>歌手</div> -->
                     </div>
                 </t-tab-panel>
-                <t-tab-panel value="4" label="歌手">
-                    <div class="p-6">
-                        <Singer />
+                <t-tab-panel value="4" label="排行">
+                    <div class="p-3">
+                        <Ranking />
                     </div>
                 </t-tab-panel>
                 <t-tab-panel value="5" label="分类歌单">
@@ -45,7 +46,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import Singer from './singer/index.vue'
+import SingerList from './singer/index.vue'
 import AudioStation from './audio-station/index.vue'
 import ClassifiedSongList from './classified-song-list/index.vue'
 import DigitalAlbum from './digital-album/index.vue'
