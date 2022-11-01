@@ -98,6 +98,7 @@ const { cookie } = storeToRefs<any>(userState)
 
 const visible = ref<boolean>(false)
 const msgs = ref<any>()
+const a = ref<any>()
 
 const props = defineProps({
     msgList: {
@@ -110,14 +111,20 @@ const props = defineProps({
 const intoUserMsg = ref<any>()
 const privateMsgList = ref<any>()
 
-
 const intoPrivateMsg = (item: any) => {
     intoUserMsg.value = item
-    getPrivateMsgDetail(item.fromUser.userId, cookie.value).then((res: any) => {
-        if (res.code === 200) {
-            privateMsgList.value = res.msgs.reverse()
+
+    a.value = setInterval(() => {
+        getPrivateMsgDetail(item.fromUser.userId, cookie.value).then((res: any) => {
+            if (res.code === 200) {
+                privateMsgList.value = res.msgs.reverse()
+            }
+        })
+        if (!visible.value) {
+            clearInterval(a.value)
         }
-    })
+    }, 1000)
+
     visible.value = true
 }
 

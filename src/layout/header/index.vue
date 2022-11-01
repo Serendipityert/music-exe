@@ -50,7 +50,7 @@
               <Login />
               <t-badge v-if="msgList" :count="msgList.newMsgCount" size="small" color="#ff2e63">
                 <div class="cursor-pointer" style="margin-left: -12px;">
-                  <t-dropdown trigger="click">
+                  <t-dropdown trigger="hover">
                     <div style="margin-top: 1px;">
                       <svg t="1666251476428" class="icon" viewBox="0 0 1024 1024" version="1.1"
                         xmlns="http://www.w3.org/2000/svg" p-id="22963" width="20" height="20">
@@ -225,11 +225,13 @@ const hot_search = ref(false)
 
 const msgList = ref<any>()
 
-getPrivateMsg(7, cookie.value).then((res: any) => {
-  if (res.code === 200) {
-    msgList.value = res
-  }
-})
+setInterval(() => {
+  getPrivateMsg(7, cookie.value).then((res: any) => {
+    if (res.code === 200) {
+      msgList.value = res
+    }
+  })
+}, 1000)
 
 const toLastRouter = () => {
   router.go(-1)

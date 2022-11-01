@@ -255,7 +255,7 @@ export const getPlayListDetail = async (id: string | undefined) => {
  */
 export const getPrivateMsg = async (limit: number | undefined, cookie: string | undefined) => {
     return await Axios({
-        url: BASE_URL_MUSIC + '/msg/private?limit=' + limit + '&cookie=' + cookie,
+        url: BASE_URL_MUSIC + '/msg/private?limit=' + limit + '&cookie=' + cookie + "&time=" + Date.now(),
         method: 'get'
     }).catch((err: any) => {
         MessagePlugin.warning(err)
@@ -271,7 +271,7 @@ export const getPrivateMsg = async (limit: number | undefined, cookie: string | 
  */
 export const getPrivateMsgDetail = async (uid: string | undefined, cookie: string | undefined) => {
     return await Axios({
-        url: BASE_URL_MUSIC + '/msg/private/history?uid=' + uid + '&cookie=' + cookie,
+        url: BASE_URL_MUSIC + '/msg/private/history?uid=' + uid + '&cookie=' + cookie + "&time=" + Date.now(),
         method: 'get'
     }).catch((err: any) => {
         MessagePlugin.warning(err)

@@ -15,8 +15,8 @@
                 </t-tab-panel>
                 <t-tab-panel value="3" label="歌手">
                     <div class="p-6">
-                        <SingerList />
-                        <!-- <div>歌手</div> -->
+                        <!-- <SingerList /> -->
+                        <div>歌手</div>
                     </div>
                 </t-tab-panel>
                 <t-tab-panel value="4" label="排行">
