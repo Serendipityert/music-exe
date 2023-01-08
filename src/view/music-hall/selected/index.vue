@@ -2,12 +2,13 @@
     <div class="flex flex-col">
         <div class="m-auto">
             <t-swiper theme="dark" :navigation="{ placement: 'outside', type: 'bars' }">
-                <t-swiper-item v-if="bannerList" v-for="(item, index) in bannerList" :key="index"
-                    @click="openBanner(item)">
-                    <div class="cursor-pointer p-1 h-80">
-                        <img :src="item.imageUrl" alt="">
-                    </div>
-                </t-swiper-item>
+                <template v-if="bannerList" v-for="(item, index) in bannerList" :key="index">
+                    <t-swiper-item v-if="index < bannerList.length / 2" @click="openBanner(item)">
+                        <div class="cursor-pointer p-1 h-80">
+                            <img :src="item.imageUrl" alt="">
+                        </div>
+                    </t-swiper-item>
+                </template>
             </t-swiper>
         </div>
         <div class="mt-8 flex flex-col">

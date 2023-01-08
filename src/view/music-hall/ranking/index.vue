@@ -12,7 +12,8 @@
                     <div class="font-bold text-lg mt-4 truncate hover:text-blue-800">{{ item.name }}</div>
                     <div class="text-xs h-12 overflow-ellipsis overflow-hidden mt-3">{{ item.description }}
                     </div>
-                    <div class="mt-4 p-1 w-full bg-gray-400 bg-opacity-60 rounded-lg flex flex-row justify-center">
+                    <div
+                        class="mt-4 p-1 w-full bg-gray-400 bg-opacity-60 hover:bg-opacity-100 rounded-lg flex flex-row justify-center">
                         <div class="font-bold">
                             <svg t="1666674426077" class="icon" viewBox="0 0 1024 1024" version="1.1"
                                 xmlns="http://www.w3.org/2000/svg" p-id="10745" width="16" height="16">

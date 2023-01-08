@@ -3,7 +3,7 @@
         <div class="mb-2 flex flex-col">
             <div class="font-medium text-xl mt-1 text-gray-600">歌单分类</div>
             <div class="mt-2 ml-2">
-                <t-tabs :default-value="-1" placement="left">
+                <t-tabs :default-value="-1">
                     <t-tab-panel :value="-1" label="全部">
                         <div class="flex flex-row flex-wrap mt-2 ml-6">
                             <div v-if="playlistCatList" v-for="(it, i) in playlistCatList" :key="i">
@@ -37,7 +37,7 @@
                 </t-tabs>
             </div>
         </div>
-        <div class="mt-2 flex flex-col">
+        <div class="mt-3 flex flex-col">
             <div class="font-medium text-xl mt-1 text-gray-600">精选歌单</div>
             <div class="flex flex-wrap content-start mt-2 ml-2">
                 <div class="w-36 h-36 cursor-pointer rounded-xl mb-14 mr-2 p-1 img" v-if="boutiquePlayList"

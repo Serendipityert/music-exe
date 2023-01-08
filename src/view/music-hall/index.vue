@@ -15,8 +15,8 @@
                 </t-tab-panel>
                 <t-tab-panel value="3" label="歌手">
                     <div class="p-6">
-                        <!-- <SingerList /> -->
-                        <div>歌手</div>
+                        <SingerList />
+                        <!-- <div>歌手</div> -->
                     </div>
                 </t-tab-panel>
                 <t-tab-panel value="4" label="排行">
@@ -32,11 +32,6 @@
                 <t-tab-panel value="6" label="数字专辑">
                     <div class="p-6">
                         <DigitalAlbum />
-                    </div>
-                </t-tab-panel>
-                <t-tab-panel value="7" label="手机专享">
-                    <div class="p-6">
-                        <MobileExclusive />
                     </div>
                 </t-tab-panel>
             </t-tabs>

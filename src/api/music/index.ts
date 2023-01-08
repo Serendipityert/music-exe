@@ -417,3 +417,70 @@ export const getPlaylistCatList = async () => {
         MessagePlugin.warning(err)
     })
 }
+
+/**
+ * 获取最新专辑
+ * @returns 
+ */
+export const getNewAlbum = async () => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/album/newest',
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
+
+/**
+ * 获取新碟上架
+ * @returns 
+ */
+export const geAlbumList = async (limit: number | undefined) => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/album/list?limit=' + limit,
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
+
+/**
+ * 获取获取数字专辑&数字单曲-榜单
+ * @returns 
+ */
+export const geAlbumSongSaleBoard = async (albumSongSaleBoardSearch: any) => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/album/songsaleboard?type=' + albumSongSaleBoardSearch.value.type + '&year=' +
+            albumSongSaleBoardSearch.value.year + '&albumType=' + albumSongSaleBoardSearch.value.albumType + '&limit=' +
+            albumSongSaleBoardSearch.value.limit + '&offset=' + albumSongSaleBoardSearch.value.offset,
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
+
+/**
+ * 购买数字专辑
+ * @returns 
+ */
+export const buyNumberAlbum = async (id: any, payment: number, quantity: number, cookie: string) => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/digitalAlbum/ordering?id=' + id + '&payment=' + payment + '&quantity=' + quantity + '&cookie=' + cookie,
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
+
+/**
+ * 我的数字专辑
+ * @returns 
+ */
+export const myNumberAlbum = async (limit: number, cookie: string) => {
+    return await Axios({
+        url: BASE_URL_MUSIC + '/digitalAlbum/purchased?cookie=' + cookie + '&limit=' + limit,
+        method: 'get'
+    }).catch((err: any) => {
+        MessagePlugin.warning(err)
+    })
+}
