@@ -5,11 +5,9 @@
   "license": "MIT",
   "main": "electron/main.js",
   "scripts": {
-    "electron:serve": "concurrently -k \"yarn dev\" \"yarn electron\"",
-    "electron:build": "vite build && electron-builder",
+    "dev": "concurrently -k \"yarn dev\" \"yarn electron\"",
+    "build": "vite build && electron-builder",
     "electron:generate-icons": "electron-icon-builder --input=./public/logo.png --output=build --flatten",
-    "dev": "vite --mode dev",
-    "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "electron": "wait-on tcp:3000 && cross-env NODE_ENV=development electron ."
   },
