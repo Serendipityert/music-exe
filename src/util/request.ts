@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { MessagePlugin } from "tdesign-vue-next";
-import { BASE_URL, TIMEOUT, BASE_URL_MUSIC } from "@/config";
+
 import { userStore } from "@/store/modules/user";
 
 const userState = userStore();
@@ -8,29 +8,6 @@ const userState = userStore();
 /**
  * @说明 接口请求返回信息 (按照自己的实际情况分配基础请求格式)
  */
-// export interface requestReturnType<T = any> {
-//   /**
-//    * @说明 返回code状态码
-//    */
-//   code: number;
-//   /**
-//    * @说明 返回错误code状态码
-//    */
-//   errcode?: number;
-//   /**
-//    * @说明 返回信息说明
-//    */
-//   msg: string;
-//   /**
-//    * @说明 返回总体数据
-//    */
-//   data: T;
-//   /**
-//    * @说明 返回请求成功是否
-//    */
-//   success: boolean | null;
-// }
-
 export interface requestReturnType<T = any> {
   /**
    * @说明 返回code状态码
@@ -42,8 +19,8 @@ export interface requestReturnType<T = any> {
 
 /** 创建axios实例 */
 const instance = axios.create({
-  timeout: TIMEOUT, // 超时时间
-  baseURL: BASE_URL_MUSIC,
+  timeout: import.meta.env.TIMEOUT, // 超时时间
+  baseURL: import.meta.env.VITE_BASE_API_MUSIC,
   headers: {
     "Content-Type": "application/json;charset=utf-8",
   },
@@ -52,15 +29,10 @@ const instance = axios.create({
 /** 添加请求拦截 */
 instance.interceptors.request.use(
   (config: any) => {
-    // console.log("config", config);
-    if (!config.url.includes("http")) {
-      config.url = "http://music.serendipityer.com.cn/" + config.url;
-    }
     let token: string = userState.getToken;
     if (token) {
       // 如果token存在，则让每个请求携带token-- ['authorization']为自定义key
       config.headers["authorization"] = token;
-
       config.headers.authorization = +token;
     }
     return config;
