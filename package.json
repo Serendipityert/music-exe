@@ -10,7 +10,7 @@
     "build": "electron-icon-builder --input=./public/logo.png --output=build --flatten && vite build --mode prod && electron-builder",
     "electron:generate-icons": "electron-icon-builder --input=./public/logo.png --output=build --flatten",
     "electron": "wait-on tcp:3000 && cross-env NODE_ENV=development electron .",
-    "start": "concurrently -k \"yarn electron:generate-icons\" \"yarn dev\" \"yarn electron\""
+    "start": "concurrently -k \"yarn dev\" \"yarn electron\""
   },
   "build": {
     "productName": "初识音乐",
